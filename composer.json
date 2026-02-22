@@ -33,7 +33,7 @@
         "phpstan/phpstan": "^2.0",
         "friendsofphp/php-cs-fixer": "^3.0",
         "infection/infection": "^0.28",
-        "qossmic/deptrac": "^2.0",
+        "deptrac/deptrac": "^2.0",
         "phpro/grumphp": "^2.0",
         "nyholm/symfony-bundle-test": "^3.0"
     },
