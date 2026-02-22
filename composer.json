@@ -19,7 +19,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Symkit\\BuilderBundle\\Tests\\": "tests/"
+            "Symkit\\BuilderBundle\\Tests\\": "tests/",
+            "Symkit\\MediaBundle\\": "phpstan-stubs/Symkit/MediaBundle/"
         }
     },
     "suggest": {
