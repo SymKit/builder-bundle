@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symkit\BuilderBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symkit\BuilderBundle\Validator\Constraints\BlockContentSource;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symkit\BuilderBundle\Validator\Constraints\BlockContentSource;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'builder_block')]
@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[BlockContentSource(groups: ['create', 'edit'])]
 class Block
 {
+    /** @var int|null Doctrine assigns id on persist */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -52,6 +53,7 @@ class Block
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $htmlCode = null;
 
+    /** @var array<string, mixed> */
     #[ORM\Column(type: 'json')]
     private array $defaultData = [];
 
@@ -135,11 +137,13 @@ class Block
         return $this;
     }
 
+    /** @return array<string, mixed> */
     public function getDefaultData(): array
     {
         return $this->defaultData;
     }
 
+    /** @param array<string, mixed> $defaultData */
     public function setDefaultData(array $defaultData): self
     {
         $this->defaultData = $defaultData;

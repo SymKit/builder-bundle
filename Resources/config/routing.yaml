@@ -1,0 +1,47 @@
+# Admin routes for Symkit Builder Bundle.
+# In your app config/routes.yaml, import with:
+#   symkit_builder:
+#     resource: '@SymkitBuilderBundle/Resources/config/routing.yaml'
+#     prefix: '%symkit_builder.admin.route_prefix%'
+
+admin_block_list:
+    path: /blocks
+    name: admin_block_list
+    controller: Symkit\BuilderBundle\Controller\Admin\BlockController::list
+
+admin_block_create:
+    path: /blocks/create
+    name: admin_block_create
+    controller: Symkit\BuilderBundle\Controller\Admin\BlockController::create
+
+admin_block_edit:
+    path: /blocks/{id}/edit
+    name: admin_block_edit
+    controller: Symkit\BuilderBundle\Controller\Admin\BlockController::edit
+
+admin_block_delete:
+    path: /blocks/{id}/delete
+    name: admin_block_delete
+    methods: [POST]
+    controller: Symkit\BuilderBundle\Controller\Admin\BlockController::delete
+
+admin_block_category_list:
+    path: /block-categories
+    name: admin_block_category_list
+    controller: Symkit\BuilderBundle\Controller\Admin\Category\CategoryController::list
+
+admin_block_category_create:
+    path: /block-categories/create
+    name: admin_block_category_create
+    controller: Symkit\BuilderBundle\Controller\Admin\Category\CategoryController::create
+
+admin_block_category_edit:
+    path: /block-categories/{id}/edit
+    name: admin_block_category_edit
+    controller: Symkit\BuilderBundle\Controller\Admin\Category\CategoryController::edit
+
+admin_block_category_delete:
+    path: /block-categories/{id}/delete
+    name: admin_block_category_delete
+    methods: [POST]
+    controller: Symkit\BuilderBundle\Controller\Admin\Category\CategoryController::delete

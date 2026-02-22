@@ -1,5 +1,9 @@
 # Symkit Builder Bundle
 
+[![CI](https://github.com/symkit/builder-bundle/actions/workflows/ci.yml/badge.svg)](https://github.com/symkit/builder-bundle/actions)
+[![Latest Version](https://img.shields.io/packagist/v/symkit/builder-bundle.svg)](https://packagist.org/packages/symkit/builder-bundle)
+[![PHPStan Level 9](https://img.shields.io/badge/PHPStan-level%209-brightgreen.svg)](https://phpstan.org/)
+
 A powerful, strategy-based block building system for Symfony applications. This bundle provides a flexible architecture for managing, editing, and rendering dynamic content blocks.
 
 ## Features
@@ -37,10 +41,41 @@ A powerful, strategy-based block building system for Symfony applications. This 
 
 ## Configuration
 
-The bundle is designed to be zero-config. It automatically configures:
--   **Twig Paths**: Maps `@SymkitBuilder` to the bundle's templates.
--   **AssetMapper**: Registers the bundle's assets.
--   **Twig Components**: Registers the `ContentBuilder` and other live components.
+All features are enabled by default. You can override entity classes and toggle features in `config/packages/symkit_builder.yaml`:
+
+```yaml
+symkit_builder:
+    admin:
+        enabled: true
+        route_prefix: admin   # URL prefix for admin routes (default: admin)
+    doctrine:
+        enabled: true
+        entity:
+            block_class: Symkit\BuilderBundle\Entity\Block
+            block_repository_class: Symkit\BuilderBundle\Repository\BlockRepository
+            block_category_class: Symkit\BuilderBundle\Entity\BlockCategory
+            block_category_repository_class: Symkit\BuilderBundle\Repository\BlockCategoryRepository
+    twig:
+        enabled: true
+    assets:
+        enabled: true
+    command:
+        enabled: true
+    live_component:
+        enabled: true
+```
+
+### Routes
+
+Include the bundle admin routes in your app (e.g. `config/routes.yaml`):
+
+```yaml
+symkit_builder:
+    resource: '@SymkitBuilderBundle/Resources/config/routing.yaml'
+    prefix: '%symkit_builder.admin.route_prefix%'
+```
+
+This registers routes such as `admin_block_list`, `admin_block_create`, `admin_block_edit`, `admin_block_category_*`. Change `route_prefix` in config to alter the URL prefix (e.g. `/back-office/blocks`).
 
 ### Dependencies
 Ensure you have the following bundles enabled and configured:
@@ -65,7 +100,7 @@ To render blocks in your frontend templates, use the `BlockRenderer`:
 Or manually via the service:
 
 ```php
-use Symkit\BuilderBundle\Render\BlockRendererInterface;
+use Symkit\BuilderBundle\Contract\BlockRendererInterface;
 
 public function show(BlockRendererInterface $renderer, array $blocks)
 {

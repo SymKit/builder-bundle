@@ -7,15 +7,16 @@ namespace Symkit\BuilderBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symkit\BuilderBundle\Repository\BlockCategoryRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symkit\BuilderBundle\Repository\BlockCategoryRepository;
 
 #[ORM\Entity(repositoryClass: BlockCategoryRepository::class)]
 #[ORM\Table(name: 'builder_block_category')]
 #[UniqueEntity(fields: ['code'], message: 'This category code already exists.', groups: ['create', 'edit'])]
 class BlockCategory
 {
+    /** @var int|null Doctrine assigns id on persist */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

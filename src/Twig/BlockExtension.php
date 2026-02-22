@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symkit\BuilderBundle\Twig;
 
-use Symkit\BuilderBundle\Render\BlockRendererInterface;
+use Symkit\BuilderBundle\Contract\BlockRendererInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

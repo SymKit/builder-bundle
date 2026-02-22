@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symkit\BuilderBundle\Render\Strategy;
 
 use DOMNode;
-use Symkit\BuilderBundle\Render\BlockStrategyInterface;
+use Symkit\BuilderBundle\Contract\BlockStrategyInterface;
 use Symkit\BuilderBundle\Service\BlockRegistry;
 use Twig\Environment;
 

@@ -8,8 +8,8 @@ use DOMDocument;
 use DOMNode;
 use DOMText;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
-use Symkit\BuilderBundle\Render\BlockStrategyInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
+use Symkit\BuilderBundle\Contract\BlockStrategyInterface;
 
 class MarkdownToBlocksService
 {
@@ -40,7 +40,7 @@ class MarkdownToBlocksService
         $dom = new DOMDocument();
         // Load HTML with UTF-8 support
         libxml_use_internal_errors(true);
-        $dom->loadHTML('<?xml encoding="UTF-8"><div>' . $html . '</div>', \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD);
+        $dom->loadHTML('<?xml encoding="UTF-8"><div>'.$html.'</div>', \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD);
         libxml_clear_errors();
 
         $blocks = [];

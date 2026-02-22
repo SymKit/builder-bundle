@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace Symkit\BuilderBundle\Form;
 
-use Symkit\BuilderBundle\Entity\Block;
-use Symkit\BuilderBundle\Entity\BlockCategory;
-use Symkit\BuilderBundle\Repository\BlockCategoryRepository;
-use Symkit\FormBundle\Form\Type\FormSectionType;
-use Symkit\FormBundle\Form\Type\IconPickerType;
-use Symkit\FormBundle\Form\Type\SlugType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
@@ -20,45 +14,66 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Component\Validator\Constraints\NotNull;
+use Symkit\BuilderBundle\Repository\BlockCategoryRepository;
+use Symkit\FormBundle\Form\Type\FormSectionType;
+use Symkit\FormBundle\Form\Type\IconPickerType;
+use Symkit\FormBundle\Form\Type\SlugType;
 
-class BlockType extends AbstractType
+final class BlockType extends AbstractType
 {
+    /**
+     * @param class-string $blockClass
+     * @param class-string $blockCategoryClass
+     */
+    public function __construct(
+        private readonly string $blockClass,
+        private readonly string $blockCategoryClass,
+        private readonly BlockCategoryRepository $blockCategoryRepository,
+    ) {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $general = $builder->create('general', FormSectionType::class, [
             'inherit_data' => true,
-            'label' => 'General Information',
+            'label' => 'form.general_information',
             'section_icon' => 'heroicons:information-circle-20-solid',
-            'section_description' => 'Basic details and branding for this block.',
+            'section_description' => 'form.section_general_block',
+            'translation_domain' => 'SymkitBuilderBundle',
         ])
             ->add('label', TextType::class, [
-                'label' => 'Display Label',
-                'help' => 'User-friendly name shown in the block picker',
-                'attr' => ['placeholder' => 'Custom Block'],
+                'label' => 'form.display_label',
+                'help' => 'form.display_label_help',
+                'attr' => ['placeholder' => 'form.placeholder_custom_block'],
+                'translation_domain' => 'SymkitBuilderBundle',
             ])
             ->add('category', EntityType::class, [
-                'class' => BlockCategory::class,
+                'class' => $this->blockCategoryClass,
                 'choice_label' => 'label',
-                'label' => 'Category',
-                'query_builder' => static fn (BlockCategoryRepository $repo) => $repo->createQueryBuilder('c')->orderBy('c.position', 'ASC'),
+                'label' => 'form.category',
+                'query_builder' => fn () => $this->blockCategoryRepository->createQueryBuilder('c')->orderBy('c.position', 'ASC'),
+                'translation_domain' => 'SymkitBuilderBundle',
             ])
             ->add('icon', IconPickerType::class, [
-                'label' => 'Icon',
-                'help' => 'Choose a Heroicon for this block.',
+                'label' => 'form.icon',
+                'help' => 'form.icon_help',
+                'translation_domain' => 'SymkitBuilderBundle',
             ])
             ->add('code', SlugType::class, [
-                'label' => 'Technical Code',
+                'label' => 'form.technical_code',
                 'required' => false,
                 'target' => 'label',
                 'unique' => true,
-                'entity_class' => Block::class,
+                'entity_class' => $this->blockClass,
                 'slug_field' => 'code',
-                'help' => 'Auto-generated unique identifier (snake_case). Can be edited manually.',
+                'help' => 'form.technical_code_help',
+                'translation_domain' => 'SymkitBuilderBundle',
             ])
             ->add('isActive', CheckboxType::class, [
-                'label' => 'Active',
+                'label' => 'form.active',
                 'required' => false,
-                'help' => 'Whether this block is available in the content builder.',
+                'help' => 'form.active_help',
+                'translation_domain' => 'SymkitBuilderBundle',
             ])
         ;
         $builder->add($general);
@@ -66,56 +81,62 @@ class BlockType extends AbstractType
         $builder->add(
             $builder->create('rendering', FormSectionType::class, [
                 'inherit_data' => true,
-                'label' => 'Rendering',
+                'label' => 'form.rendering',
                 'section_icon' => 'heroicons:paint-brush-20-solid',
-                'section_description' => 'Configure how this block is rendered on the website.',
+                'section_description' => 'form.section_rendering',
+                'translation_domain' => 'SymkitBuilderBundle',
             ])
                 ->add('template', TextType::class, [
-                    'label' => 'Twig Template',
-                    'help' => 'Path to the Twig template (e.g. @SymkitBuilder/blocks/my_block.html.twig). Leave empty if using HTML Code below.',
+                    'label' => 'form.twig_template',
+                    'help' => 'form.twig_template_help',
                     'attr' => ['placeholder' => '@SymkitBuilder/blocks/custom.html.twig'],
                     'required' => false,
+                    'translation_domain' => 'SymkitBuilderBundle',
                 ])
                 ->add('htmlCode', TextareaType::class, [
-                    'label' => 'HTML Code (Tailwind)',
-                    'help' => 'Inline HTML/Tailwind code for this block. Leave empty if using Twig Template above.',
+                    'label' => 'form.html_code',
+                    'help' => 'form.html_code_help',
                     'attr' => [
                         'rows' => 15,
                         'placeholder' => '<div class="bg-white p-6 rounded-lg shadow-lg">...</div>',
                         'class' => 'font-mono text-sm',
                     ],
                     'required' => false,
-                ])
+                    'translation_domain' => 'SymkitBuilderBundle',
+                ]),
         );
 
         $builder->add(
             $builder->create('configuration', FormSectionType::class, [
                 'inherit_data' => true,
-                'label' => 'Configuration',
+                'label' => 'form.configuration',
                 'section_icon' => 'heroicons:cog-6-tooth-20-solid',
-                'section_description' => 'Define the default state and data structure.',
+                'section_description' => 'form.section_configuration',
+                'translation_domain' => 'SymkitBuilderBundle',
             ])
                 ->add('defaultData', TextareaType::class, [
-                    'label' => 'Default Data (JSON)',
-                    'help' => 'Initial JSON structure for new blocks of this type',
+                    'label' => 'form.default_data',
+                    'help' => 'form.default_data_help',
                     'attr' => ['rows' => 10, 'placeholder' => '{ "content": "" }'],
                     'constraints' => [
                         new NotNull(),
-                        new Json(message: 'Invalid JSON format.'),
+                        new Json(message: 'validation.json_invalid'),
                     ],
-                ])
+                    'translation_domain' => 'SymkitBuilderBundle',
+                ]),
         );
 
         $builder->get('configuration')->get('defaultData')->addModelTransformer(new CallbackTransformer(
             static fn ($array) => json_encode($array ?? [], \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES),
-            static fn ($json) => json_decode($json ?? '{}', true) ?? []
+            static fn ($json) => json_decode($json ?? '{}', true) ?? [],
         ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Block::class,
+            'data_class' => $this->blockClass,
+            'translation_domain' => 'SymkitBuilderBundle',
         ]);
     }
 }

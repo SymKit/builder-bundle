@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Symkit\BuilderBundle\Render\Strategy;
 
 use DOMNode;
-use Symkit\BuilderBundle\Render\BlockStrategyInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
+use Symkit\BuilderBundle\Contract\BlockStrategyInterface;
 
 final readonly class FaqBlockStrategy implements BlockStrategyInterface
 {
@@ -40,7 +40,7 @@ final readonly class FaqBlockStrategy implements BlockStrategyInterface
 
         return $this->handler->render(new ControllerReference(
             'Symkit\FaqBundle\Controller\FaqController::show',
-            ['code' => $code]
+            ['code' => $code],
         ));
     }
 

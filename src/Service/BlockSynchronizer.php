@@ -6,15 +6,19 @@ namespace Symkit\BuilderBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Generator;
-use Symkit\BuilderBundle\Entity\Block;
-use Symkit\BuilderBundle\Entity\BlockCategory;
 use Symfony\Component\Finder\Finder;
 
-class BlockSynchronizer
+final class BlockSynchronizer
 {
+    /**
+     * @param class-string $blockClass
+     * @param class-string $blockCategoryClass
+     */
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly string $projectDir,
+        private readonly string $blockClass,
+        private readonly string $blockCategoryClass,
     ) {
     }
 
@@ -31,7 +35,7 @@ class BlockSynchronizer
     }
 
     /**
-     * @return array<string, BlockCategory>
+     * @return array<string, object>
      */
     private function syncCategories(): array
     {
@@ -46,9 +50,9 @@ class BlockSynchronizer
 
         $categoryObjects = [];
         foreach ($categories as $code => $catData) {
-            $category = $this->entityManager->getRepository(BlockCategory::class)->findOneBy(['code' => $code]);
+            $category = $this->entityManager->getRepository($this->blockCategoryClass)->findOneBy(['code' => $code]);
             if (!$category) {
-                $category = new BlockCategory();
+                $category = new ($this->blockCategoryClass)();
                 $category->setCode($code);
                 $this->entityManager->persist($category);
             }
@@ -62,7 +66,7 @@ class BlockSynchronizer
     }
 
     /**
-     * @param array<string, BlockCategory> $categoryObjects
+     * @param array<string, object> $categoryObjects
      */
     private function syncCoreBlocks(array $categoryObjects): void
     {
@@ -304,16 +308,16 @@ class BlockSynchronizer
     }
 
     /**
-     * @param array<string, BlockCategory> $categoryObjects
+     * @param array<string, object> $categoryObjects
      */
     private function syncSnippets(array &$categoryObjects): void
     {
         foreach ($this->discoverSnippets() as $snippet) {
             $catCode = $snippet['category'];
             if (!isset($categoryObjects[$catCode])) {
-                $category = $this->entityManager->getRepository(BlockCategory::class)->findOneBy(['code' => $catCode]);
+                $category = $this->entityManager->getRepository($this->blockCategoryClass)->findOneBy(['code' => $catCode]);
                 if (!$category) {
-                    $category = new BlockCategory();
+                    $category = new ($this->blockCategoryClass)();
                     $category->setCode($catCode);
                     $this->entityManager->persist($category);
                 }
@@ -328,7 +332,7 @@ class BlockSynchronizer
 
     private function discoverSnippets(): Generator
     {
-        $snippetDir = $this->projectDir . '/packages/builder-bundle/resources/data/snippets/tailwind';
+        $snippetDir = $this->projectDir.'/packages/builder-bundle/resources/data/snippets/tailwind';
         if (!is_dir($snippetDir)) {
             return;
         }
@@ -338,7 +342,7 @@ class BlockSynchronizer
 
         foreach ($finder as $file) {
             $data = json_decode($file->getContents(), true, 512, \JSON_THROW_ON_ERROR);
-            $code = 'tw_' . str_replace(['/', '\\'], '_', $file->getRelativePathname());
+            $code = 'tw_'.str_replace(['/', '\\'], '_', $file->getRelativePathname());
             $code = str_replace('.json', '', $code);
 
             $catCode = $file->getRelativePath() ?: 'tailwind';
@@ -351,7 +355,7 @@ class BlockSynchronizer
                     'category' => $catCode,
                     'icon' => $data['icon'] ?? 'heroicons:sparkles-20-solid',
                     'defaultData' => [
-                        'html' => '<div class="not-prose">' . $data['html'] . '</div>',
+                        'html' => '<div class="not-prose">'.$data['html'].'</div>',
                         'editMode' => 'visual',
                     ],
                     'template' => '@SymkitBuilder/blocks/snippet.html.twig',
@@ -360,11 +364,14 @@ class BlockSynchronizer
         }
     }
 
+    /**
+     * @param array<string, object> $categoryObjects
+     */
     private function upsertBlock(string $code, array $data, array $categoryObjects): void
     {
-        $block = $this->entityManager->getRepository(Block::class)->findOneBy(['code' => $code]);
+        $block = $this->entityManager->getRepository($this->blockClass)->findOneBy(['code' => $code]);
         if (!$block) {
-            $block = new Block();
+            $block = new ($this->blockClass)();
             $block->setCode($code);
             $this->entityManager->persist($block);
         }

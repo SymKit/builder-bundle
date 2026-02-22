@@ -32,7 +32,7 @@ final readonly class VideoBlockStrategy extends AbstractBlockStrategy
             }
 
             if ($videoId) {
-                $embedUrl = 'https://www.youtube.com/embed/' . $videoId;
+                $embedUrl = 'https://www.youtube.com/embed/'.$videoId;
                 $data['provider'] = 'youtube';
             }
         } elseif (str_contains($url, 'vimeo.com')) {
@@ -42,7 +42,7 @@ final readonly class VideoBlockStrategy extends AbstractBlockStrategy
             $videoId = end($parts);
 
             if ($videoId && is_numeric($videoId)) {
-                $embedUrl = 'https://player.vimeo.com/video/' . $videoId;
+                $embedUrl = 'https://player.vimeo.com/video/'.$videoId;
                 $data['provider'] = 'vimeo';
             }
         }

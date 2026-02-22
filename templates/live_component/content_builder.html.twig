@@ -1,3 +1,4 @@
+{% trans_default_domain 'SymkitBuilderBundle' %}
 <div {{ attributes }} data-controller="content-builder" class="w-full">
     <style>
         .custom-scrollbar::-webkit-scrollbar {
@@ -44,20 +45,20 @@
                 <button type="button" data-action="live#action" data-live-action-param="moveBlock"
                     data-live-id-param="{{ block.id }}" data-live-direction-param="up"
                     class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded text-gray-400 hover:text-indigo-500 transition-colors"
-                    title="Move Up">
+                    title="{{ 'editor.move_up'|trans }}">
                     {{ ux_icon('heroicons:chevron-up-16-solid', {class: 'w-4 h-4'}) }}
                 </button>
                 <button type="button" data-action="live#action" data-live-action-param="moveBlock"
                     data-live-id-param="{{ block.id }}" data-live-direction-param="down"
                     class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded text-gray-400 hover:text-indigo-500 transition-colors"
-                    title="Move Down">
+                    title="{{ 'editor.move_down'|trans }}">
                     {{ ux_icon('heroicons:chevron-down-16-solid', {class: 'w-4 h-4'}) }}
                 </button>
                 <div class="h-px bg-gray-100 dark:bg-white/5 mx-1 my-0.5"></div>
                 <button type="button" data-action="live#action" data-live-action-param="removeBlock"
                     data-live-id-param="{{ block.id }}"
                     class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded text-gray-400 hover:text-red-500 transition-colors"
-                    title="Delete Block">
+                    title="{{ 'editor.delete_block'|trans }}">
                     {{ ux_icon('heroicons:trash-16-solid', {class: 'w-4 h-4'}) }}
                 </button>
             </div>
@@ -66,7 +67,7 @@
             <div
                 class="absolute bottom-1 right-2 opacity-0 group-hover:opacity-40 pointer-events-none transition-opacity">
                 <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">
-                    {{ this.availableBlocks[block.type].label|default('Unknown Block (' ~ block.type ~ ')') }}
+                    {{ this.availableBlocks[block.type].label|default(('editor.unknown_block'|trans({'%type%': block.type}))) }}
                 </span>
             </div>
 
@@ -90,22 +91,21 @@
             {% else %}
             {# Fallback for blocks without a template (e.g. basic snippets or legacy blocks) #}
             <div class="p-8 border-2 border-dashed border-red-200 rounded-2xl bg-red-50/50 text-center">
-                <p class="text-[10px] font-black text-red-500 uppercase tracking-[0.2em] mb-3">Orphaned Block: {{
+                <p class="text-[10px] font-black text-red-500 uppercase tracking-[0.2em] mb-3">{{ 'editor.orphaned_block'|trans }} {{
                     block.type }}</p>
-                <p class="text-xs text-red-400 mb-6 max-w-md mx-auto leading-relaxed">This block type was removed or
-                    renamed. You can transform it into a <strong>Text</strong> block to keep your content.</p>
+                <p class="text-xs text-red-400 mb-6 max-w-md mx-auto leading-relaxed">{{ 'editor.orphaned_help'|trans }}</p>
 
                 <div class="flex items-center justify-center gap-2">
                     <button type="button" data-action="live#action text-block#onFocus"
                         data-live-action-param="transformBlock" data-live-id-param="{{ block.id }}"
                         data-live-type-param="paragraph"
                         class="px-4 py-2 bg-white border border-red-200 rounded-lg text-xs font-bold text-red-600 hover:bg-red-50 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
-                        Transform to Text
+                        {{ 'editor.transform_to_text'|trans }}
                     </button>
                     <button type="button" data-action="live#action" data-live-action-param="removeBlock"
                         data-live-id-param="{{ block.id }}"
                         class="px-4 py-2 bg-red-500 rounded-lg text-xs font-bold text-white hover:bg-red-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
-                        Remove Block
+                        {{ 'editor.remove_block'|trans }}
                     </button>
                 </div>
             </div>
@@ -133,13 +133,13 @@
                     data-live-index-param="{{ this.contentBlocks|length }}"
                     class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 dark:shadow-none transition-all hover:scale-105 active:scale-95">
                     {{ ux_icon('heroicons:plus-circle-20-solid', {class: 'w-5 h-5'}) }}
-                    <span>Add a Block</span>
+                    <span>{{ 'editor.add_block'|trans }}</span>
                 </button>
 
                 <button type="button" data-action="live#action" data-live-action-param="openMarkdownImport"
                     class="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 hover:border-indigo-300 dark:hover:border-indigo-500/50 text-gray-600 dark:text-gray-300 rounded-xl font-bold shadow-sm transition-all hover:scale-105 active:scale-95">
                     {{ ux_icon('heroicons:document-text-20-solid', {class: 'w-5 h-5 text-indigo-500'}) }}
-                    <span>Import Markdown</span>
+                    <span>{{ 'editor.import_markdown'|trans }}</span>
                 </button>
             </div>
         </div>
@@ -151,13 +151,13 @@
                 data-live-index-param="{{ this.contentBlocks|length }}"
                 class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 dark:shadow-none transition-all hover:scale-105 active:scale-95">
                 {{ ux_icon('heroicons:plus-circle-20-solid', {class: 'w-5 h-5'}) }}
-                <span>Add a Block</span>
+                <span>{{ 'editor.add_block'|trans }}</span>
             </button>
 
             <button type="button" data-action="live#action" data-live-action-param="openMarkdownImport"
                 class="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 hover:border-indigo-300 dark:hover:border-indigo-500/50 text-gray-600 dark:text-gray-300 rounded-xl font-bold shadow-sm transition-all hover:scale-105 active:scale-95">
                 {{ ux_icon('heroicons:document-text-20-solid', {class: 'w-5 h-5 text-indigo-500'}) }}
-                <span>Import Markdown</span>
+                <span>{{ 'editor.import_markdown'|trans }}</span>
             </button>
         </div>
         {% endif %}
@@ -172,7 +172,7 @@
         <div
             class="relative transform overflow-hidden rounded-2xl bg-white dark:bg-gray-900 shadow-2xl transition-all w-full max-w-5xl p-6 h-[80vh] flex flex-col">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-black text-gray-900 dark:text-white uppercase tracking-tight">Select Image</h3>
+                <h3 class="text-lg font-black text-gray-900 dark:text-white uppercase tracking-tight">{{ 'editor.select_image'|trans }}</h3>
                 <button type="button" data-action="live#action" data-live-action-param="closeMediaPicker"
                     class="p-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-400">
                     {{ ux_icon('heroicons:x-mark-20-solid', {class: 'w-5 h-5'}) }}
@@ -195,8 +195,8 @@
             class="relative transform overflow-hidden rounded-3xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-white/10 shadow-2xl transition-all w-full max-w-2xl p-8 animate-in zoom-in-95 duration-200">
             <div class="flex items-center justify-between mb-8">
                 <div>
-                    <h3 class="text-xl font-black text-gray-900 dark:text-white">Add a Block</h3>
-                    <p class="text-xs text-gray-400 mt-1 uppercase tracking-widest font-bold">Choose a block to insert
+                    <h3 class="text-xl font-black text-gray-900 dark:text-white">{{ 'editor.add_block'|trans }}</h3>
+                    <p class="text-xs text-gray-400 mt-1 uppercase tracking-widest font-bold">{{ 'editor.choose_block'|trans }}
                     </p>
                 </div>
                 <button type="button" data-action="live#action" data-live-action-param="closePicker"
@@ -209,7 +209,7 @@
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     {{ ux_icon('heroicons:magnifying-glass-20-solid', {class: 'w-4 h-4 text-gray-400'}) }}
                 </div>
-                <input type="text" data-model="debounce(300)|blockSearch" placeholder="Search blocks..."
+                <input type="text" data-model="debounce(300)|blockSearch" placeholder="{{ 'editor.search_blocks'|trans }}"
                     class="block w-full pl-10 pr-3 py-3 border border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.02] rounded-2xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
                     autofocus>
             </div>
@@ -222,8 +222,7 @@
                         class="inline-flex items-center justify-center size-12 rounded-full bg-gray-50 dark:bg-white/[0.02] text-gray-400 mb-4">
                         {{ ux_icon('heroicons:face-frown-20-solid', {class: 'w-6 h-6'}) }}
                     </div>
-                    <p class="text-sm text-gray-400 font-bold uppercase tracking-widest">No blocks found for "{{
-                        this.blockSearch }}"</p>
+                    <p class="text-sm text-gray-400 font-bold uppercase tracking-widest">{{ 'editor.no_blocks_found'|trans({'%query%': this.blockSearch}) }}</p>
                 </div>
                 {% endif %}
 
@@ -260,8 +259,7 @@
                                 {{ ux_icon('heroicons:h' ~ level ~ '-20-solid', {class: 'w-6 h-6'}) }}
                             </div>
                             <span
-                                class="text-xs font-bold text-gray-700 dark:text-gray-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Heading
-                                {{ level }}</span>
+                                class="text-xs font-bold text-gray-700 dark:text-gray-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{{ 'editor.heading_n'|trans({'%level%': level}) }}</span>
                         </button>
                         {% endfor %}
                         {% endif %}
@@ -284,10 +282,8 @@
             class="relative transform overflow-hidden rounded-2xl bg-white dark:bg-gray-900 shadow-2xl transition-all w-full max-w-3xl p-8 flex flex-col">
             <div class="flex items-center justify-between mb-6">
                 <div>
-                    <h3 class="text-xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Import
-                        Markdown</h3>
-                    <p class="text-xs text-gray-400 mt-1 uppercase tracking-widest font-bold">Paste your markdown
-                        content below</p>
+                    <h3 class="text-xl font-black text-gray-900 dark:text-white uppercase tracking-tight">{{ 'editor.import_markdown'|trans }}</h3>
+                    <p class="text-xs text-gray-400 mt-1 uppercase tracking-widest font-bold">{{ 'editor.import_markdown_paste'|trans }}</p>
                 </div>
                 <button type="button" data-action="live#action" data-live-action-param="closeMarkdownImport"
                     class="p-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-400">
@@ -298,18 +294,18 @@
             <div class="mb-6">
                 <textarea data-model="markdownInput"
                     class="w-full h-80 p-6 bg-gray-50 dark:bg-black/20 text-gray-700 dark:text-gray-300 font-mono text-sm rounded-xl border border-gray-200 dark:border-white/10 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none resize-none"
-                    placeholder="# Your Markdown here..."></textarea>
+                    placeholder="{{ 'editor.markdown_placeholder'|trans }}"></textarea>
             </div>
 
             <div class="flex items-center justify-end gap-3">
                 <button type="button" data-action="live#action" data-live-action-param="closeMarkdownImport"
                     class="px-6 py-2.5 text-sm font-bold text-gray-500 hover:text-gray-700 dark:hover:text-white transition-colors">
-                    Cancel
+                    {{ 'editor.cancel'|trans }}
                 </button>
                 <button type="button" data-action="live#action" data-live-action-param="importMarkdown"
                     class="px-8 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-black text-sm shadow-lg shadow-indigo-200 dark:shadow-none transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
                     {{ ux_icon('heroicons:bolt-20-solid', {class: 'w-4 h-4'}) }}
-                    <span>Import & Transform</span>
+                    <span>{{ 'editor.import_transform'|trans }}</span>
                 </button>
             </div>
         </div>

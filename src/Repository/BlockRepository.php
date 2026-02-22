@@ -6,20 +6,22 @@ namespace Symkit\BuilderBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symkit\BuilderBundle\Entity\Block;
 
 /**
- * @extends ServiceEntityRepository<Block>
+ * @extends ServiceEntityRepository<object>
  */
-class BlockRepository extends ServiceEntityRepository
+final class BlockRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @param class-string $entityClass
+     */
+    public function __construct(ManagerRegistry $registry, string $entityClass)
     {
-        parent::__construct($registry, Block::class);
+        parent::__construct($registry, $entityClass);
     }
 
     /**
-     * @return Block[]
+     * @return object[]
      */
     public function findActive(): array
     {

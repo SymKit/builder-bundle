@@ -4,53 +4,57 @@ declare(strict_types=1);
 
 namespace Symkit\BuilderBundle\Controller\Admin\Category;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symkit\BuilderBundle\Entity\BlockCategory;
 use Symkit\BuilderBundle\Form\BlockCategoryType;
 use Symkit\CrudBundle\Controller\AbstractCrudController;
 use Symkit\MenuBundle\Attribute\ActiveMenu;
 use Symkit\MetadataBundle\Attribute\Breadcrumb;
 use Symkit\MetadataBundle\Attribute\Seo;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/admin/block-categories')]
 final class CategoryController extends AbstractCrudController
 {
-    #[Route('', name: 'admin_block_category_list')]
-    #[Seo(title: 'Block Categories')]
+    /**
+     * @param class-string $blockCategoryClass
+     */
+    public function __construct(
+        private readonly string $blockCategoryClass,
+    ) {
+    }
+
+    #[Seo(title: 'page.block_categories')]
     #[Breadcrumb(context: 'admin')]
     #[ActiveMenu('admin', 'blocks')]
     public function list(Request $request): Response
     {
         return $this->renderIndex($request, [
-            'page_title' => 'Block Categories',
+            'page_title' => 'page.block_categories',
         ]);
     }
 
-    #[Route('/create', name: 'admin_block_category_create')]
-    #[Seo(title: 'Create Category')]
-    #[Breadcrumb(context: 'admin', items: [['label' => 'Categories', 'route' => 'admin_block_category_list']])]
+    #[Seo(title: 'page.create_category')]
+    #[Breadcrumb(context: 'admin', items: [['label' => 'page.categories', 'route' => 'admin_block_category_list']])]
     #[ActiveMenu('admin', 'blocks')]
     public function create(Request $request): Response
     {
-        return $this->renderNew(new BlockCategory(), $request, [
-            'page_title' => 'Create Category',
+        $entity = new ($this->blockCategoryClass)();
+
+        return $this->renderNew($entity, $request, [
+            'page_title' => 'page.create_category',
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'admin_block_category_edit')]
-    #[Seo(title: 'Edit Category')]
-    #[Breadcrumb(context: 'admin', items: [['label' => 'Categories', 'route' => 'admin_block_category_list']])]
+    #[Seo(title: 'page.edit_category')]
+    #[Breadcrumb(context: 'admin', items: [['label' => 'page.categories', 'route' => 'admin_block_category_list']])]
     #[ActiveMenu('admin', 'blocks')]
     public function edit(BlockCategory $category, Request $request): Response
     {
         return $this->renderEdit($category, $request, [
-            'page_title' => 'Edit Category',
+            'page_title' => 'page.edit_category',
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'admin_block_category_delete', methods: ['POST'])]
     public function delete(BlockCategory $category, Request $request): Response
     {
         return $this->performDelete($category, $request);
@@ -58,7 +62,7 @@ final class CategoryController extends AbstractCrudController
 
     protected function getEntityClass(): string
     {
-        return BlockCategory::class;
+        return $this->blockCategoryClass;
     }
 
     protected function getFormClass(): string
@@ -85,20 +89,20 @@ final class CategoryController extends AbstractCrudController
     {
         return [
             'label' => [
-                'label' => 'Label',
+                'label' => 'list.label',
                 'sortable' => true,
             ],
             'code' => [
-                'label' => 'Code',
+                'label' => 'list.code',
                 'sortable' => true,
                 'cell_class' => 'font-mono text-xs',
             ],
             'position' => [
-                'label' => 'Position',
+                'label' => 'list.position',
                 'sortable' => true,
             ],
             'blocks' => [
-                'label' => 'Blocks',
+                'label' => 'list.blocks',
                 'template' => '@SymkitCrud/crud/field/count.html.twig',
             ],
             'actions' => [

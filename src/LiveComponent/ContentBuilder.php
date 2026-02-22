@@ -5,17 +5,15 @@ declare(strict_types=1);
 namespace Symkit\BuilderBundle\LiveComponent;
 
 use JsonException;
-use Symkit\BuilderBundle\Service\BlockRegistry;
-use Symkit\BuilderBundle\Service\MarkdownToBlocksService;
-use Symkit\FaqBundle\Repository\FaqRepository;
-use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Symkit\BuilderBundle\Service\BlockRegistry;
+use Symkit\BuilderBundle\Service\MarkdownToBlocksService;
+use Symkit\FaqBundle\Repository\FaqRepository;
 
-#[AsLiveComponent('content_builder', template: '@SymkitBuilder/live_component/content_builder.html.twig')]
 final class ContentBuilder
 {
     use DefaultActionTrait;
@@ -136,7 +134,7 @@ final class ContentBuilder
     {
         $this->contentBlocks = array_values(array_filter(
             $this->contentBlocks,
-            static fn (array $block) => $block['id'] !== $id
+            static fn (array $block) => $block['id'] !== $id,
         ));
     }
 

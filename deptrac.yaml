@@ -1,0 +1,60 @@
+deptrac:
+    paths:
+        - ./src
+    layers:
+        - name: Entity
+          collectors:
+            - type: directory
+              value: src/Entity/.*
+        - name: Contract
+          collectors:
+            - type: directory
+              value: src/Contract/.*
+        - name: Repository
+          collectors:
+            - type: directory
+              value: src/Repository/.*
+        - name: Service
+          collectors:
+            - type: directory
+              value: src/Service/.*
+        - name: Render
+          collectors:
+            - type: directory
+              value: src/Render/.*
+        - name: Form
+          collectors:
+            - type: directory
+              value: src/Form/.*
+        - name: Controller
+          collectors:
+            - type: directory
+              value: src/Controller/.*
+        - name: Twig
+          collectors:
+            - type: directory
+              value: src/Twig/.*
+        - name: Command
+          collectors:
+            - type: directory
+              value: src/Command/.*
+        - name: Validator
+          collectors:
+            - type: directory
+              value: src/Validator/.*
+        - name: LiveComponent
+          collectors:
+            - type: directory
+              value: src/LiveComponent/.*
+    ruleset:
+        Entity: [Contract, Validator, Repository]
+        Contract: []
+        Repository: [Entity]
+        Service: [Contract, Repository, Entity]
+        Render: [Contract, Service]
+        Form: [Entity, Repository]
+        Controller: [Service, Form, Entity]
+        Twig: [Service, Contract]
+        Command: [Service]
+        Validator: [Entity]
+        LiveComponent: [Service]

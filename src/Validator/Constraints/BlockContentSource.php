@@ -10,8 +10,8 @@ use Symfony\Component\Validator\Constraint;
 #[Attribute]
 class BlockContentSource extends Constraint
 {
-    public string $message = 'You must provide either a Twig template path OR HTML code, but not both.';
-    public string $neitherMessage = 'You must provide either a Twig template path or HTML code.';
+    public string $message = 'validation.block_content_source.both';
+    public string $neitherMessage = 'validation.block_content_source.neither';
 
     public function getTargets(): string
     {
