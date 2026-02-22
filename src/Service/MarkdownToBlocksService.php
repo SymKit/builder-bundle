@@ -28,6 +28,9 @@ class MarkdownToBlocksService
         ]);
     }
 
+    /**
+     * @return list<array<string, mixed>>
+     */
     public function convertToBlocks(string $markdown): array
     {
         if (empty(mb_trim($markdown))) {
@@ -64,6 +67,9 @@ class MarkdownToBlocksService
         return $blocks;
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     private function mapNodeToBlock(DOMNode $node): ?array
     {
         foreach ($this->strategies as $strategy) {
@@ -94,9 +100,13 @@ class MarkdownToBlocksService
 
     private function getInnerHtml(DOMNode $node): string
     {
+        $ownerDocument = $node->ownerDocument;
+        if (null === $ownerDocument) {
+            return '';
+        }
         $innerHTML = '';
         foreach ($node->childNodes as $child) {
-            $innerHTML .= $node->ownerDocument->saveHTML($child);
+            $innerHTML .= $ownerDocument->saveHTML($child);
         }
 
         return $innerHTML;

@@ -18,7 +18,7 @@ final readonly class QuoteBlockStrategy extends AbstractBlockStrategy
         return 'blockquote' === mb_strtolower($node->nodeName);
     }
 
-    public function createFromNode(DOMNode $node): ?array
+    public function createFromNode(DOMNode $node): array
     {
         return [
             'type' => 'quote',

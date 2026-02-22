@@ -13,8 +13,8 @@ final readonly class VideoBlockStrategy extends AbstractBlockStrategy
 
     public function prepareData(array $data): array
     {
-        $url = $data['url'] ?? '';
-        if (!$url) {
+        $url = isset($data['url']) && \is_string($data['url']) ? $data['url'] : '';
+        if ('' === $url) {
             return $data;
         }
 
@@ -25,23 +25,27 @@ final readonly class VideoBlockStrategy extends AbstractBlockStrategy
             $videoId = null;
             if (str_contains($url, 'v=')) {
                 $parts = explode('v=', $url);
-                $videoId = explode('&', end($parts))[0];
+                $last = end($parts);
+                $videoId = \is_string($last) ? explode('&', $last)[0] : null;
             } elseif (str_contains($url, 'youtu.be/')) {
                 $parts = explode('youtu.be/', $url);
-                $videoId = explode('?', end($parts))[0];
+                $last = end($parts);
+                $videoId = \is_string($last) ? explode('?', $last)[0] : null;
             }
 
-            if ($videoId) {
+            if (null !== $videoId && '' !== $videoId) {
                 $embedUrl = 'https://www.youtube.com/embed/'.$videoId;
                 $data['provider'] = 'youtube';
             }
         } elseif (str_contains($url, 'vimeo.com')) {
             // Extract Vimeo ID
             // Format: https://vimeo.com/VIDEO_ID
-            $parts = explode('/', parse_url($url, \PHP_URL_PATH));
+            $path = parse_url($url, \PHP_URL_PATH);
+            $pathStr = \is_string($path) ? $path : '';
+            $parts = explode('/', $pathStr);
             $videoId = end($parts);
 
-            if ($videoId && is_numeric($videoId)) {
+            if (\is_string($videoId) && '' !== $videoId && is_numeric($videoId)) {
                 $embedUrl = 'https://player.vimeo.com/video/'.$videoId;
                 $data['provider'] = 'vimeo';
             }

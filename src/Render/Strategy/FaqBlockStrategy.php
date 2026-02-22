@@ -32,16 +32,20 @@ final readonly class FaqBlockStrategy implements BlockStrategyInterface
     {
         // Render the FaqController::show action
         // We use the 'code' from block data
-        $code = $block['data']['faqCode'] ?? null;
+        $rawData = $block['data'] ?? [];
+        $data = \is_array($rawData) ? $rawData : [];
+        $code = isset($data['faqCode']) && \is_string($data['faqCode']) ? $data['faqCode'] : null;
 
-        if (!$code) {
+        if (null === $code || '' === $code) {
             return '';
         }
 
-        return $this->handler->render(new ControllerReference(
+        $result = $this->handler->render(new ControllerReference(
             'Symkit\FaqBundle\Controller\FaqController::show',
             ['code' => $code],
         ));
+
+        return \is_string($result) ? $result : '';
     }
 
     public function supportsNode(DOMNode $node): bool

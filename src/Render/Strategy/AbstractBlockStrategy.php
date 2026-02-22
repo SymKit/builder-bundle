@@ -34,9 +34,13 @@ abstract readonly class AbstractBlockStrategy implements BlockStrategyInterface
 
     protected function getInnerHtml(DOMNode $node): string
     {
+        $ownerDocument = $node->ownerDocument;
+        if (null === $ownerDocument) {
+            return '';
+        }
         $innerHTML = '';
         foreach ($node->childNodes as $child) {
-            $innerHTML .= $node->ownerDocument->saveHTML($child);
+            $innerHTML .= $ownerDocument->saveHTML($child);
         }
 
         return $innerHTML;
@@ -45,7 +49,7 @@ abstract readonly class AbstractBlockStrategy implements BlockStrategyInterface
     public function render(array $block): string
     {
         $type = $block['type'] ?? null;
-        if (!$type) {
+        if (!\is_string($type) || '' === $type) {
             return '';
         }
 

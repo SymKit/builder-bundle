@@ -20,7 +20,7 @@ final readonly class ParagraphBlockStrategy extends AbstractBlockStrategy
         return \in_array($tag, ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'], true);
     }
 
-    public function createFromNode(DOMNode $node): ?array
+    public function createFromNode(DOMNode $node): array
     {
         $tag = mb_strtolower($node->nodeName);
         $content = $this->getInnerHtml($node);

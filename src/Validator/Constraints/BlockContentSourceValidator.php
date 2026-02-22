@@ -8,11 +8,12 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
+use Symkit\BuilderBundle\Contract\BlockEntityInterface;
 
 final class BlockContentSourceValidator extends ConstraintValidator
 {
     /**
-     * @param class-string $blockClass
+     * @param class-string<BlockEntityInterface> $blockClass
      */
     public function __construct(
         private readonly string $blockClass,
@@ -29,6 +30,7 @@ final class BlockContentSourceValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, $this->blockClass);
         }
 
+        /** @var BlockEntityInterface $value */
         $template = $value->getTemplate();
         $htmlCode = $value->getHtmlCode();
 

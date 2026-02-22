@@ -10,6 +10,6 @@ final readonly class SnippetBlockStrategy extends AbstractBlockStrategy
     {
         $type = $block['type'] ?? '';
 
-        return str_starts_with($type, 'tw_');
+        return \is_string($type) && str_starts_with($type, 'tw_');
     }
 }

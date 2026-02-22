@@ -7,18 +7,20 @@ namespace Symkit\BuilderBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symkit\BuilderBundle\Contract\BlockCategoryEntityInterface;
+use Symkit\BuilderBundle\Contract\BlockEntityInterface;
 use Symkit\BuilderBundle\Validator\Constraints\BlockContentSource;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'builder_block')]
 #[UniqueEntity(fields: ['code'], message: 'This block code already exists.', groups: ['create', 'edit'])]
 #[BlockContentSource(groups: ['create', 'edit'])]
-class Block
+class Block implements BlockEntityInterface
 {
-    /** @var int|null Doctrine assigns id on persist */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    /** @phpstan-ignore property.unusedType (Doctrine sets id on persist) */
     private ?int $id = null;
 
     #[ORM\Column(length: 100, unique: true)]
@@ -39,7 +41,7 @@ class Block
     #[ORM\ManyToOne(targetEntity: BlockCategory::class, inversedBy: 'blocks')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull(message: 'A category must be selected.', groups: ['create', 'edit'])]
-    private ?BlockCategory $category = null;
+    private ?BlockCategoryEntityInterface $category = null;
 
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank(message: 'An icon identifier is required.', groups: ['create', 'edit'])]
@@ -89,12 +91,12 @@ class Block
         return $this;
     }
 
-    public function getCategory(): ?BlockCategory
+    public function getCategory(): ?BlockCategoryEntityInterface
     {
         return $this->category;
     }
 
-    public function setCategory(BlockCategory $category): self
+    public function setCategory(BlockCategoryEntityInterface $category): self
     {
         $this->category = $category;
 

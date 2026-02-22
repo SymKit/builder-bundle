@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 use Symkit\BuilderBundle\Command\SyncBlocksCommand;
 use Symkit\BuilderBundle\Contract\BlockRendererInterface;
+use Symkit\BuilderBundle\Contract\BlockRepositoryInterface;
 use Symkit\BuilderBundle\Contract\BlockStrategyInterface;
 use Symkit\BuilderBundle\Controller\Admin\BlockController;
 use Symkit\BuilderBundle\Controller\Admin\Category\CategoryController;
@@ -157,6 +158,7 @@ class SymkitBuilderBundle extends AbstractBundle
                 ->arg('$entityClass', '%symkit_builder.entity.block_category_class%')
                 ->autowire()->autoconfigure();
             $services->alias(BlockRepository::class, $config['doctrine']['entity']['block_repository_class']);
+            $services->alias(BlockRepositoryInterface::class, $config['doctrine']['entity']['block_repository_class']);
             $services->alias(BlockCategoryRepository::class, $config['doctrine']['entity']['block_category_repository_class']);
 
             $services->set(BlockSynchronizer::class)

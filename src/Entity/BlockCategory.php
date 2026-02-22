@@ -9,17 +9,18 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symkit\BuilderBundle\Contract\BlockCategoryEntityInterface;
 use Symkit\BuilderBundle\Repository\BlockCategoryRepository;
 
 #[ORM\Entity(repositoryClass: BlockCategoryRepository::class)]
 #[ORM\Table(name: 'builder_block_category')]
 #[UniqueEntity(fields: ['code'], message: 'This category code already exists.', groups: ['create', 'edit'])]
-class BlockCategory
+class BlockCategory implements BlockCategoryEntityInterface
 {
-    /** @var int|null Doctrine assigns id on persist */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    /** @phpstan-ignore property.unusedType (Doctrine sets id on persist) */
     private ?int $id = null;
 
     #[ORM\Column(length: 50, unique: true)]

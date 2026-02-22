@@ -6,14 +6,16 @@ namespace Symkit\BuilderBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symkit\BuilderBundle\Contract\BlockEntityInterface;
+use Symkit\BuilderBundle\Contract\BlockRepositoryInterface;
 
 /**
- * @extends ServiceEntityRepository<object>
+ * @extends ServiceEntityRepository<BlockEntityInterface>
  */
-final class BlockRepository extends ServiceEntityRepository
+final class BlockRepository extends ServiceEntityRepository implements BlockRepositoryInterface
 {
     /**
-     * @param class-string $entityClass
+     * @param class-string<BlockEntityInterface> $entityClass
      */
     public function __construct(ManagerRegistry $registry, string $entityClass)
     {
@@ -21,7 +23,7 @@ final class BlockRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return object[]
+     * @return BlockEntityInterface[]
      */
     public function findActive(): array
     {

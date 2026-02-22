@@ -18,7 +18,7 @@ final readonly class SeparatorBlockStrategy extends AbstractBlockStrategy
         return 'hr' === mb_strtolower($node->nodeName);
     }
 
-    public function createFromNode(DOMNode $node): ?array
+    public function createFromNode(DOMNode $node): array
     {
         return [
             'type' => 'separator',
