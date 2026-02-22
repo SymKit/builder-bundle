@@ -1,0 +1,46 @@
+{
+    "name": "symkit/builder-bundle",
+    "description": "Visual Content Builder Bundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.2",
+        "symfony/framework-bundle": "7.*|8.*",
+        "symfony/ux-live-component": "2.*",
+        "league/commonmark": "^2.8",
+        "symkit/form-bundle": "~0.0.1",
+        "symkit/crud-bundle": "~0.0.1",
+        "symkit/menu-bundle": "~0.0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symkit\\BuilderBundle\\": "src/"
+        }
+    },
+    "suggest": {
+        "symkit/media-bundle": "For Image block support",
+        "symkit/faq-bundle": "For FAQ block and content builder FAQ list"
+    },
+    "require-dev": {
+        "symkit/bundle-ai-kit": "~0.0.1"
+    },
+    "config": {
+        "allow-plugins": {
+            "symkit/bundle-ai-kit": true
+        }
+    },
+    "extra": {
+        "bundle-ai-kit": {
+            "editors": [
+                "cursor"
+            ],
+            "skills": [
+                "symfony-bundle-core",
+                "symfony-bundle-ux",
+                "symfony-bundle-doctrine",
+                "symfony-bundle-flex",
+                "symfony-bundle-quality"
+            ]
+        }
+    }
+}

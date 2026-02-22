@@ -1,0 +1,51 @@
+{
+    "name": "@symkit/form-bundle",
+    "version": "0.1.0",
+    "description": "Symfony bundle for premium form types, extensions, components and Stimulus controllers",
+    "author": "Symkit",
+    "license": "MIT",
+    "symfony": {
+        "controllers": {
+            "dependency": {
+                "main": "assets/controllers/dependency_controller.js",
+                "fetch": "lazy",
+                "enabled": true
+            },
+            "dropdown": {
+                "main": "assets/controllers/dropdown_controller.js",
+                "fetch": "lazy",
+                "enabled": true
+            },
+            "password-visibility": {
+                "main": "assets/controllers/password-visibility_controller.js",
+                "fetch": "lazy",
+                "enabled": true
+            },
+            "rich-select": {
+                "main": "assets/controllers/rich-select_controller.js",
+                "fetch": "lazy",
+                "enabled": true
+            },
+            "section-nav": {
+                "main": "assets/controllers/section-nav_controller.js",
+                "fetch": "lazy",
+                "enabled": true
+            },
+            "slug": {
+                "main": "assets/controllers/slug_controller.js",
+                "fetch": "lazy",
+                "enabled": true
+            },
+            "table-of-contents": {
+                "main": "assets/controllers/table-of-contents_controller.js",
+                "fetch": "lazy",
+                "enabled": true
+            },
+            "url-preview": {
+                "main": "assets/controllers/url-preview_controller.js",
+                "fetch": "lazy",
+                "enabled": true
+            }
+        }
+    }
+}

@@ -1,0 +1,76 @@
+<div data-controller="content-block" 
+     data-content-block-id-value="{{ block.id }}"
+     class="group/howto relative my-8"
+>
+    <div class="p-8 bg-white dark:bg-gray-900 rounded-3xl ring-1 ring-gray-200 dark:ring-white/10 shadow-sm">
+        <h3 class="text-xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-3">
+             <span class="flex-none w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center">
+                 {{ ux_icon('heroicons:academic-cap-20-solid', {class: 'w-5 h-5'}) }}
+             </span>
+             How To Guide
+        </h3>
+
+        <div class="space-y-8">
+            {% for i, step in block.data.steps %}
+                <div class="group/step relative flex gap-6">
+                    <div class="flex-none flex flex-col items-center">
+                        <div class="w-10 h-10 rounded-full bg-indigo-50 dark:bg-indigo-500/10 border-2 border-indigo-100 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-black flex items-center justify-center text-sm shadow-sm ring-4 ring-white dark:ring-gray-900 z-10">
+                            {{ loop.index }}
+                        </div>
+                        {% if not loop.last %}
+                            <div class="w-px flex-auto bg-gray-100 dark:bg-white/5 my-2"></div>
+                        {% endif %}
+                    </div>
+
+                    <div class="pb-8 flex-auto">
+                        <div contenteditable="true"
+                             data-action="input->content-block#syncCollection"
+                             data-property="steps"
+                             data-step-title="true"
+                             class="text-base font-bold text-gray-900 dark:text-white outline-none mb-2"
+                             placeholder="Step Title..."
+                        >{{ step.title|raw }}</div>
+                        
+                        <div contenteditable="true"
+                             data-action="input->content-block#syncCollection"
+                             data-property="steps"
+                             data-step-content="true"
+                             class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed outline-none"
+                             placeholder="Instructions for this step..."
+                        >{{ step.content|raw }}</div>
+
+                        {# Step actions #}
+                        <div class="absolute -right-4 top-0 flex items-center gap-1 opacity-0 group-hover/step:opacity-100 transition-opacity bg-white dark:bg-gray-800 shadow-lg border border-gray-100 dark:border-white/10 rounded-lg p-1 z-20">
+                            <button type="button" 
+                                    data-action="live#action" 
+                                    data-live-action-param="updateBlockDataCollection" 
+                                    data-live-id-param="{{ block.id }}" 
+                                    data-live-property-param="steps" 
+                                    data-live-action-param-action="add"
+                                    data-live-index-param="{{ i }}"
+                                    class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded text-gray-400 hover:text-indigo-500"
+                                    title="Add Step Below"
+                            >
+                                {{ ux_icon('heroicons:plus-16-solid', {class: 'w-4 h-4'}) }}
+                            </button>
+                            {% if block.data.steps|length > 1 %}
+                                <button type="button" 
+                                        data-action="live#action" 
+                                        data-live-action-param="updateBlockDataCollection" 
+                                        data-live-id-param="{{ block.id }}" 
+                                        data-live-property-param="steps" 
+                                        data-live-action-param-action="remove"
+                                        data-live-index-param="{{ i }}"
+                                        class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded text-gray-400 hover:text-red-500"
+                                        title="Remove Step"
+                                >
+                                    {{ ux_icon('heroicons:trash-16-solid', {class: 'w-4 h-4'}) }}
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

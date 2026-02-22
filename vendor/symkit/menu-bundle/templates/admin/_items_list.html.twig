@@ -1,0 +1,80 @@
+
+        <div class="max-w-7xl mx-auto">
+            <section id="menu-items-section" class="scroll-mt-28 lg:ml-62" data-crud--section-nav-target="section">
+                <div class="bg-white dark:bg-gray-800/50 rounded-xl shadow-sm border border-slate-200 dark:border-white/10 overflow-visible">
+                    <div class="lg:grid lg:grid-cols-3 lg:gap-0">
+                        {# Section Header (Left side on desktop) #}
+                        <div class="lg:col-span-1 bg-slate-50/80 dark:bg-white/5 p-6 border-b lg:border-b-0 lg:border-r border-slate-100 dark:border-white/5">
+                            <h3 class="text-base font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                                {{ ux_icon('heroicons:list-bullet-20-solid', {class: 'w-5 h-5 text-slate-500 dark:text-gray-400'}) }}
+                                Menu Items
+                            </h3>
+                            <p class="mt-1 text-xs text-slate-500 dark:text-gray-400 leading-relaxed">
+                                Manage the structure and order of items in this menu.
+                            </p>
+                            <a href="{{ path('admin_menu_item_create', {menuId: menu.id}) }}"
+                                class="mt-4 inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-500 transition-colors">
+                                {{ ux_icon('heroicons:plus-20-solid', {class: 'w-4 h-4'}) }}
+                                Add Item
+                            </a>
+                        </div>
+                        
+                        {# Items List (Right side on desktop) #}
+                        <div class="lg:col-span-2 p-6">
+                            {% if menu.items|length > 0 %}
+                            <div class="-mx-2">
+                                <table class="min-w-full">
+                                    <thead>
+                                        <tr class="border-b border-slate-100 dark:border-white/5">
+                                            <th class="py-2 px-2 text-left text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider">Label</th>
+                                            <th class="py-2 px-2 text-left text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider">Type</th>
+                                            <th class="py-2 px-2 text-left text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider">Position</th>
+                                            <th class="py-2 px-2 text-right text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 dark:divide-white/5">
+                                        {% for item in menu.items %}
+                                        <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                                            <td class="py-3 px-2 text-sm font-medium text-slate-900 dark:text-white">
+                                                {% if item.parent %}
+                                                    <span class="text-slate-400 mr-1">↳</span>
+                                                {% endif %}
+                                                {% if item.icon %}
+                                                    {{ ux_icon(item.icon, {class: 'w-4 h-4 inline-block mr-2 text-slate-400'}) }}
+                                                {% endif %}
+                                                {{ item.label }}
+                                            </td>
+                                            <td class="py-3 px-2 text-sm text-slate-500 dark:text-gray-400">
+                                                <span class="inline-flex items-center rounded-md bg-slate-100 dark:bg-white/10 px-2 py-1 text-xs font-medium text-slate-600 dark:text-gray-300">
+                                                    {{ item.type }}
+                                                </span>
+                                            </td>
+                                            <td class="py-3 px-2 text-sm text-slate-500 dark:text-gray-400">{{ item.position }}</td>
+                                            <td class="py-3 px-2 text-sm text-right flex items-center justify-end gap-3">
+                                                <a href="{{ path('admin_menu_item_create', {menuId: menu.id, parent_id: item.id}) }}"
+                                                    class="text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                                                    title="Add sub-item">
+                                                    {{ ux_icon('heroicons:plus-circle-20-solid', {class: 'w-4 h-4'}) }}
+                                                </a>
+                                                <a href="{{ path('admin_menu_item_edit', {id: item.id}) }}"
+                                                    class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium">
+                                                    Edit
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="text-center py-8 text-slate-500 dark:text-gray-400">
+                                {{ ux_icon('heroicons:inbox-20-solid', {class: 'mx-auto h-10 w-10 text-slate-300 dark:text-white/10 mb-3'}) }}
+                                <p class="text-sm font-medium text-slate-900 dark:text-white">No items yet</p>
+                                <p class="text-xs mt-1">Add your first item to get started.</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>

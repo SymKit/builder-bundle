@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="fr" datatype="plaintext" original="SymkitForm" date="2026-02-22T00:00:00Z">
+        <header/>
+        <body>
+            <!-- General labels -->
+            <trans-unit id="yes" resname="Yes">
+                <source>Yes</source>
+                <target>Oui</target>
+            </trans-unit>
+            <trans-unit id="no" resname="No">
+                <source>No</source>
+                <target>Non</target>
+            </trans-unit>
+
+            <!-- Actions -->
+            <trans-unit id="form.action.save" resname="form.action.save">
+                <source>form.action.save</source>
+                <target>Enregistrer</target>
+            </trans-unit>
+
+            <!-- Components -->
+            <trans-unit id="form.component.rich_select.placeholder" resname="form.component.rich_select.placeholder">
+                <source>form.component.rich_select.placeholder</source>
+                <target>Sélectionner une option...</target>
+            </trans-unit>
+            <trans-unit id="form.component.rich_select.search_placeholder" resname="form.component.rich_select.search_placeholder">
+                <source>form.component.rich_select.search_placeholder</source>
+                <target>Rechercher...</target>
+            </trans-unit>
+            <trans-unit id="form.component.checkbox_rich_select.placeholder" resname="form.component.checkbox_rich_select.placeholder">
+                <source>form.component.checkbox_rich_select.placeholder</source>
+                <target>Sélectionner...</target>
+            </trans-unit>
+            <trans-unit id="form.component.password_field.placeholder" resname="form.component.password_field.placeholder">
+                <source>form.component.password_field.placeholder</source>
+                <target>Saisir un mot de passe...</target>
+            </trans-unit>
+            <trans-unit id="form.component.slug.unlock_title" resname="form.component.slug.unlock_title">
+                <source>Unlock to edit</source>
+                <target>Déverrouiller pour modifier</target>
+            </trans-unit>
+            <trans-unit id="form.component.slug.lock_title" resname="form.component.slug.lock_title">
+                <source>Lock to sync with name</source>
+                <target>Verrouiller pour synchroniser avec le nom</target>
+            </trans-unit>
+            <trans-unit id="form.component.rich_select.clear_selection" resname="form.component.rich_select.clear_selection">
+                <source>Clear selection</source>
+                <target>Effacer la sélection</target>
+            </trans-unit>
+            <trans-unit id="form.component.rich_select.no_results" resname="form.component.rich_select.no_results">
+                <source>No results found</source>
+                <target>Aucun résultat</target>
+            </trans-unit>
+
+            <!-- Link -->
+            <trans-unit id="form.link.open_new_window" resname="form.link.open_new_window">
+                <source>Open link in new window</source>
+                <target>Ouvrir le lien dans une nouvelle fenêtre</target>
+            </trans-unit>
+
+            <!-- Password rules -->
+            <trans-unit id="form.password.rule.length" resname="form.password.rule.length">
+                <source>form.password.rule.length</source>
+                <target>Au moins %min% caractères</target>
+            </trans-unit>
+            <trans-unit id="form.password.rule.uppercase" resname="form.password.rule.uppercase">
+                <source>form.password.rule.uppercase</source>
+                <target>Une lettre majuscule</target>
+            </trans-unit>
+            <trans-unit id="form.password.rule.number" resname="form.password.rule.number">
+                <source>form.password.rule.number</source>
+                <target>Un chiffre</target>
+            </trans-unit>
+            <trans-unit id="form.password.rule.special" resname="form.password.rule.special">
+                <source>form.password.rule.special</source>
+                <target>Un caractère spécial</target>
+            </trans-unit>
+
+            <!-- Table of contents -->
+            <trans-unit id="form.toc.title" resname="form.toc.title">
+                <source>form.toc.title</source>
+                <target>Sur cette page</target>
+            </trans-unit>
+
+            <!-- Types -->
+            <trans-unit id="form.type.icon_picker.placeholder" resname="form.type.icon_picker.placeholder">
+                <source>form.type.icon_picker.placeholder</source>
+                <target>Sélectionner une icône...</target>
+            </trans-unit>
+            <trans-unit id="form.type.active_inactive.label" resname="form.type.active_inactive.label">
+                <source>form.type.active_inactive.label</source>
+                <target>Statut</target>
+            </trans-unit>
+            <trans-unit id="form.type.active_inactive.choice.active" resname="form.type.active_inactive.choice.active">
+                <source>form.type.active_inactive.choice.active</source>
+                <target>Actif</target>
+            </trans-unit>
+            <trans-unit id="form.type.active_inactive.choice.inactive" resname="form.type.active_inactive.choice.inactive">
+                <source>form.type.active_inactive.choice.inactive</source>
+                <target>Inactif</target>
+            </trans-unit>
+            <trans-unit id="form.type.sitemap_priority.label" resname="form.type.sitemap_priority.label">
+                <source>form.type.sitemap_priority.label</source>
+                <target>Priorité Sitemap</target>
+            </trans-unit>
+            <trans-unit id="form.type.sitemap_priority.placeholder" resname="form.type.sitemap_priority.placeholder">
+                <source>form.type.sitemap_priority.placeholder</source>
+                <target>Priorité par défaut (0.5)</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

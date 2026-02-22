@@ -1,0 +1,10 @@
+{% set value = attribute(entity, field) %}
+{% if value %}
+<span class="text-slate-500 dark:text-gray-400 whitespace-nowrap" title="{{ value|date('Y-m-d H:i:s') }}">
+    {{ value|date('d/m/Y H:i') }}
+</span>
+{% else %}
+<span class="text-slate-400 dark:text-gray-600 italic">
+    {{ '-'|trans({}, 'SymkitCrud') }}
+</span>
+{% endif %}

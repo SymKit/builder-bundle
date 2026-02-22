@@ -1,0 +1,18 @@
+<div class="flex justify-end gap-3">
+    {% set show_route = config.show_route|default(null) %}
+    {% set edit_route = config.edit_route|default(null) %}
+    
+    {% if show_route %}
+    <a href="{{ path(show_route, {id: entity.id}) }}"
+        class="text-slate-600 hover:text-slate-900 dark:text-gray-400 dark:hover:text-gray-200 font-medium text-sm transition-colors">
+        {{ 'View'|trans({}, 'SymkitCrud') }}
+    </a>
+    {% endif %}
+
+    {% if edit_route %}
+    <a href="{{ path(edit_route, {id: entity.id}) }}"
+        class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium text-sm transition-colors">
+        {{ 'Edit'|trans({}, 'SymkitCrud') }}
+    </a>
+    {% endif %}
+</div>

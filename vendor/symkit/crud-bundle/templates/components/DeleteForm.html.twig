@@ -1,0 +1,4 @@
+<form action="{{ path(route, routeParams) }}" method="post" id="{{ formId }}" class="hidden"
+  onsubmit="return confirm('{{ confirmMessage }}');">
+  <input type="hidden" name="_token_delete" value="{{ csrf_token(this.csrfTokenName) }}">
+</form>

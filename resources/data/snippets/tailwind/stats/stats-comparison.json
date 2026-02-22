@@ -1,0 +1,6 @@
+{
+    "label": "Stats: with Comparison",
+    "category": "stats",
+    "icon": "heroicons:arrows-right-left-20-solid",
+    "html": "<div>\n  <h3 class=\"text-base font-semibold text-gray-900 dark:text-white\">Last 30 days</h3>\n  <dl class=\"mt-5 grid grid-cols-1 divide-gray-200 overflow-hidden rounded-lg bg-white shadow-sm md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-white/10 dark:bg-gray-800/75 dark:shadow-none dark:inset-ring dark:inset-ring-white/10\">\n    <div class=\"px-4 py-5 sm:p-6\">\n      <dt class=\"text-base font-normal text-gray-900 dark:text-gray-100\">Total Subscribers</dt>\n      <dd class=\"mt-1 flex items-baseline justify-between md:block lg:flex\">\n        <div class=\"flex items-baseline text-2xl font-semibold text-indigo-600 dark:text-indigo-400\">\n          71,897\n          <span class=\"ml-2 text-sm font-medium text-gray-500 dark:text-gray-400\">from 70,946</span>\n        </div>\n      </dd>\n    </div>\n  </dl>\n</div>"
+}

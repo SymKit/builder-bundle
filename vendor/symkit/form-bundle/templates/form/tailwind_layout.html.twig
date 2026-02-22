@@ -1,0 +1,414 @@
+{% use "form_div_layout.html.twig" %}
+
+{# ============================================
+   FORM WIDGET COMPOUND - Container principal
+   ============================================ #}
+{% block form_widget_compound %}
+    {% if form.parent is null %}
+        <div class="space-y-5" data-controller="form--dependency">
+            {{- block('form_rows') -}}
+        </div>
+        {{- form_rest(form) -}}
+    {% else %}
+        <div {{ block('widget_container_attributes') }}>
+            {% if form.parent is empty %}
+                {{ form_errors(form) }}
+            {% endif %}
+            {{ block('form_rows') }}
+            {{ form_rest(form) }}
+        </div>
+    {% endif %}
+{% endblock form_widget_compound %}
+
+{# ============================================
+   FORM ROW - Stacked Layout
+   ============================================ #}
+{% block form_row %}
+    {% set widget_attr = {} %}
+    {% if help is not empty %}
+        {% set widget_attr = {attr: {'aria-describedby': id ~"_help"}} %}
+    {% endif %}
+    
+    {% set row_classes = row_attr.class|default('') %}
+    {% set is_dependent = dependency_group is defined and dependency_group is not null %}
+    
+    {% if is_dependent %}
+        {% set row_classes = row_classes ~ ' ' ~ (not dependency_active ? 'hidden' : '') %}
+    {% endif %}
+
+    <div class="{{ row_classes|trim }}"
+         {% if is_dependent %}
+            data-form--dependency-target="row"
+            data-dependency-group="{{ dependency_group }}"
+            data-dependency-field="{{ name }}"
+            data-dependency-active="{{ dependency_active ? 'true' : 'false' }}"
+         {% endif %}
+    >
+        {% if label is not same as(false) %}
+            <div class="flex items-center justify-between mb-1.5">
+                <label for="{{ id }}" class="block text-sm font-medium text-slate-700 dark:text-gray-300">
+                    {{- translation_domain is same as(false) ? label : label|trans(label_translation_parameters|default({}), translation_domain) -}}
+                    {% if required %}<span class="text-red-500 ml-0.5">*</span>{% endif %}
+                </label>
+
+                {# Dependency Switcher #}
+                {% if is_dependent and dependency_group_members|length > 1 %}
+                    <div class="flex gap-1">
+                        {% for member in dependency_group_members %}
+                            <button type="button" 
+                                    data-action="form--dependency#switch" 
+                                    data-dependency-group="{{ dependency_group }}"
+                                    data-dependency-field="{{ member.name }}"
+                                    class="inline-flex items-center gap-1.5 rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider transition-colors {{ member.name == name ? 'bg-indigo-600 text-white shadow-sm' : 'bg-gray-100 text-gray-400 hover:bg-gray-200 dark:bg-white/5 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300' }}"
+                                    title="{{ member.label }}"
+                            >
+                                {% if member.icon %}
+                                    {{ ux_icon(member.icon, {class: 'w-3 h-3'}) }}
+                                {% endif %}
+                                <span>{{ member.label }}</span>
+                            </button>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        {{- form_widget(form, widget_attr) -}}
+        {{- form_help(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{% endblock form_row %}
+
+{# ============================================
+   FORM LABEL (used by some widgets that call form_label explicitly)
+   ============================================ #}
+{% block form_label %}
+    {% if label is not same as(false) %}
+        {% if not compound %}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {% endif %}
+        {% set label_attr = label_attr|merge({
+            'class': (label_attr.class|default('') ~ ' block text-sm font-medium text-slate-700 dark:text-gray-300')|trim
+        }) %}
+        <label{% with {attr: label_attr} %}{{ block('attributes') }}{% endwith %}>
+            {{- translation_domain is same as(false) ? label : label|trans(label_translation_parameters|default({}), translation_domain) -}}
+            {% if required %}<span class="text-red-500 ml-0.5">*</span>{% endif %}
+        </label>
+    {% endif %}
+{% endblock form_label %}
+
+{# ============================================
+   INPUTS (Text, Email, Password, etc.)
+   ============================================ #}
+{% block form_widget_simple %}
+    {% set type = type|default('text') %}
+
+    {# Core Input Classes #}
+    {% set attr = attr|merge({
+        'class': (attr.class|default('') ~ ' block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:placeholder:text-gray-500 dark:focus:outline-indigo-500')|trim
+    }) %}
+
+    {# Error State #}
+    {% if errors|length > 0 %}
+        {% set attr = attr|merge({
+            'class': (attr.class ~ ' text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500 outline-red-300')|trim,
+            'aria-invalid': 'true'
+        }) %}
+    {% endif %}
+
+    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
+{% endblock form_widget_simple %}
+
+{# ============================================
+   TEXTAREA
+   ============================================ #}
+{% block textarea_widget %}
+    {% set attr = attr|merge({
+        'class': (attr.class|default('') ~ ' block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:placeholder:text-gray-500 dark:focus:outline-indigo-500')|trim
+    }) %}
+
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+{% endblock textarea_widget %}
+
+{# ============================================
+   SELECT (Native with fix size)
+   ============================================ #}
+{% block choice_widget_collapsed %}
+    {% if required and placeholder is none and not placeholder_in_choices and not multiple and not attr.size|default(false) and not attr.multiple|default(false) %}
+        {% set required = false %}
+    {% endif %}
+
+    {% set attr = attr|merge({
+        'class': (attr.class|default('') ~ ' block w-full rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:focus:outline-indigo-500 appearance-none')|trim
+    }) %}
+
+    <div class="relative grid grid-cols-1">
+        <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple" {% endif %} class="{{ attr.class }} col-start-1 row-start-1">
+            {% if placeholder is not none %}
+                <option value="" {% if required and value is empty %} selected="selected" {% endif %}>{{ placeholder|trans(placeholder_translation_parameters|default({}), translation_domain) }}</option>
+            {% endif %}
+            {% if preferred_choices|length > 0 %}
+                {% set options = preferred_choices %}
+                {{- block('choice_widget_options') -}}
+                {% if choices|length > 0 and separator is not none %}
+                    <option disabled="disabled">{{ separator }}</option>
+                {% endif %}
+            {% endif %}
+            {% set options = choices %}
+            {{- block('choice_widget_options') -}}
+        </select>
+        <svg class="pointer-events-none col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4 dark:text-gray-400 mr-2" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+        </svg>
+    </div>
+{% endblock choice_widget_collapsed %}
+
+{# ============================================
+   CHECKBOX
+   ============================================ #}
+{% block checkbox_row %}
+    {{ block('form_row') }}
+{% endblock checkbox_row %}
+
+{% block checkbox_widget %}
+    <div class="flex items-center gap-3">
+        <div class="group grid size-4 grid-cols-1">
+            {% set attr = attr|merge({
+                'class': (attr.class|default('') ~ ' col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:border-white/10 dark:bg-white/5 dark:checked:border-indigo-50 dark:checked:bg-indigo-500 dark:focus-visible:outline-indigo-500')|trim
+            }) %}
+            <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}" {% endif %}{% if checked %} checked="checked" {% endif %} />
+            <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25 dark:group-has-disabled:stroke-white/25" viewBox="0 0 14 14" fill="none">
+                <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </div>
+    </div>
+{% endblock checkbox_widget %}
+
+{# ============================================
+   RADIO
+   ============================================ #}
+{% block radio_row %}
+    {{ block('form_row') }}
+{% endblock radio_row %}
+
+{% block radio_widget %}
+    <div class="flex items-center gap-3">
+        {% set attr = attr|merge({
+            'class': (attr.class|default('') ~ ' relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:border-white/10 dark:bg-white/5 dark:checked:border-indigo-500 dark:checked:bg-indigo-500 dark:focus-visible:outline-indigo-500')|trim
+        }) %}
+        <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}" {% endif %}{% if checked %} checked="checked" {% endif %} />
+    </div>
+{% endblock radio_widget %}
+
+{# ============================================
+   BUTTON
+   ============================================ #}
+{% block button_widget %}
+    {% set base_classes = 'cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:shadow-none dark:focus-visible:outline-indigo-500' %}
+    
+    {% if 'w-full' in attr.class|default('') %}
+        {% set attr = attr|merge({'class': (attr.class ~ ' ' ~ base_classes)|trim}) %}
+    {% else %}
+        {% set attr = attr|merge({'class': (attr.class|default('') ~ ' ' ~ base_classes)|trim}) %}
+    {% endif %}
+    
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+        {{- translation_domain is same as(false) ? label : label|trans(label_translation_parameters|default({}), translation_domain) -}}
+    </button>
+{% endblock button_widget %}
+
+{# ============================================
+   HELP & ERRORS
+   ============================================ #}
+{% block form_help %}
+    {% if help is not empty %}
+        <p id="{{ id }}_help" class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+            {% set help_content = help|trans(help_translation_parameters|default({}), translation_domain) %}
+            {% if help_html|default(false) %}
+                {{- help_content|raw -}}
+            {% else %}
+                {{- help_content -}}
+            {% endif %}
+        </p>
+    {% endif %}
+{% endblock form_help %}
+
+{% block form_errors %}
+    {% if errors|length > 0 %}
+        <div class="mt-2 text-sm text-red-600 dark:text-red-400" id="{{ id }}_errors">
+            {% for error in errors %}
+                <p>{{ error.message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock form_errors %}
+
+{# ============================================
+   SPECIALIZED WIDGETS
+   ============================================ #}
+
+{% block number_widget %}
+    {% set type = 'number' %}
+    {{ block('form_widget_simple') }}
+{% endblock number_widget %}
+
+{% block url_widget %}
+    {% if link_button|default(false) %}
+        {% set attr = attr|merge({ 
+            'data-form--url-preview-target': 'input',
+            'data-action': 'input->form--url-preview#check'
+        }) %}
+        <div class="relative group" data-controller="form--url-preview">
+            {{ block('form_widget_simple') }}
+            <button type="button" 
+                data-form--url-preview-target="button"
+                data-action="click->form--url-preview#open"
+                class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-indigo-600 transition-colors cursor-pointer opacity-0 transition-opacity duration-200"
+                title="{{ 'form.link.open_new_window'|trans({}, 'SymkitForm') }}">
+                {{ ux_icon('heroicons:arrow-top-right-on-square-20-solid', { class: 'size-4' }) }}
+            </button>
+        </div>
+    {% else %}
+        {{ block('form_widget_simple') }}
+    {% endif %}
+{% endblock url_widget %}
+
+{% block date_widget %}
+    {% if widget == 'single_text' %}
+        {% set type = 'date' %}
+        {{ block('form_widget_simple') }}
+    {% else %}
+        {{- block('form_widget') -}}
+    {% endif %}
+{% endblock date_widget %}
+
+{% block time_widget %}
+    {% if widget == 'single_text' %}
+        {% set type = 'time' %}
+        {{ block('form_widget_simple') }}
+    {% else %}
+        {{- block('form_widget') -}}
+    {% endif %}
+{% endblock time_widget %}
+
+{% block file_widget %}
+    {% set attr = attr|merge({
+        'class': (attr.class|default('') ~ ' block w-full text-sm text-gray-900 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 dark:text-gray-300 dark:file:bg-white/10 dark:file:text-white')|trim
+    }) %}
+    <input type="file" {{ block('widget_attributes') }}>
+{% endblock file_widget %}
+
+{# ============================================
+   RICH SELECT (Symfony UX Live Component)
+   ============================================ #}
+
+{% block rich_select_widget %}
+    {{ block('rich_select_widget_collapsed') }}
+{% endblock rich_select_widget %}
+
+{% block rich_select_widget_collapsed %}
+    {% set choices_data = {} %}
+    {% for choice in choices %}
+        {% set choices_data = choices_data|merge({(choice.label): choice.value}) %}
+    {% endfor %}
+
+    {{ component('RichSelect', {
+        name: full_name,
+        value: value,
+        choices: choices_data,
+        searchable: searchable|default(true),
+        placeholder: placeholder|default('form.component.rich_select.placeholder'|trans({}, 'SymkitForm')),
+        choiceIcons: choice_icons|default([]),
+        required: required|default(false),
+    }) }}
+{% endblock rich_select_widget_collapsed %}
+
+{% block rich_select_row %}
+    {{ block('form_row') }}
+{% endblock rich_select_row %}
+
+{# ============================================
+   SLUG WIDGET
+   ============================================ #}
+
+{% block slug_row %}
+    {{ block('form_row') }}
+{% endblock slug_row %}
+
+{% block slug_widget %}
+    {{ component('Slug', {
+        name: full_name,
+        value: value,
+        sourceValue: target_value|default(''),
+        isLocked: locked,
+        unique: unique|default(false),
+        entityClass: entity_class|default(null),
+        slugField: slug_field|default('slug'),
+        repositoryMethod: repository_method|default(null),
+        entityId: entity_id|default(null),
+        targetId: target_id|default(null),
+        targetName: target, 
+        'data-form--slug-target-name-value': target
+    }) }}
+{% endblock slug_widget %}
+
+{# ============================================
+   RICH CHECKBOX (Checkbox as RichSelect)
+   ============================================ #}
+
+{% block rich_checkbox_row %}
+    {{ block('form_row') }}
+{% endblock rich_checkbox_row %}
+
+{% block rich_checkbox_widget %}
+    {# Convert boolean value to 1/0 for the select component #}
+    {% set current_value = value ? 1 : 0 %}
+
+    {{ component('RichSelect', {
+        name: full_name,
+        value: current_value,
+        choices: choices_data,
+        searchable: false,
+        placeholder: placeholder|default('form.component.checkbox_rich_select.placeholder'|trans({}, 'SymkitForm')),
+        choiceIcons: choice_icons|default([]),
+        required: true,
+    }) }}
+{% endblock rich_checkbox_widget %}
+
+{# ============================================
+   PASSWORD PREMIUM (Live Component)
+   ============================================ #}
+
+{% block password_premium_row %}
+    {{ block('form_row') }}
+{% endblock password_premium_row %}
+
+{% block password_premium_widget %}
+    {{ component('PasswordField', {
+        name: full_name,
+        password: value|default(''),
+        placeholder: placeholder|default(label|default('form.component.password_field.placeholder'|trans({}, 'SymkitForm'))),
+        showStrength: show_strength|default(true),
+        minLength: min_length|default(8),
+        requireUppercase: require_uppercase|default(false),
+        requireNumbers: require_numbers|default(false),
+        requireSpecial: require_special|default(false),
+    }) }}
+{% endblock password_premium_widget %}
+
+{# ============================================
+   TRANSLATABLE FIELD (Live Component)
+   ============================================ #}
+
+{% block translatable_field_row %}
+    {{ block('form_row') }}
+{% endblock translatable_field_row %}
+
+{% block translatable_field_widget %}
+    {{ component('TranslatableField', {
+        name: full_name,
+        translations: value|default([]),
+        locales: locales|default([]),
+        type: block_prefixes|slice(-2, 1)[0] == 'textarea' ? 'textarea' : 'text',
+        placeholder: placeholder|default(label|default('')),
+    }) }}
+{% endblock translatable_field_widget %}

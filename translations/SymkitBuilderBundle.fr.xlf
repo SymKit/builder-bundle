@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en" trgLang="fr">
+    <file id="SymkitBuilderBundle.fr.xlf">
+        <unit id="page.block_management">
+            <segment>
+                <source>Block Management</source>
+                <target>Gestion des blocs</target>
+            </segment>
+        </unit>
+        <unit id="page.block_management_description">
+            <segment>
+                <source>Manage available content blocks.</source>
+                <target>Gérer les blocs de contenu disponibles.</target>
+            </segment>
+        </unit>
+        <unit id="page.create_block">
+            <segment>
+                <source>Create Block</source>
+                <target>Créer un bloc</target>
+            </segment>
+        </unit>
+        <unit id="page.edit_block">
+            <segment>
+                <source>Edit Block</source>
+                <target>Modifier le bloc</target>
+            </segment>
+        </unit>
+        <unit id="page.block_categories">
+            <segment>
+                <source>Block Categories</source>
+                <target>Catégories de blocs</target>
+            </segment>
+        </unit>
+        <unit id="page.create_category">
+            <segment>
+                <source>Create Category</source>
+                <target>Créer une catégorie</target>
+            </segment>
+        </unit>
+        <unit id="page.edit_category">
+            <segment>
+                <source>Edit Category</source>
+                <target>Modifier la catégorie</target>
+            </segment>
+        </unit>
+        <unit id="page.blocks">
+            <segment>
+                <source>Blocks</source>
+                <target>Blocs</target>
+            </segment>
+        </unit>
+        <unit id="page.categories">
+            <segment>
+                <source>Categories</source>
+                <target>Catégories</target>
+            </segment>
+        </unit>
+
+        <unit id="form.general_information">
+            <segment>
+                <source>General Information</source>
+                <target>Informations générales</target>
+            </segment>
+        </unit>
+        <unit id="form.section_general_block">
+            <segment>
+                <source>Basic details and branding for this block.</source>
+                <target>Informations de base et identité visuelle de ce bloc.</target>
+            </segment>
+        </unit>
+        <unit id="form.section_general_category">
+            <segment>
+                <source>Basic details about the block category.</source>
+                <target>Informations de base sur la catégorie de blocs.</target>
+            </segment>
+        </unit>
+        <unit id="form.display_label">
+            <segment>
+                <source>Display Label</source>
+                <target>Libellé affiché</target>
+            </segment>
+        </unit>
+        <unit id="form.display_label_help">
+            <segment>
+                <source>User-friendly name shown in the block picker</source>
+                <target>Nom affiché dans le sélecteur de blocs</target>
+            </segment>
+        </unit>
+        <unit id="form.display_label_help_category">
+            <segment>
+                <source>Name shown in the block picker headings</source>
+                <target>Nom affiché dans les en-têtes du sélecteur de blocs</target>
+            </segment>
+        </unit>
+        <unit id="form.placeholder_custom_block">
+            <segment>
+                <source>Custom Block</source>
+                <target>Bloc personnalisé</target>
+            </segment>
+        </unit>
+        <unit id="form.placeholder_my_category">
+            <segment>
+                <source>My Category</source>
+                <target>Ma catégorie</target>
+            </segment>
+        </unit>
+        <unit id="form.category">
+            <segment>
+                <source>Category</source>
+                <target>Catégorie</target>
+            </segment>
+        </unit>
+        <unit id="form.icon">
+            <segment>
+                <source>Icon</source>
+                <target>Icône</target>
+            </segment>
+        </unit>
+        <unit id="form.icon_help">
+            <segment>
+                <source>Choose a Heroicon for this block.</source>
+                <target>Choisir une Heroicon pour ce bloc.</target>
+            </segment>
+        </unit>
+        <unit id="form.technical_code">
+            <segment>
+                <source>Technical Code</source>
+                <target>Code technique</target>
+            </segment>
+        </unit>
+        <unit id="form.technical_code_help">
+            <segment>
+                <source>Auto-generated unique identifier (snake_case). Can be edited manually.</source>
+                <target>Identifiant unique généré automatiquement (snake_case). Modifiable manuellement.</target>
+            </segment>
+        </unit>
+        <unit id="form.active">
+            <segment>
+                <source>Active</source>
+                <target>Actif</target>
+            </segment>
+        </unit>
+        <unit id="form.active_help">
+            <segment>
+                <source>Whether this block is available in the content builder.</source>
+                <target>Indique si ce bloc est disponible dans l’éditeur de contenu.</target>
+            </segment>
+        </unit>
+        <unit id="form.rendering">
+            <segment>
+                <source>Rendering</source>
+                <target>Rendu</target>
+            </segment>
+        </unit>
+        <unit id="form.section_rendering">
+            <segment>
+                <source>Configure how this block is rendered on the website.</source>
+                <target>Configurer l’affichage de ce bloc sur le site.</target>
+            </segment>
+        </unit>
+        <unit id="form.twig_template">
+            <segment>
+                <source>Twig Template</source>
+                <target>Modèle Twig</target>
+            </segment>
+        </unit>
+        <unit id="form.twig_template_help">
+            <segment>
+                <source>Path to the Twig template (e.g. @SymkitBuilder/blocks/my_block.html.twig). Leave empty if using HTML Code below.</source>
+                <target>Chemin du modèle Twig (ex. @SymkitBuilder/blocks/my_block.html.twig). Laisser vide si vous utilisez le code HTML ci-dessous.</target>
+            </segment>
+        </unit>
+        <unit id="form.html_code">
+            <segment>
+                <source>HTML Code (Tailwind)</source>
+                <target>Code HTML (Tailwind)</target>
+            </segment>
+        </unit>
+        <unit id="form.html_code_help">
+            <segment>
+                <source>Inline HTML/Tailwind code for this block. Leave empty if using Twig Template above.</source>
+                <target>Code HTML/Tailwind pour ce bloc. Laisser vide si vous utilisez le modèle Twig ci-dessus.</target>
+            </segment>
+        </unit>
+        <unit id="form.configuration">
+            <segment>
+                <source>Configuration</source>
+                <target>Configuration</target>
+            </segment>
+        </unit>
+        <unit id="form.section_configuration">
+            <segment>
+                <source>Define the default state and data structure.</source>
+                <target>Définir l’état initial et la structure des données.</target>
+            </segment>
+        </unit>
+        <unit id="form.default_data">
+            <segment>
+                <source>Default Data (JSON)</source>
+                <target>Données par défaut (JSON)</target>
+            </segment>
+        </unit>
+        <unit id="form.default_data_help">
+            <segment>
+                <source>Initial JSON structure for new blocks of this type</source>
+                <target>Structure JSON initiale pour les nouveaux blocs de ce type</target>
+            </segment>
+        </unit>
+        <unit id="form.position">
+            <segment>
+                <source>Position</source>
+                <target>Position</target>
+            </segment>
+        </unit>
+        <unit id="form.position_help">
+            <segment>
+                <source>Lower numbers appear first</source>
+                <target>Les plus petits numéros apparaissent en premier</target>
+            </segment>
+        </unit>
+
+        <unit id="list.code">
+            <segment>
+                <source>Code</source>
+                <target>Code</target>
+            </segment>
+        </unit>
+        <unit id="list.label">
+            <segment>
+                <source>Label</source>
+                <target>Libellé</target>
+            </segment>
+        </unit>
+        <unit id="list.category">
+            <segment>
+                <source>Category</source>
+                <target>Catégorie</target>
+            </segment>
+        </unit>
+        <unit id="list.status">
+            <segment>
+                <source>Status</source>
+                <target>Statut</target>
+            </segment>
+        </unit>
+        <unit id="list.blocks">
+            <segment>
+                <source>Blocks</source>
+                <target>Blocs</target>
+            </segment>
+        </unit>
+        <unit id="list.position">
+            <segment>
+                <source>Position</source>
+                <target>Position</target>
+            </segment>
+        </unit>
+
+        <unit id="command.description">
+            <segment>
+                <source>Synchronize blocks and categories (upsert logic).</source>
+                <target>Synchroniser les blocs et catégories (logique upsert).</target>
+            </segment>
+        </unit>
+        <unit id="command.option_snippets">
+            <segment>
+                <source>Include Tailwind snippets synchronization</source>
+                <target>Inclure la synchronisation des snippets Tailwind</target>
+            </segment>
+        </unit>
+        <unit id="command.title">
+            <segment>
+                <source>Synchronizing Blocks</source>
+                <target>Synchronisation des blocs</target>
+            </segment>
+        </unit>
+        <unit id="command.success">
+            <segment>
+                <source>Blocks synchronized successfully.</source>
+                <target>Blocs synchronisés avec succès.</target>
+            </segment>
+        </unit>
+        <unit id="command.snippets_info">
+            <segment>
+                <source>Tailwind snippets were included in the synchronization.</source>
+                <target>Les snippets Tailwind ont été inclus dans la synchronisation.</target>
+            </segment>
+        </unit>
+        <unit id="command.error">
+            <segment>
+                <source>An error occurred during synchronization: %message%</source>
+                <target>Une erreur s’est produite lors de la synchronisation : %message%</target>
+            </segment>
+        </unit>
+
+        <unit id="category.text">
+            <segment>
+                <source>Text</source>
+                <target>Texte</target>
+            </segment>
+        </unit>
+        <unit id="category.media">
+            <segment>
+                <source>Media</source>
+                <target>Média</target>
+            </segment>
+        </unit>
+        <unit id="category.layout_design">
+            <segment>
+                <source>Layout &amp; Design</source>
+                <target>Mise en page &amp; design</target>
+            </segment>
+        </unit>
+        <unit id="category.visual_elements">
+            <segment>
+                <source>Visual Elements</source>
+                <target>Éléments visuels</target>
+            </segment>
+        </unit>
+        <unit id="category.marketing_guides">
+            <segment>
+                <source>Marketing &amp; Guides</source>
+                <target>Marketing &amp; guides</target>
+            </segment>
+        </unit>
+        <unit id="category.content">
+            <segment>
+                <source>Content</source>
+                <target>Contenu</target>
+            </segment>
+        </unit>
+
+        <unit id="block.paragraph">
+            <segment>
+                <source>Text</source>
+                <target>Texte</target>
+            </segment>
+        </unit>
+        <unit id="block.image">
+            <segment>
+                <source>Image</source>
+                <target>Image</target>
+            </segment>
+        </unit>
+        <unit id="block.quote">
+            <segment>
+                <source>Quote</source>
+                <target>Citation</target>
+            </segment>
+        </unit>
+        <unit id="block.table">
+            <segment>
+                <source>Table</source>
+                <target>Tableau</target>
+            </segment>
+        </unit>
+        <unit id="block.list">
+            <segment>
+                <source>List</source>
+                <target>Liste</target>
+            </segment>
+        </unit>
+        <unit id="block.code">
+            <segment>
+                <source>Code</source>
+                <target>Code</target>
+            </segment>
+        </unit>
+        <unit id="block.info_box">
+            <segment>
+                <source>Info Box</source>
+                <target>Encadré</target>
+            </segment>
+        </unit>
+        <unit id="block.cta">
+            <segment>
+                <source>CTA</source>
+                <target>CTA</target>
+            </segment>
+        </unit>
+        <unit id="block.howto">
+            <segment>
+                <source>How To</source>
+                <target>Procédure</target>
+            </segment>
+        </unit>
+        <unit id="block.separator">
+            <segment>
+                <source>Separator</source>
+                <target>Séparateur</target>
+            </segment>
+        </unit>
+        <unit id="block.video">
+            <segment>
+                <source>Video</source>
+                <target>Vidéo</target>
+            </segment>
+        </unit>
+        <unit id="block.faq_block">
+            <segment>
+                <source>FAQ Block</source>
+                <target>Bloc FAQ</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>

@@ -1,0 +1,31 @@
+{% for item in get_menu('primary') %}
+{% if item.type == 'link' %}
+<a href="{{ item.url }}"
+    class="block rounded-md px-3 py-2 text-base font-medium {{ item.isActive ? 'bg-gray-900 text-white dark:bg-gray-950/50' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">
+    {{ item.label }}
+</a>
+{% elseif item.type == 'dropdown' or item.type == 'advanced_dropdown' %}
+<div class="space-y-1">
+    <div class="px-3 py-2 text-base font-medium text-gray-400 uppercase tracking-wider">{{ item.label }}</div>
+    {% for subitem in item.items %}
+    <a href="{{ subitem.url }}"
+        class="block rounded-md pl-6 pr-3 py-2 text-base font-medium {{ subitem.isActive ? 'bg-gray-900 text-white dark:bg-gray-950/50' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">
+        {{ subitem.label }}
+    </a>
+    {% endfor %}
+</div>
+{% elseif item.type == 'mega' %}
+<div class="space-y-1">
+    <div class="px-3 py-2 text-base font-medium text-gray-400 uppercase tracking-wider">{{ item.label }}</div>
+    {% for section in item.getSections() %}
+    <div class="px-3 py-1 text-sm font-medium text-gray-500 dark:text-gray-400">{{ section.title }}</div>
+    {% for subitem in section.items %}
+    <a href="{{ subitem.url }}"
+        class="block rounded-md pl-6 pr-3 py-2 text-base font-medium {{ subitem.isActive ? 'bg-gray-900 text-white dark:bg-gray-950/50' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">
+        {{ subitem.label }}
+    </a>
+    {% endfor %}
+    {% endfor %}
+</div>
+{% endif %}
+{% endfor %}

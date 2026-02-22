@@ -1,0 +1,31 @@
+<div {{ attributes.defaults({ class: 'relative' }) }}>
+    {# Tab Switcher #}
+    <div class="mb-1 flex items-center justify-between">
+        <div class="flex gap-1">
+            {% for locale in locales %}
+            <button type="button" data-model="activeLocale" data-value="{{ locale }}" data-action="live#update"
+                class="rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider transition-colors {{ activeLocale == locale ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-white/5 dark:text-gray-400 dark:hover:bg-white/10' }}">
+                {{ locale }}
+            </button>
+            {% endfor %}
+        </div>
+    </div>
+
+    {# Main Input #}
+    <div class="relative group" data-loading="addClass(opacity-50)">
+        {% if type == 'textarea' %}
+        <textarea data-model="debounce(150)|translations.{{ activeLocale }}" rows="4"
+            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:placeholder:text-gray-500 dark:focus:outline-indigo-500"
+            placeholder="{{ placeholder }} ({{ activeLocale|upper }})">{{ translations[activeLocale] }}</textarea>
+        {% else %}
+        <input type="text" data-model="debounce(150)|translations.{{ activeLocale }}"
+            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:placeholder:text-gray-500 dark:focus:outline-indigo-500"
+            placeholder="{{ placeholder }} ({{ activeLocale|upper }})" value="{{ translations[activeLocale] }}" />
+        {% endif %}
+    </div>
+
+    {# Hidden inputs for form synchronization #}
+    {% for locale, value in translations %}
+    <input type="hidden" name="{{ name }}[{{ locale }}]" value="{{ value }}" />
+    {% endfor %}
+</div>

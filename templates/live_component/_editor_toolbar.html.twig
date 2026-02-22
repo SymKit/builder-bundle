@@ -1,0 +1,141 @@
+{# templates/shared/builder/live_component/_editor_toolbar.html.twig #}
+<div data-content-block-target="toolbar"
+    class="absolute top-2 left-2 right-2 flex items-center justify-between p-1.5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg border border-gray-100 dark:border-white/10 shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 [.is-editing_&]:opacity-100 transition-all z-[50] pointer-events-auto min-w-[320px]">
+    {% if (block.data.editMode|default('visual')) == 'visual' %}
+    <div class="flex items-center gap-0.5">
+        {# Text Styling #}
+        <div class="flex items-center gap-0.5 pr-1 mr-1 border-r border-gray-100 dark:border-white/5">
+            <button type="button" data-action="click->content-block#format" data-content-block-cmd-param="bold"
+                class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-600 dark:text-gray-300 transition-colors"
+                title="Bold">
+                {{ ux_icon('heroicons:bold-20-solid', {class: 'w-4 h-4'}) }}
+            </button>
+            <button type="button" data-action="click->content-block#format" data-content-block-cmd-param="italic"
+                class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-600 dark:text-gray-300 transition-colors"
+                title="Italic">
+                {{ ux_icon('heroicons:italic-20-solid', {class: 'w-4 h-4'}) }}
+            </button>
+            <button type="button" data-action="click->content-block#link"
+                class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-600 dark:text-gray-300 transition-colors"
+                title="Link">
+                {{ ux_icon('heroicons:link-20-solid', {class: 'w-4 h-4'}) }}
+            </button>
+            <button type="button" data-action="click->content-block#code"
+                class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-600 dark:text-gray-300 transition-colors"
+                title="Inline Code">
+                {{ ux_icon('heroicons:command-line-20-solid', {class: 'w-4 h-4'}) }}
+            </button>
+        </div>
+
+        {# Lists & Alignment #}
+        <div class="flex items-center gap-0.5 pr-1 mr-1 border-r border-gray-100 dark:border-white/5">
+            {% if block.type != 'list' %}
+            <button type="button" data-action="click->content-block#format"
+                data-content-block-cmd-param="insertUnorderedList"
+                class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-600 dark:text-gray-300 transition-colors"
+                title="Bulleted List">
+                {{ ux_icon('heroicons:list-bullet-20-solid', {class: 'w-4 h-4'}) }}
+            </button>
+            {% endif %}
+            <button type="button" data-action="click->content-block#format" data-content-block-cmd-param="justifyLeft"
+                class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-600 dark:text-gray-300 transition-colors"
+                title="Align Left">
+                {{ ux_icon('heroicons:bars-3-bottom-left-20-solid', {class: 'w-4 h-4'}) }}
+            </button>
+            <button type="button" data-action="click->content-block#format" data-content-block-cmd-param="justifyCenter"
+                class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-600 dark:text-gray-300 transition-colors"
+                title="Align Center">
+                {{ ux_icon('heroicons:bars-3-20-solid', {class: 'w-4 h-4'}) }}
+            </button>
+            <button type="button" data-action="click->content-block#format" data-content-block-cmd-param="justifyRight"
+                class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-600 dark:text-gray-300 transition-colors"
+                title="Align Right">
+                {{ ux_icon('heroicons:bars-3-bottom-right-20-solid', {class: 'w-4 h-4'}) }}
+            </button>
+        </div>
+
+        {# Typography / Transform #}
+        <div class="flex items-center gap-0.5 pr-1 mr-1 border-r border-gray-100 dark:border-white/5">
+            <button type="button" data-action="click->content-block#format" data-content-block-cmd-param="formatBlock"
+                data-content-block-val-param="p"
+                class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-indigo-500 text-[10px] font-black"
+                title="To Paragraph">P</button>
+            <button type="button" data-action="click->content-block#format" data-content-block-cmd-param="formatBlock"
+                data-content-block-val-param="h2"
+                class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-indigo-500 text-[10px] font-black"
+                title="To H2">H2</button>
+            <button type="button" data-action="click->content-block#format" data-content-block-cmd-param="formatBlock"
+                data-content-block-val-param="h3"
+                class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-indigo-500 text-[10px] font-black"
+                title="To H3">H3</button>
+            <button type="button" data-action="click->content-block#format" data-content-block-cmd-param="formatBlock"
+                data-content-block-val-param="h4"
+                class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-indigo-500 text-[10px] font-black"
+                title="To H4">H4</button>
+            <button type="button" data-action="click->content-block#format" data-content-block-cmd-param="formatBlock"
+                data-content-block-val-param="h5"
+                class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-indigo-500 text-[10px] font-black"
+                title="To H5">H5</button>
+        </div>
+
+        {# Media #}
+        <div class="flex items-center gap-0.5">
+            <button type="button" data-action="click->content-block#openMediaPicker"
+                class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg text-gray-600 dark:text-gray-300 transition-colors"
+                title="Insert Image">
+                {{ ux_icon('heroicons:photo-20-solid', {class: 'w-4 h-4'}) }}
+            </button>
+        </div>
+    </div>
+    {% else %}
+    <div class="flex items-center gap-2 px-2">
+        <span class="text-[9px] font-black text-indigo-500 uppercase tracking-[0.2em]">Source Code Editor</span>
+    </div>
+    {% endif %}
+
+    <div class="flex items-center gap-1">
+        {# HTML Toggle #}
+        <button type="button" data-action="live#action focus->content-block#onFocus"
+            data-live-action-param="toggleEditMode" data-live-id-param="{{ block.id }}"
+            class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg {{ (block.data.editMode|default('visual')) == 'html' ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/20' : 'hover:bg-gray-100 dark:hover:bg-white/5 text-gray-500' }} transition-all"
+            title="Toggle HTML Mode">
+            {{ ux_icon((block.data.editMode|default('visual')) == 'html' ? 'heroicons:eye-20-solid' :
+            'heroicons:code-bracket-20-solid', {class: 'w-4 h-4'}) }}
+            <span class="text-[10px] font-black uppercase tracking-wider">{{ (block.data.editMode|default('visual')) ==
+                'html' ? 'Visual' : 'HTML' }}</span>
+        </button>
+    </div>
+
+    {# Link Context Menu (Floating) #}
+    <div data-content-block-target="linkConfig"
+        class="hidden absolute top-full left-0 mt-2 p-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-white/10 shadow-2xl z-40 min-w-[240px]">
+        <div class="flex flex-col gap-2">
+            <input type="text" data-content-block-target="linkUrl" data-action="input->content-block#updateLink"
+                class="px-3 py-1.5 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-lg text-xs outline-none focus:ring-1 focus:ring-indigo-500"
+                placeholder="https://...">
+            <div class="flex items-center justify-between px-1">
+                <label class="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" data-content-block-target="linkBlank"
+                        data-action="change->content-block#updateLink"
+                        class="w-3.5 h-3.5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <span
+                        class="text-[10px] font-bold text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">Open
+                        in new tab</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" data-content-block-target="linkNofollow"
+                        data-action="change->content-block#updateLink"
+                        class="w-3.5 h-3.5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <span
+                        class="text-[10px] font-bold text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">Nofollow</span>
+                </label>
+            </div>
+            <div class="h-px bg-gray-50 dark:bg-white/5"></div>
+            <button type="button" data-action="click->content-block#unlink"
+                class="flex items-center justify-center gap-2 py-1 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-[10px] font-bold text-red-500 transition-colors">
+                {{ ux_icon('heroicons:link-slash-16-solid', {class: 'w-3.5 h-3.5'}) }}
+                Remove Link
+            </button>
+        </div>
+    </div>
+</div>

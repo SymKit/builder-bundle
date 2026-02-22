@@ -1,0 +1,26 @@
+{% trans_default_domain 'SymkitMetadataBundle' %}
+{% if breadcrumbs|length > 1 %}
+<nav aria-label="{{ 'breadcrumb.aria_label'|trans }}" class="group flex items-center">
+    <ol role="list" class="flex items-center gap-2">
+        {% for item in breadcrumbs %}
+        <li class="flex items-center gap-2">
+            {% if not loop.first %}
+            <span class="text-slate-300 dark:text-slate-700 select-none font-light">/</span>
+            {% endif %}
+
+            {% if loop.last %}
+            <span class="text-slate-400 dark:text-slate-500 font-bold uppercase tracking-widest text-[10px] select-none"
+                aria-current="page">
+                {{ item.name }}
+            </span>
+            {% else %}
+            <a href="{{ item.url }}"
+                class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white font-bold uppercase tracking-widest text-[10px] transition-all duration-200 decoration-slate-200 underline-offset-4 hover:underline">
+                {{ item.name }}
+            </a>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ol>
+</nav>
+{% endif %}

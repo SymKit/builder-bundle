@@ -1,0 +1,7 @@
+{% if route is defined and route is not empty %}
+<a href="{{ path(route, routeParams) }}"
+   class="flex items-center gap-x-1 text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">
+    {{ ux_icon(icon, {class: 'h-4 w-4'}) }}
+    {{ label }}
+</a>
+{% endif %}

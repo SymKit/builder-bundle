@@ -1,0 +1,6 @@
+{
+    "label": "Content: Centered Article",
+    "category": "content",
+    "icon": "heroicons:newspaper-20-solid",
+    "html": "<div class=\"bg-white px-6 py-32 lg:px-8 dark:bg-gray-900\">\n  <div class=\"mx-auto max-w-3xl text-base/7 text-gray-700 dark:text-gray-300\">\n    <p class=\"text-base/7 font-semibold text-indigo-600 dark:text-indigo-400\">Introducing</p>\n    <h1 class=\"mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl dark:text-white\">JavaScript for beginners</h1>\n    <p class=\"mt-6 text-xl/8\">Aliquet nec orci mattis amet quisque ullamcorper neque, nibh sem.</p>\n  </div>\n</div>"
+}

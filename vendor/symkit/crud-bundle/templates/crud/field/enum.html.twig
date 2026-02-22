@@ -1,0 +1,22 @@
+{% set value = attribute(entity, field) %}
+{# Handle Backed Enum #}
+{% if value is not null and value.value is defined %}
+    {% set value = value.value %}
+{% endif %}
+
+{% set map = config.map|default({}) %}
+{% set badge_type = map[value]|default('default') %}
+
+{% set colors = {
+    'success': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+    'warning': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
+    'danger': 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+    'info': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+    'default': 'bg-slate-100 text-slate-800 dark:bg-gray-700 dark:text-gray-400'
+} %}
+
+{% set color_class = colors[badge_type] is defined ? colors[badge_type] : colors['default'] %}
+
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium {{ color_class }}">
+    {{ value|capitalize|trans({}, 'SymkitCrud') }}
+</span>

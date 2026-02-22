@@ -1,0 +1,8 @@
+symkit_metadata:
+    site_info_provider: 'App\Provider\SiteInfoProvider'
+    meta_tags:
+        title_format: '{title} | {siteName}'
+        # twitter_site: '@yoursite'
+        # twitter_creator: '@yourcreator'
+    json_ld: ~
+    breadcrumbs: ~

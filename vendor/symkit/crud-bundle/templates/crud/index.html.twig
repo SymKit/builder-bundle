@@ -1,0 +1,26 @@
+{% extends base_layout %}
+
+{% block page_title %}{{ page_title|default('List')|trans }}{% endblock %}
+{% block page_description %}{{ page_description|default('')|trans }}{% endblock %}
+
+{% block header_actions %}
+{% if create_route|default(null) %}
+<a href="{{ path(create_route) }}"
+    class="inline-flex items-center gap-2 py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-all shadow-sm shadow-indigo-200 dark:shadow-none">
+    {{ ux_icon('heroicons:plus-20-solid', {class: 'w-5 h-5'}) }}
+    {{ create_label|default('Create New')|trans }}
+</a>
+{% endif %}
+{% endblock %}
+
+{% block body %}
+{{ component('SymkitCrud:CrudFilters') }}
+
+<div class="mt-8">
+    {{ component('SymkitCrud:CrudList', {
+    entityClass: entity_class,
+    listFields: list_fields,
+    searchFields: search_fields
+    }) }}
+</div>
+{% endblock %}

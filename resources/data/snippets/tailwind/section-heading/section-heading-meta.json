@@ -1,0 +1,6 @@
+{
+    "label": "Section Heading: with Meta",
+    "category": "section-heading",
+    "icon": "heroicons:tag-20-solid",
+    "html": "<div class=\"border-b border-gray-200 pb-5 dark:border-white/10\">\n  <div class=\"-mt-2 -ml-2 flex flex-wrap items-baseline\">\n    <h3 class=\"mt-2 ml-2 text-base font-semibold text-gray-900 dark:text-white\">Job Postings</h3>\n    <p class=\"mt-1 ml-2 truncate text-sm text-gray-500 dark:text-gray-400\">in Engineering</p>\n  </div>\n</div>"
+}

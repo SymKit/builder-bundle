@@ -1,0 +1,6 @@
+{
+    "label": "Divider Title",
+    "category": "divider",
+    "icon": "heroicons:minus-20-solid",
+    "html": "<div class=\"relative flex items-center\">\n  <div aria-hidden=\"true\" class=\"w-full border-t border-gray-300 dark:border-white/15\"></div>\n  <div class=\"relative flex justify-center\">\n    <span class=\"bg-white px-3 text-base font-semibold text-gray-900 dark:bg-gray-900 dark:text-white\">Projects</span>\n  </div>\n  <div aria-hidden=\"true\" class=\"w-full border-t border-gray-300 dark:border-white/15\"></div>\n</div>"
+}

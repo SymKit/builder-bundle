@@ -1,0 +1,63 @@
+deptrac:
+  paths:
+    - src/
+
+  layers:
+    - name: Contract
+      collectors:
+        - type: directory
+          value: src/Contract/.*
+
+    - name: Controller
+      collectors:
+        - type: directory
+          value: src/Controller/.*
+
+    - name: Component
+      collectors:
+        - type: directory
+          value: src/Component/.*
+
+    - name: Enum
+      collectors:
+        - type: directory
+          value: src/Enum/.*
+
+    - name: Event
+      collectors:
+        - type: directory
+          value: src/Event/.*
+
+    - name: Persistence
+      collectors:
+        - type: directory
+          value: src/Persistence/.*
+
+    - name: Twig
+      collectors:
+        - type: directory
+          value: src/Twig/.*
+
+    - name: Bundle
+      collectors:
+        - type: classLike
+          value: Symkit\\CrudBundle\\CrudBundle
+
+  ruleset:
+    Contract: []
+    Controller:
+      - Contract
+    Component:
+      - Contract
+    Enum: []
+    Event: []
+    Persistence:
+      - Contract
+      - Enum
+      - Event
+    Twig: []
+    Bundle:
+      - Contract
+      - Component
+      - Persistence
+      - Twig

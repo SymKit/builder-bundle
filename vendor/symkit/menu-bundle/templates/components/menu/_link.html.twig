@@ -1,0 +1,5 @@
+<a href="{{ item.url }}"
+    class="rounded-md px-3 py-2 text-sm font-medium {{ item.isActive ? 'bg-gray-900 text-white dark:bg-gray-950/50' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}"
+    {{ item.isActive ? 'aria-current="page"' : '' }}>
+    {{ item.label }}
+</a>

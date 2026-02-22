@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en" trgLang="en">
+    <file id="validators.en.xlf">
+        <unit id="This block code already exists.">
+            <segment>
+                <source>This block code already exists.</source>
+                <target>This block code already exists.</target>
+            </segment>
+        </unit>
+        <unit id="The block code is required.">
+            <segment>
+                <source>The block code is required.</source>
+                <target>The block code is required.</target>
+            </segment>
+        </unit>
+        <unit id="The code must be in snake_case (lowercase letters, numbers, and underscores only).">
+            <segment>
+                <source>The code must be in snake_case (lowercase letters, numbers, and underscores only).</source>
+                <target>The code must be in snake_case (lowercase letters, numbers, and underscores only).</target>
+            </segment>
+        </unit>
+        <unit id="The display label is required.">
+            <segment>
+                <source>The display label is required.</source>
+                <target>The display label is required.</target>
+            </segment>
+        </unit>
+        <unit id="A category must be selected.">
+            <segment>
+                <source>A category must be selected.</source>
+                <target>A category must be selected.</target>
+            </segment>
+        </unit>
+        <unit id="An icon identifier is required.">
+            <segment>
+                <source>An icon identifier is required.</source>
+                <target>An icon identifier is required.</target>
+            </segment>
+        </unit>
+        <unit id="This category code already exists.">
+            <segment>
+                <source>This category code already exists.</source>
+                <target>This category code already exists.</target>
+            </segment>
+        </unit>
+        <unit id="Code must be snake_case.">
+            <segment>
+                <source>Code must be snake_case.</source>
+                <target>Code must be snake_case.</target>
+            </segment>
+        </unit>
+        <unit id="You must provide either a Twig template path OR HTML code, but not both.">
+            <segment>
+                <source>You must provide either a Twig template path OR HTML code, but not both.</source>
+                <target>You must provide either a Twig template path OR HTML code, but not both.</target>
+            </segment>
+        </unit>
+        <unit id="You must provide either a Twig template path or HTML code.">
+            <segment>
+                <source>You must provide either a Twig template path or HTML code.</source>
+                <target>You must provide either a Twig template path or HTML code.</target>
+            </segment>
+        </unit>
+        <unit id="Invalid JSON format.">
+            <segment>
+                <source>Invalid JSON format.</source>
+                <target>Invalid JSON format.</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>

@@ -1,0 +1,6 @@
+{
+    "label": "Description List: Inline Actions",
+    "category": "description-list",
+    "icon": "heroicons:pencil-square-20-solid",
+    "html": "<div>\n  <div class=\"px-4 sm:px-0\">\n    <h3 class=\"text-base/7 font-semibold text-gray-900 dark:text-white\">Applicant Information</h3>\n    <p class=\"mt-1 max-w-2xl text-sm/6 text-gray-500 dark:text-gray-400\">Personal details and application.</p>\n  </div>\n  <div class=\"mt-6 border-t border-gray-100 dark:border-white/10\">\n    <dl class=\"divide-y divide-gray-100 dark:divide-white/10\">\n      <div class=\"px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0\">\n        <dt class=\"text-sm/6 font-medium text-gray-900 dark:text-white\">Full name</dt>\n        <dd class=\"mt-1 flex text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-gray-400\">\n          <span class=\"grow\">Margot Foster</span>\n          <span class=\"ml-4 shrink-0\">\n            <button type=\"button\" class=\"rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 dark:bg-transparent dark:text-indigo-400 dark:hover:text-indigo-300\">Update</button>\n          </span>\n        </dd>\n      </div>\n    </dl>\n  </div>\n</div>"
+}

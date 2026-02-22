@@ -1,0 +1,47 @@
+# Admin routes for Symkit Menu Bundle.
+# In your app config/routes.yaml, import with:
+#   symkit_menu:
+#     resource: '@SymkitMenuBundle/Resources/config/routing.yaml'
+#     prefix: '%symkit_menu.admin.route_prefix%'
+
+admin_menu_list:
+    path: /menus
+    name: admin_menu_list
+    controller: Symkit\MenuBundle\Controller\Admin\MenuController::list
+
+admin_menu_create:
+    path: /menus/create
+    name: admin_menu_create
+    controller: Symkit\MenuBundle\Controller\Admin\MenuController::create
+
+admin_menu_edit:
+    path: /menus/{id}/edit
+    name: admin_menu_edit
+    controller: Symkit\MenuBundle\Controller\Admin\MenuController::edit
+
+admin_menu_delete:
+    path: /menus/{id}/delete
+    name: admin_menu_delete
+    methods: [POST]
+    controller: Symkit\MenuBundle\Controller\Admin\MenuController::delete
+
+admin_menu_item_create:
+    path: /menus/{menuId}/items/create
+    name: admin_menu_item_create
+    controller: Symkit\MenuBundle\Controller\Admin\MenuItemController::create
+
+admin_menu_item_edit:
+    path: /menu-items/{id}/edit
+    name: admin_menu_item_edit
+    controller: Symkit\MenuBundle\Controller\Admin\MenuItemController::edit
+
+admin_menu_item_delete:
+    path: /menu-items/{id}/delete
+    name: admin_menu_item_delete
+    methods: [POST]
+    controller: Symkit\MenuBundle\Controller\Admin\MenuItemController::delete
+
+admin_menu_items_json:
+    path: /menu/{id}/items
+    name: admin_menu_items_json
+    controller: Symkit\MenuBundle\Controller\Admin\Api\ItemsController

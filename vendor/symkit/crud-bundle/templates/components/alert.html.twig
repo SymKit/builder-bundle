@@ -1,0 +1,134 @@
+{#
+Available variables:
+- type: 'success' | 'warning' | 'error'
+- title: string
+- message: string (optional)
+- errors: array (optional)
+- buttons: array of { label: string, action: string (url) } (optional)
+
+Examples :
+{% include 'shared/components/alert.html.twig' with {
+type: 'success',
+title: 'Order completed',
+message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam.',
+buttons: [
+{ label: 'View status', action: '#' },
+{ label: 'Dismiss', action: '#' }
+]
+} %}
+
+{% include 'shared/components/alert.html.twig' with {
+type: 'warning',
+title: 'Attention needed',
+message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam
+eius aperiam dolorum.'
+} %}
+
+{% include 'shared/components/alert.html.twig' with {
+type: 'error',
+title: 'There were 2 errors with your submission',
+errors: [
+'Your password must be at least 8 characters',
+'Your password must include at least one pro wrestling finishing move'
+]
+} %}
+#}
+
+{% set styles = {
+success: {
+bg: 'bg-green-50 dark:bg-green-500/10',
+border: 'border border-green-200 dark:border-0 dark:outline dark:outline-green-500/20',
+icon_color: 'text-green-400',
+title_color: 'text-green-800 dark:text-green-200',
+text_color: 'text-green-700 dark:text-green-200/85',
+button_bg: 'bg-green-50 hover:bg-green-100 dark:bg-transparent dark:hover:bg-white/10',
+button_text: 'text-green-800 dark:text-green-200',
+button_focus: 'focus-visible:outline-green-600 dark:focus-visible:outline-green-500/50',
+},
+warning: {
+bg: 'bg-yellow-50 dark:bg-yellow-500/10',
+border: 'border border-yellow-200 dark:border-0 dark:outline dark:outline-yellow-500/15',
+icon_color: 'text-yellow-400 dark:text-yellow-300',
+title_color: 'text-yellow-800 dark:text-yellow-100',
+text_color: 'text-yellow-700 dark:text-yellow-100/80',
+button_bg: 'bg-yellow-50 hover:bg-yellow-100 dark:bg-transparent dark:hover:bg-white/10',
+button_text: 'text-yellow-800 dark:text-yellow-100',
+button_focus: 'focus-visible:outline-yellow-600 dark:focus-visible:outline-yellow-500/50',
+},
+error: {
+bg: 'bg-red-50 dark:bg-red-500/15',
+border: 'border border-red-200 dark:border-0 dark:outline dark:outline-red-500/25',
+icon_color: 'text-red-400',
+title_color: 'text-red-800 dark:text-red-200',
+text_color: 'text-red-700 dark:text-red-200/80',
+button_bg: 'bg-red-50 hover:bg-red-100 dark:bg-transparent dark:hover:bg-white/10',
+button_text: 'text-red-800 dark:text-red-200',
+button_focus: 'focus-visible:outline-red-600 dark:focus-visible:outline-red-500/50',
+},
+} %}
+
+{% set current_style = styles[type] %}
+
+<div class="rounded-md p-4 {{ current_style.bg }} {{ current_style.border }}">
+    <div class="flex">
+        <div class="shrink-0">
+            {% if type == 'success' %}
+            <svg viewbox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true"
+                class="size-5 {{ current_style.icon_color }}">
+                <path
+                    d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                    clip-rule="evenodd" fill-rule="evenodd" />
+            </svg>
+            {% elseif type == 'warning' %}
+            <svg viewbox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true"
+                class="size-5 {{ current_style.icon_color }}">
+                <path
+                    d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                    clip-rule="evenodd" fill-rule="evenodd" />
+            </svg>
+            {% elseif type == 'error' %}
+            <svg viewbox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true"
+                class="size-5 {{ current_style.icon_color }}">
+                <path
+                    d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z"
+                    clip-rule="evenodd" fill-rule="evenodd" />
+            </svg>
+            {% endif %}
+        </div>
+        <div class="ml-3">
+            <h3 class="text-sm font-medium {{ current_style.title_color }}">{{ title }}</h3>
+            {% if message is defined and message %}
+            <div class="mt-2 text-sm {{ current_style.text_color }}">
+                <p>{{ message }}</p>
+            </div>
+            {% endif %}
+
+            {% if errors is defined and errors %}
+            <div class="mt-2 text-sm {{ current_style.text_color }}">
+                <ul role="list" class="list-disc space-y-1 pl-5">
+                    {% for error in errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            {% if buttons is defined and buttons %}
+            <div class="mt-4">
+                <div class="-mx-2 -my-1.5 flex">
+                    {% for button in buttons %}
+                    <button type="button"
+                        class="rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 hover:bg-opacity-80
+                                                                                                    {{ current_style.button_bg }}
+                                                                                                    {{ current_style.button_text }}
+                                                                                                    {{ current_style.button_focus }}
+                                                                                                    {% if not loop.first %}ml-3{% endif %}">
+                        {{ button.label }}
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

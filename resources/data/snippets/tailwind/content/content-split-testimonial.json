@@ -1,0 +1,6 @@
+{
+    "label": "Content: with Testimonial",
+    "category": "content",
+    "icon": "heroicons:chat-bubble-bottom-center-text-20-solid",
+    "html": "<div class=\"relative isolate overflow-hidden bg-white py-24 sm:py-32 dark:bg-gray-900\">\n  <div class=\"mx-auto max-w-7xl px-6 lg:px-8\">\n    <div class=\"mx-auto max-w-2xl lg:mx-0\">\n      <p class=\"text-base/7 font-semibold text-indigo-600 dark:text-indigo-400\">Deploy faster</p>\n      <h1 class=\"mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl dark:text-white\">A better workflow</h1>\n    </div>\n    <div class=\"mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:mt-10 lg:max-w-none lg:grid-cols-12\">\n      <div class=\"relative lg:order-last lg:col-span-5\">\n        <figure class=\"border-l border-indigo-600 pl-8 dark:border-indigo-400\">\n          <blockquote class=\"text-xl/8 font-semibold tracking-tight text-gray-900 dark:text-white\">\n            <p>\"Vel ultricies morbi odio facilisi ultrices accumsan donec lacus purus. Lectus nibh ullamcorper ac dictum justo in euismod.\"</p>\n          </blockquote>\n        </figure>\n      </div>\n    </div>\n  </div>\n</div>"
+}

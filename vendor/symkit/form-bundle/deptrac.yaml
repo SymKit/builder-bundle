@@ -1,0 +1,31 @@
+deptrac:
+    paths:
+        - ./src
+    layers:
+        - name: Contract
+          collectors:
+            - type: directory
+              value: src/Contract/.*
+        - name: Service
+          collectors:
+            - type: directory
+              value: src/Service/.*
+        - name: Form
+          collectors:
+            - type: directory
+              value: src/Form/.*
+        - name: Twig
+          collectors:
+            - type: directory
+              value: src/Twig/.*
+        - name: DI
+          collectors:
+            - type: classNameRegex
+              value: '#^Symkit\\FormBundle\\FormBundle$#'
+    ruleset:
+        Contract: []
+        Service: [Contract]
+        Form: [Contract, Service]
+        Twig: [Contract, Service]
+        DI: [Contract, Service, Form, Twig]
+    skip_violations: {}

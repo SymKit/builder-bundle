@@ -1,0 +1,43 @@
+<div data-controller="content-block" 
+     data-content-block-id-value="{{ block.id }}"
+     class="group/info relative my-6"
+>
+    {% set types = {
+        'info': { 'bg': 'bg-blue-50 dark:bg-blue-500/10', 'border': 'border-blue-200 dark:border-blue-500/20', 'text': 'text-blue-800 dark:text-blue-200', 'icon': 'heroicons:information-circle-20-solid', 'accent': 'bg-blue-500' },
+        'success': { 'bg': 'bg-green-50 dark:bg-green-500/10', 'border': 'border-green-200 dark:border-green-500/20', 'text': 'text-green-800 dark:text-green-200', 'icon': 'heroicons:check-circle-20-solid', 'accent': 'bg-green-500' },
+        'warning': { 'bg': 'bg-yellow-50 dark:bg-yellow-500/10', 'border': 'border-yellow-200 dark:border-yellow-500/20', 'text': 'text-yellow-800 dark:text-yellow-200', 'icon': 'heroicons:exclamation-triangle-20-solid', 'accent': 'bg-yellow-500' },
+        'error': { 'bg': 'bg-red-50 dark:bg-red-500/10', 'border': 'border-red-200 dark:border-red-500/20', 'text': 'text-red-800 dark:text-red-200', 'icon': 'heroicons:x-circle-20-solid', 'accent': 'bg-red-500' }
+    } %}
+    {% set current = types[block.data.type|default('info')] %}
+
+    {# Type Select Toolbar #}
+    <div class="absolute -top-10 left-0 flex items-center gap-1 p-1 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-white/10 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-20">
+        {% for type, style in types %}
+            <button type="button" 
+                    data-action="live#action focus->content-block#onFocus" 
+                    data-live-action-param="updateBlockDataProperty" 
+                    data-live-id-param="{{ block.id }}" 
+                    data-live-property-param="type" 
+                    data-live-value-param="{{ type }}"
+                    class="p-1 px-2 rounded text-[10px] font-black uppercase transition-all {{ block.data.type == type ? style.text ~ ' ' ~ style.bg ~ ' shadow-sm' : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5' }}"
+            >
+                {{ type }}
+            </button>
+        {% endfor %}
+    </div>
+
+    <div class="relative overflow-hidden rounded-xl border {{ current.border }} {{ current.bg }} p-4 pl-12">
+        <div class="absolute top-4 left-4 text-blue-500">
+            {{ ux_icon(current.icon, {class: 'w-5 h-5 ' ~ current.text|replace({'text-': 'text-'})}) }}
+        </div>
+        <div class="absolute top-0 left-0 bottom-0 w-1 {{ current.accent }}"></div>
+        
+        <div contenteditable="true"
+             data-content-block-target="editor"
+             data-action="input->content-block#sync"
+             data-property="content"
+             class="outline-none text-sm leading-relaxed {{ current.text }}"
+             placeholder="Important information here..."
+        >{{ block.data.content|raw }}</div>
+    </div>
+</div>

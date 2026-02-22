@@ -1,0 +1,42 @@
+<div data-controller="content-block" 
+     data-content-block-id-value="{{ block.id }}"
+     class="group/video relative my-8"
+>
+    {# Video URL Input Overlay #}
+    <div class="absolute top-4 right-4 flex items-center gap-2 p-1 bg-white/90 dark:bg-gray-800/90 backdrop-blur rounded-lg border border-gray-100 dark:border-white/10 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-20">
+        {{ ux_icon('heroicons:link-20-solid', {class: 'w-4 h-4 ml-2 text-gray-400'}) }}
+        <input type="text" 
+               placeholder="YouTube or Vimeo URL..."
+               value="{{ block.data.url }}"
+               data-action="input->content-block#syncProperty"
+               data-property="url"
+               class="text-xs w-64 bg-transparent border-none focus:ring-0 text-gray-600 dark:text-gray-300"
+        >
+    </div>
+
+    <div class="aspect-video bg-gray-100 dark:bg-white/5 rounded-2xl overflow-hidden ring-1 ring-gray-200 dark:ring-white/10 flex flex-col items-center justify-center text-center p-12">
+        {% if block.data.url %}
+            {% set videoId = '' %}
+            {% if 'youtube.com' in block.data.url or 'youtu.be' in block.data.url %}
+                {% set videoId = block.data.url|split('v=')|last|split('&')|first|split('/')|last %}
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/{{ videoId }}" frameborder="0" allowfullscreen></iframe>
+            {% elseif 'vimeo.com' in block.data.url %}
+                {% set videoId = block.data.url|split('/')|last %}
+                <iframe class="w-full h-full" src="https://player.vimeo.com/video/{{ videoId }}" frameborder="0" allowfullscreen></iframe>
+            {% else %}
+                <div class="text-gray-400">
+                    {{ ux_icon('heroicons:video-camera-slash-20-solid', {class: 'w-12 h-12 mx-auto mb-4 opacity-20'}) }}
+                    <p class="text-sm font-bold">Unsupported video URL</p>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="text-gray-400">
+                <div class="w-16 h-16 bg-white dark:bg-gray-800 rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
+                    {{ ux_icon('heroicons:play-20-solid', {class: 'w-8 h-8 text-indigo-500'}) }}
+                </div>
+                <p class="text-sm font-bold text-gray-600 dark:text-gray-300">Enter a video URL to embed</p>
+                <p class="text-[10px] text-gray-400 mt-1 uppercase tracking-widest">YouTube or Vimeo</p>
+            </div>
+        {% endif %}
+    </div>
+</div>

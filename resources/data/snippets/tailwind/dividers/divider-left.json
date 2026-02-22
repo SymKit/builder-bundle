@@ -1,0 +1,6 @@
+{
+    "label": "Divider Left",
+    "category": "divider",
+    "icon": "heroicons:bars-2-20-solid",
+    "html": "<div class=\"relative flex items-center\">\n  <div class=\"relative flex justify-start\">\n    <span class=\"bg-white pr-2 text-sm text-gray-500 dark:bg-gray-900 dark:text-gray-400\">Continue</span>\n  </div>\n  <div aria-hidden=\"true\" class=\"w-full border-t border-gray-300 dark:border-white/15\"></div>\n</div>"
+}

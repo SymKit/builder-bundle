@@ -1,0 +1,80 @@
+deptrac:
+    paths:
+        - ./src
+    layers:
+        - name: Contract
+          collectors:
+            - type: directory
+              value: src/Contract/.*
+        - name: Model
+          collectors:
+            - type: directory
+              value: src/Model/.*
+        - name: Enum
+          collectors:
+            - type: directory
+              value: src/Enum/.*
+        - name: Event
+          collectors:
+            - type: directory
+              value: src/Event/.*
+        - name: Attribute
+          collectors:
+            - type: directory
+              value: src/Attribute/.*
+        - name: Builder
+          collectors:
+            - type: directory
+              value: src/Builder/.*
+        - name: Schema
+          collectors:
+            - type: directory
+              value: src/JsonLd/Schema/.*
+        - name: Renderer
+          collectors:
+            - type: directory
+              value: src/Renderer/.*
+        - name: JsonLdCollector
+          collectors:
+            - type: directory
+              value: src/JsonLd/Collector/.*
+        - name: JsonLdService
+          collectors:
+            - type: directory
+              value: src/JsonLd/Service/.*
+        - name: JsonLdRenderer
+          collectors:
+            - type: directory
+              value: src/JsonLd/Renderer/.*
+        - name: JsonLdGenerator
+          collectors:
+            - type: directory
+              value: src/JsonLd/Generator/.*
+        - name: Listener
+          collectors:
+            - type: directory
+              value: src/Listener/.*
+        - name: BreadcrumbService
+          collectors:
+            - type: directory
+              value: src/Breadcrumb/.*
+        - name: Twig
+          collectors:
+            - type: directory
+              value: src/Twig/.*
+    ruleset:
+        Contract: [Model, Enum]
+        Model: [Enum]
+        Enum: []
+        Event: [Model]
+        Attribute: [Enum]
+        Builder: [Contract, Model, Enum]
+        Schema: [Contract, Enum]
+        Renderer: [Contract]
+        JsonLdCollector: [Contract]
+        JsonLdService: [Contract]
+        JsonLdRenderer: [JsonLdService]
+        JsonLdGenerator: [Contract]
+        Listener: [Contract, Attribute]
+        BreadcrumbService: [Contract, Model]
+        Twig: [Contract, Model, Renderer, JsonLdRenderer]

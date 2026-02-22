@@ -1,0 +1,7 @@
+<div class="w-full">
+    {{ component('media_picker', {
+        mediaId: block.data.mediaId|default(null),
+        inputName: block.id,
+        context: block.id
+    }) }}
+</div>

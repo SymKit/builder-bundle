@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="SymkitCrud" date="2026-02-21T00:00:00Z">
+        <header/>
+        <body>
+            <trans-unit id="dash" resname="-">
+                <source>-</source>
+                <target>-</target>
+            </trans-unit>
+            <trans-unit id="view" resname="View">
+                <source>View</source>
+                <target>View</target>
+            </trans-unit>
+            <trans-unit id="edit" resname="Edit">
+                <source>Edit</source>
+                <target>Edit</target>
+            </trans-unit>
+            <trans-unit id="crud.index.title" resname="crud.index.title">
+                <source>crud.index.title</source>
+                <target>List</target>
+            </trans-unit>
+            <trans-unit id="crud.index.description" resname="crud.index.description">
+                <source>crud.index.description</source>
+                <target>View and manage records.</target>
+            </trans-unit>
+            <trans-unit id="crud.action.create" resname="crud.action.create">
+                <source>crud.action.create</source>
+                <target>Create New</target>
+            </trans-unit>
+            <trans-unit id="crud.action.save" resname="crud.action.save">
+                <source>crud.action.save</source>
+                <target>Save</target>
+            </trans-unit>
+            <trans-unit id="crud.action.delete" resname="crud.action.delete">
+                <source>crud.action.delete</source>
+                <target>Delete</target>
+            </trans-unit>
+            <trans-unit id="crud.action.back" resname="crud.action.back">
+                <source>crud.action.back</source>
+                <target>Back</target>
+            </trans-unit>
+            <trans-unit id="crud.success.created" resname="crud.success.created">
+                <source>crud.success.created</source>
+                <target>Created %entity% successfully.</target>
+            </trans-unit>
+            <trans-unit id="crud.success.updated" resname="crud.success.updated">
+                <source>crud.success.updated</source>
+                <target>Updated %entity% successfully.</target>
+            </trans-unit>
+            <trans-unit id="crud.success.deleted" resname="crud.success.deleted">
+                <source>crud.success.deleted</source>
+                <target>Deleted %entity% successfully.</target>
+            </trans-unit>
+            <trans-unit id="crud.error.invalid_csrf" resname="crud.error.invalid_csrf">
+                <source>crud.error.invalid_csrf</source>
+                <target>Invalid security token. Please try again.</target>
+            </trans-unit>
+            <trans-unit id="crud.page.create_new" resname="crud.page.create_new">
+                <source>crud.page.create_new</source>
+                <target>Create New</target>
+            </trans-unit>
+            <trans-unit id="crud.page.edit_item" resname="crud.page.edit_item">
+                <source>crud.page.edit_item</source>
+                <target>Edit Item</target>
+            </trans-unit>
+            <trans-unit id="crud.page.view_details" resname="crud.page.view_details">
+                <source>crud.page.view_details</source>
+                <target>View Details</target>
+            </trans-unit>
+
+            <!-- Components -->
+            <trans-unit id="crud.component.back_link.label" resname="crud.component.back_link.label">
+                <source>crud.component.back_link.label</source>
+                <target>Back</target>
+            </trans-unit>
+            <trans-unit id="crud.component.delete_form.confirm" resname="crud.component.delete_form.confirm">
+                <source>crud.component.delete_form.confirm</source>
+                <target>Are you sure you want to delete this item?</target>
+            </trans-unit>
+            <trans-unit id="crud.component.filters.search_placeholder" resname="crud.component.filters.search_placeholder">
+                <source>crud.component.filters.search_placeholder</source>
+                <target>Search...</target>
+            </trans-unit>
+            <trans-unit id="crud.component.table.filter_placeholder" resname="crud.component.table.filter_placeholder">
+                <source>crud.component.table.filter_placeholder</source>
+                <target>Filter...</target>
+            </trans-unit>
+
+            <!-- Show page -->
+            <trans-unit id="crud.show.nav_title" resname="crud.show.nav_title">
+                <source>crud.show.nav_title</source>
+                <target>Navigation</target>
+            </trans-unit>
+            <trans-unit id="crud.show.section.general.label" resname="crud.show.section.general.label">
+                <source>crud.show.section.general.label</source>
+                <target>Details</target>
+            </trans-unit>
+            <trans-unit id="crud.show.section.general.description" resname="crud.show.section.general.description">
+                <source>crud.show.section.general.description</source>
+                <target>View the complete details of this record.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

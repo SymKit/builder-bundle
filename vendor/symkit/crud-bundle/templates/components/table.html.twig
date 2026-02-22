@@ -1,0 +1,90 @@
+{#
+Table Component
+
+Displays a styled data table with optional header, footer, and actions.
+Supports sorting via LiveComponent if sortField is provided in headers.
+
+Parameters:
+- title: Optional table title/header (string)
+- showFilter: Show filter input in header (default: false)
+- filterPlaceholder: Placeholder text for filter input (default: 'Filter...')
+- headers: Array of table headers [{label: '...', class: '...', sortField: '...'}]
+- rows: Optional array of table rows (alternative to 'rows' block)
+- showFooter: Show pagination footer (default: false)
+- currentSortField: Currently active sort field (optional)
+- currentSortDirection: Currently active sort direction (optional)
+#}
+<div class="bg-white shadow-sm border border-slate-200 rounded-lg overflow-hidden">
+    {% if title is defined and title is not empty or showFilter|default(false) %}
+    <div class="px-6 py-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+        {% if title is defined and title is not empty %}
+        <div class="font-bold text-slate-900 text-sm">{{ title }}</div>
+        {% else %}
+        <div></div>
+        {% endif %}
+        {% if showFilter|default(false) %}
+        <div class="flex gap-2">
+            <input type="text" placeholder="{{ filterPlaceholder|default('crud.component.table.filter_placeholder'|trans({}, 'SymkitCrud')) }}"
+                class="bg-white border border-slate-300 text-xs px-2 py-1 rounded text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none">
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm divide-y divide-slate-200">
+            {% block table_head %}
+            <thead class="bg-slate-50 text-slate-500 font-semibold uppercase tracking-wider text-xs">
+                <tr>
+                    {% block headers %}
+                    {% for header in headers|default([]) %}
+                    <th scope="col" class="px-6 py-3 {{ header.class|default('') }}">
+                        {% if header.sortField|default(false) %}
+                        <button type="button"
+                            class="group flex items-center hover:text-slate-900 focus:outline-none transition-colors duration-150"
+                            data-action="click->live#action" data-live-action-param="changeSort"
+                            data-live-column-param="{{ header.sortField }}">
+                            {{ header.label }}
+                            <span class="ml-2 flex-none rounded text-slate-400 group-hover:text-slate-900">
+                                {% if currentSortField|default(null) == header.sortField %}
+                                {{ ux_icon(currentSortDirection|default('asc') == 'asc' ?
+                                'heroicons:chevron-up-20-solid' : 'heroicons:chevron-down-20-solid', {class: 'h-4 w-4
+                                text-blue-600'}) }}
+                                {% else %}
+                                {{ ux_icon('heroicons:chevron-up-down-20-solid', {class: 'h-4 w-4 opacity-0
+                                group-hover:opacity-100'}) }}
+                                {% endif %}
+                            </span>
+                        </button>
+                        {% else %}
+                        {{ header.label }}
+                        {% endif %}
+                    </th>
+                    {% endfor %}
+                    {% endblock %}
+                </tr>
+            </thead>
+            {% endblock %}
+
+            <tbody class="bg-white divide-y divide-slate-200">
+                {% block rows %}
+                {% for row in rows|default([]) %}
+                <tr class="hover:bg-slate-50 transition-colors">
+                    {% for cell in row %}
+                    <td class="px-6 py-4 {{ cell.class|default('') }}">{{ cell.content|raw }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+                {% endblock %}
+            </tbody>
+        </table>
+    </div>
+
+    {% block table_footer %}
+    {% if showFooter|default(false) %}
+    <div class="px-6 py-3 border-t border-slate-200 bg-slate-50 flex justify-end gap-2">
+        {% block footer_actions %}{% endblock %}
+    </div>
+    {% endif %}
+    {% endblock %}
+</div>

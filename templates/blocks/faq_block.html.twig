@@ -1,0 +1,49 @@
+<div class="group/faq relative my-8">
+    {# FAQ Selector Toolbar #}
+    <div
+        class="absolute -top-10 left-0 flex items-center gap-2 p-1 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-white/10 shadow-lg opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity z-20">
+        <select data-model="contentBlocks[{{ index }}].data.faqCode"
+            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:text-white dark:ring-white/10">
+            <option value="">-- Select FAQ --</option>
+            {% for faq in this.availableFaqs %}
+            <option value="{{ faq.code }}">{{ faq.title }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div
+        class="p-8 bg-slate-50 dark:bg-white/[0.02] rounded-3xl border-2 border-dashed border-slate-200 dark:border-white/5 transition-colors group-hover:border-indigo-200 dark:group-hover:border-indigo-500/20">
+        <div class="flex items-center gap-4 mb-6">
+            <div
+                class="size-12 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-slate-100 dark:border-white/10 flex items-center justify-center text-indigo-500">
+                {{ ux_icon('heroicons:question-mark-circle-20-solid', {class: 'w-6 h-6'}) }}
+            </div>
+            <div>
+                <h4 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">FAQ Block</h4>
+                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">Linked to standalone
+                    FAQ system</p>
+            </div>
+        </div>
+
+        {% if block.data.faqCode %}
+        <div class="bg-white dark:bg-gray-800/50 rounded-2xl border border-slate-100 dark:border-white/5 p-6">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Selected Block:</span>
+                <span
+                    class="text-xs font-black text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-2 py-0.5 rounded-full">{{
+                    block.data.faqCode }}</span>
+            </div>
+            <div class="space-y-3 opacity-50">
+                <div class="h-4 bg-slate-100 dark:bg-white/5 rounded w-3/4"></div>
+                <div class="h-4 bg-slate-100 dark:bg-white/5 rounded w-1/2"></div>
+            </div>
+            <p class="mt-6 text-[10px] text-center text-slate-400 font-medium italic">The full FAQ content will be
+                rendered on the website.</p>
+        </div>
+        {% else %}
+        <div class="py-12 text-center">
+            <p class="text-sm font-bold text-slate-400 italic">No FAQ selected. Please use the selector above.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>

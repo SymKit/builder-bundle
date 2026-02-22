@@ -1,0 +1,7 @@
+# Default configuration for SymkitCrudBundle
+symkit_crud:
+    crud:
+        enabled: true
+    list:
+        enabled: true
+        default_page_size: 25

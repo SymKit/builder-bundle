@@ -1,0 +1,20 @@
+<div data-controller="content-block" 
+     data-content-block-id-value="{{ block.id }}"
+     class="group/sep relative my-8"
+>
+    {# Style Selector #}
+    <div class="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1 p-1 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-white/10 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-20">
+        {% for style in ['solid', 'dashed', 'dotted'] %}
+            <button type="button" 
+                    data-action="live#action focus->content-block#onFocus" 
+                    data-live-action-param="updateBlockDataProperty" 
+                    data-live-id-param="{{ block.id }}" 
+                    data-live-property-param="style" 
+                    data-live-value-param="{{ style }}"
+                    class="p-1 px-3 rounded text-[10px] font-black uppercase transition-all {{ block.data.style|default('solid') == style ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/20' : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5' }}"
+            >{{ style }}</button>
+        {% endfor %}
+    </div>
+
+    <hr class="border-t-2 {{ block.data.style|default('solid') == 'solid' ? 'border-solid' : (block.data.style == 'dashed' ? 'border-dashed' : 'border-dotted') }} border-gray-200 dark:border-white/10">
+</div>

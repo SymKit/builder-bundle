@@ -1,0 +1,21 @@
+{% set value = attribute(entity, field) %}
+{% if value == 'published' or value == 'active' or value == 'enabled' %}
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+    {{ ux_icon('heroicons:check-badge-16-solid', {class: 'w-3 h-3 mr-1'}) }}
+    {{ value|capitalize|trans({}, 'SymkitCrud') }}
+</span>
+{% elseif value == 'draft' or value == 'pending' or value == 'hidden' %}
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+    {{ ux_icon('heroicons:pencil-square-16-solid', {class: 'w-3 h-3 mr-1'}) }}
+    {{ value|capitalize|trans({}, 'SymkitCrud') }}
+</span>
+{% elseif value == 'inactive' or value == 'disabled' or value == 'deleted' %}
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+    {{ ux_icon('heroicons:x-circle-16-solid', {class: 'w-3 h-3 mr-1'}) }}
+    {{ value|capitalize|trans({}, 'SymkitCrud') }}
+</span>
+{% else %}
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-800 dark:bg-gray-700 dark:text-gray-400">
+    {{ value|capitalize|trans({}, 'SymkitCrud') }}
+</span>
+{% endif %}

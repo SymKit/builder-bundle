@@ -1,0 +1,6 @@
+{
+    "label": "Stats: Deploys Grid",
+    "category": "stats",
+    "icon": "heroicons:rocket-launch-20-solid",
+    "html": "<div class=\"bg-white dark:bg-gray-900\">\n  <div class=\"mx-auto max-w-7xl\">\n    <div class=\"grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4 dark:bg-white/10\">\n      <div class=\"bg-white px-4 py-6 sm:px-6 lg:px-8 dark:bg-gray-900\">\n        <p class=\"text-sm/6 font-medium text-gray-500 dark:text-gray-400\">Number of deploys</p>\n        <p class=\"mt-2 flex items-baseline gap-x-2\">\n          <span class=\"text-4xl font-semibold tracking-tight text-gray-900 dark:text-white\">405</span>\n        </p>\n      </div>\n    </div>\n  </div>\n</div>"
+}

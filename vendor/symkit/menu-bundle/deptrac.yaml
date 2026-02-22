@@ -1,0 +1,75 @@
+deptrac:
+    paths:
+        - ./src
+    layers:
+        - name: Entity
+          collectors:
+            - type: directory
+              value: src/Entity/.*
+        - name: Contract
+          collectors:
+            - type: directory
+              value: src/Contract/.*
+        - name: Model
+          collectors:
+            - type: directory
+              value: src/Model/.*
+        - name: Attribute
+          collectors:
+            - type: directory
+              value: src/Attribute/.*
+        - name: Builder
+          collectors:
+            - type: directory
+              value: src/Builder/.*
+        - name: Mapper
+          collectors:
+            - type: directory
+              value: src/Mapper/.*
+        - name: Service
+          collectors:
+            - type: directory
+              value: src/Service/.*
+        - name: Manager
+          collectors:
+            - type: directory
+              value: src/Manager/.*
+        - name: Repository
+          collectors:
+            - type: directory
+              value: src/Repository/.*
+        - name: Form
+          collectors:
+            - type: directory
+              value: src/Form/.*
+        - name: EventListener
+          collectors:
+            - type: directory
+              value: src/EventListener/.*
+        - name: Twig
+          collectors:
+            - type: directory
+              value: src/Twig/.*
+        - name: Controller
+          collectors:
+            - type: directory
+              value: src/Controller/.*
+        - name: DependencyInjection
+          collectors:
+            - type: directory
+              value: src/DependencyInjection/.*
+    ruleset:
+        Entity: [Contract, Repository]
+        Contract: []
+        Model: [Contract, Entity]
+        Attribute: []
+        Builder: [Contract, Model]
+        Mapper: [Contract, Model, Entity, Service]
+        Service: [Contract, Model, Manager, Entity, Repository, Builder, Mapper]
+        Manager: [Contract, Service, Model]
+        Repository: [Entity]
+        Form: [Entity]
+        EventListener: [Manager, Service, Entity]
+        Twig: [Manager, Model, Contract]
+        Controller: [Service, Manager, Entity, Form, Attribute]
+        DependencyInjection: [Contract, Builder, Mapper, Service, Manager, Repository, Form, EventListener, Twig, Controller, Attribute]

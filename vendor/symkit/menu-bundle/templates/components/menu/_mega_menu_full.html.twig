@@ -1,0 +1,70 @@
+<div class="isolate z-50" data-controller="dropdown" data-action="click@window->dropdown#hide">
+    <button popovertarget="mega-{{ item.id }}" data-dropdown-target="button" data-action="click->dropdown#toggle"
+        class="inline-flex items-center gap-x-1 rounded-md px-3 py-2 text-sm font-medium cursor-pointer {{ item.isActive ? 'bg-gray-900 text-white dark:bg-gray-950/50' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">
+        <span>{{ item.label }}</span>
+        <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true"
+            class="size-5 transition-transform duration-200" data-dropdown-target="icon">
+            <path
+                d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                clip-rule="evenodd" fill-rule="evenodd" />
+        </svg>
+    </button>
+
+    <div data-dropdown-target="menu" id="mega-{{ item.id }}"
+        class="hidden absolute inset-x-0 top-full z-10 w-full overflow-hidden bg-white shadow-2xl ring-1 ring-gray-900/5 dark:bg-gray-900 dark:ring-white/10">
+        <div class="relative bg-white dark:bg-gray-900">
+            <div class="mx-auto grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-6 py-10 lg:grid-cols-2 lg:px-8">
+                <div class="grid grid-cols-2 gap-x-6 sm:gap-x-8">
+                    {% for section in item.sections %}
+                    <div>
+                        <h3 class="text-sm/6 font-medium text-gray-500 dark:text-gray-400">{{ section.title }}</h3>
+                        <div class="mt-6 flow-root">
+                            <div class="-my-2">
+                                {% for subitem in section.items %}
+                                <a href="{{ subitem.url }}"
+                                    class="flex gap-x-4 py-2 text-sm/6 font-semibold text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400">
+                                    {{ ux_icon(subitem.icon ?: 'heroicons:squares-2x2-20-solid', {class: 'size-6
+                                    flex-none text-gray-400 dark:text-gray-500 group-hover:text-indigo-600'}) }}
+                                    {{ subitem.label }}
+                                </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="grid grid-cols-1 gap-10 sm:gap-8 lg:grid-cols-2">
+                    <h3 class="sr-only">Recent posts</h3>
+                    {% for article in item.recentArticles %}
+                    <article
+                        class="relative isolate flex max-w-2xl flex-col gap-x-8 gap-y-6 sm:flex-row sm:items-start lg:flex-col lg:items-stretch">
+                        <div class="relative flex-none">
+                            <img src="{{ article.image }}" alt=""
+                                class="aspect-2/1 w-full rounded-lg bg-gray-100 object-cover sm:aspect-video sm:h-32 lg:h-auto dark:bg-gray-800" />
+                            <div
+                                class="absolute inset-0 rounded-lg ring-1 ring-gray-900/10 ring-inset dark:ring-white/10">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-x-4">
+                                <time datetime="{{ article.date }}"
+                                    class="text-sm/6 text-gray-600 dark:text-gray-400">{{ article.date }}</time>
+                                <a href="#"
+                                    class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700">{{
+                                    article.category }}</a>
+                            </div>
+                            <h4 class="mt-2 text-sm/6 font-semibold text-gray-900 dark:text-white">
+                                <a href="{{ article.url }}">
+                                    <span class="absolute inset-0"></span>
+                                    {{ article.title }}
+                                </a>
+                            </h4>
+                            <p class="mt-2 text-sm/6 text-gray-600 dark:text-gray-400">{{ article.description }}</p>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+{% set value = attribute(entity, field) %}
+<span class="inline-flex items-center gap-1 text-sm text-slate-600 dark:text-gray-400">
+    {% if config.icon|default(null) %}
+        {{ ux_icon(config.icon, {class: 'w-4 h-4'}) }}
+    {% endif %}
+    <span class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-white/10 text-xs font-medium">
+        {{ value|length }}
+    </span>
+</span>
