@@ -5,10 +5,10 @@ This guide explains the complete process of adding a new block type to the Symki
 ## Overview
 
 A "Block" consists of four parts:
-1.  **Definition** (Database): Defines the code, label, icon, default data, and frontend HTML style.
+1.  **Definition** (Database): Defines the code, label, icon, default data, and frontend HTML template.
 2.  **Editor Template** (Twig): The UI for editing the block in the back-office.
-3.  **Strategy** (PHP): Handles data processing and Markdown import.
-4.  **Frontend Render**: The `htmlCode` stored in the database.
+3.  **Strategy** (PHP): Handles rendering logic, data preparation, and Markdown import.
+4.  **Frontend Render**: The `htmlCode` Twig string stored in the database.
 
 ---
 
@@ -16,12 +16,12 @@ A "Block" consists of four parts:
 
 The available blocks are managed by the `BlockSynchronizer` service. To add a new block, register it in the `syncCoreBlocks` method within the synchronizer.
 
-**File:** `packages/builder-bundle/src/Service/BlockSynchronizer.php`
+**File:** `src/Service/BlockSynchronizer.php`
 
 ```php
 'my_new_block' => [ // The unique 'type' code
     'label' => 'My New Block',
-    'category' => 'content', // 'content', 'media', 'design', etc.
+    'category' => 'content', // 'text', 'media', 'layout', 'design', 'marketing', 'content'
     'icon' => 'heroicons:cube-transparent-20-solid', // Any Heroicon
     'defaultData' => ['title' => '', 'description' => ''],
     'template' => '@SymkitBuilder/blocks/my_new_block.html.twig', // Path to Editor Template
@@ -34,22 +34,22 @@ The available blocks are managed by the `BlockSynchronizer` service. To add a ne
 ],
 ```
 
-> **Note:** Run `make builder-sync` to apply changes.
+> **Note:** Run `php bin/console builder:sync-blocks` to apply changes.
 
 ---
 
 ## Step 2: Create the Editor Template
 
-Create the Twig template that allows users to edit the block's data.
+Create the Twig template that allows users to edit the block's data in the back-office.
 
-**File:** `packages/builder-bundle/templates/blocks/my_new_block.html.twig`
+**File:** `templates/blocks/my_new_block.html.twig`
 
 ```twig
 <div class="p-6 bg-gray-50 border border-gray-200 rounded-xl">
     {# Example: A title field #}
     <div contenteditable="true"
          data-content-block-target="editor"
-         data-action="input->content-block#syncProperty" 
+         data-action="input->content-block#syncProperty"
          data-property="title"
          class="text-xl font-bold outline-none mb-2"
          placeholder="Enter title..."
@@ -73,38 +73,44 @@ Create the Twig template that allows users to edit the block's data.
 
 ---
 
-## Step 3: Implement the Import Strategy (PHP)
+## Step 3: Implement the Strategy (PHP)
 
-To support upgrading from Markdown or generic HTML to your new block, create a Strategy.
+Create a Strategy to handle rendering and, optionally, Markdown/HTML import.
 
-**File:** `packages/builder-bundle/src/Render/Strategy/MyNewBlockStrategy.php`
+**File:** `src/Render/Strategy/MyNewBlockStrategy.php`
 
 ```php
 namespace Symkit\BuilderBundle\Render\Strategy;
 
-use Symkit\BuilderBundle\Render\BlockStrategyInterface;
-
 final readonly class MyNewBlockStrategy extends AbstractBlockStrategy
 {
-    // 1. Identification
+    // 1. Identification: which block type does this strategy handle?
     public function supports(array $block): bool
     {
         return ($block['type'] ?? '') === 'my_new_block';
     }
 
-    // 2. Markdown/HTML Import Logic
+    // 2. (Optional) Data preparation before rendering
+    //    Override prepareData() if you need to enrich or transform data.
+    //    Example: resolve a mediaId to a URL, or sanitize HTML.
+    // public function prepareData(array $data): array
+    // {
+    //     return $data;
+    // }
+
+    // 3. (Optional) Markdown/HTML Import Logic
     public function supportsNode(\DOMNode $node): bool
     {
         // Example: Match a specific div class or tag
-        return $node instanceof \DOMElement 
-            && $node->tagName === 'div' 
+        return $node instanceof \DOMElement
+            && $node->tagName === 'div'
             && $node->getAttribute('class') === 'my-legacy-block';
     }
 
     public function createFromNode(\DOMNode $node): ?array
     {
         // Extract data from the DOM node
-        $title = ''; 
+        $title = '';
         // ... logic to find title in node ...
 
         return [
@@ -118,13 +124,15 @@ final readonly class MyNewBlockStrategy extends AbstractBlockStrategy
 }
 ```
 
-> **Note:** The class is automatically registered thanks to `autoconfigure: true`.
+> **Note:** The class is automatically registered thanks to `autoconfigure: true` and the `instanceof(BlockStrategyInterface::class)->tag('symkit.block_strategy')` rule declared in `SymkitBuilderBundle`.
+
+> **Custom application strategies** should live in your app's `src/Block/Strategy/` directory under the `App\Block\Strategy` namespace. They are auto-tagged the same way.
 
 ---
 
 ## Checklist
 
-1.  [ ] Added entry to `BlockSynchronizer.php`.
+1.  [ ] Added entry to `src/Service/BlockSynchronizer.php` (`syncCoreBlocks` method).
 2.  [ ] Created `templates/blocks/my_new_block.html.twig`.
-3.  [ ] Created `src/Render/Strategy/MyNewBlockStrategy.php` (optional, for import support).
-4.  [ ] Ran `make builder-sync`.
+3.  [ ] Created `src/Render/Strategy/MyNewBlockStrategy.php` (required for rendering; optional methods for Markdown import).
+4.  [ ] Ran `php bin/console builder:sync-blocks`.
