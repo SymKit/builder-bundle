@@ -2,7 +2,7 @@
     {% if (block.data.editMode|default('visual')) == 'html' %}
     <textarea id="{{ block.id }}-html" data-content-block-target="htmlEditor"
         data-action="input->content-block#syncHtml" data-property="rows"
-        class="w-full min-h-[300px] p-4 bg-gray-950 text-gray-300 font-mono text-xs rounded-lg border border-gray-800 outline-none focus:ring-0 resize-y"
+        class="w-full min-h-[300px] p-4 bg-gray-950 text-gray-300 font-mono text-xs rounded-lg border border-gray-800 outline-hidden focus:ring-0 resize-y"
         spellcheck="false">{{ block.data.rows|json_encode(constant('JSON_PRETTY_PRINT')) }}</textarea>
     <p class="mt-2 text-[10px] text-gray-500 font-medium italic">Note: Editing raw JSON here is for advanced structural
         changes.</p>
@@ -32,7 +32,7 @@
     </div>
 
     <div
-        class="not-prose overflow-hidden bg-white dark:bg-gray-900 shadow-sm ring-1 ring-gray-200 dark:ring-white/10 rounded-xl">
+        class="not-prose overflow-hidden bg-white dark:bg-gray-900 shadow-xs ring-1 ring-gray-200 dark:ring-white/10 rounded-xl">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200 dark:divide-white/10">
                 <tbody class="divide-y divide-gray-200 dark:divide-white/10">
@@ -43,7 +43,7 @@
                         <td class="px-6 py-4 text-sm border-r border-gray-100 dark:border-white/5 last:border-r-0">
                             <div contenteditable="true" data-action="input->content-block#syncTable"
                                 data-row="{{ rIndex }}" data-cell="{{ cIndex }}"
-                                class="outline-none min-h-[1.5em] {{ block.data.hasHeader and loop.parent.loop.first ? 'font-bold text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-300' }}"
+                                class="outline-hidden min-h-[1.5em] {{ block.data.hasHeader and loop.parent.loop.first ? 'font-bold text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-300' }}"
                                 placeholder="{{ block.data.hasHeader and loop.parent.loop.first ? 'Header...' : 'Content...' }}">
                                 {{ cell.content|raw }}</div>
                         </td>

@@ -4,13 +4,13 @@
             id="{{ block.id }}-html"
             data-content-block-target="htmlEditor"
             data-action="input->content-block#syncHtml"
-            class="w-full min-h-[200px] p-4 bg-gray-950 text-gray-300 font-mono text-xs rounded-lg border border-gray-800 outline-none focus:ring-0 resize-y"
+            class="w-full min-h-[200px] p-4 bg-gray-950 text-gray-300 font-mono text-xs rounded-lg border border-gray-800 outline-hidden focus:ring-0 resize-y"
             spellcheck="false"
         >{{ block.data.items|reduce((carry, item) => carry ~ "<li>" ~ item.content ~ "</li>", "<" ~ block.data.type ~ ">") ~ "</" ~ block.data.type ~ ">" }}</textarea>
     {% else %}
     <{{ block.data.type }} class="space-y-1 relative">
         {# List Type Switcher #}
-        <div class="absolute -top-10 right-0 flex items-center gap-0.5 bg-white dark:bg-gray-800 border border-gray-100 dark:border-white/10 rounded-lg p-0.5 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity z-[60]">
+        <div class="absolute -top-10 right-0 flex items-center gap-0.5 bg-white dark:bg-gray-800 border border-gray-100 dark:border-white/10 rounded-lg p-0.5 shadow-xs opacity-0 group-hover:opacity-100 transition-opacity z-[60]">
             <button type="button" 
                     data-action="live#action" 
                     data-live-action-param="updateBlockDataProperty" 
@@ -45,12 +45,12 @@
                              data-action="input->content-block#syncCollection mouseup->content-block#onSelectionChange"
                              data-property="items"
                              data-index="{{ i }}"
-                             class="outline-none flex-auto min-h-[1.5em] py-1"
+                             class="outline-hidden flex-auto min-h-[1.5em] py-1"
                              placeholder="List item..."
                         >{{ item.content|raw }}</div>
                         
                         {# Item actions #}
-                        <div class="absolute -right-16 top-1 flex items-center gap-1 opacity-0 group-hover/item:opacity-100 transition-opacity bg-white dark:bg-gray-900 shadow-sm border border-gray-100 dark:border-white/5 rounded p-0.5">
+                        <div class="absolute -right-16 top-1 flex items-center gap-1 opacity-0 group-hover/item:opacity-100 transition-opacity bg-white dark:bg-gray-900 shadow-xs border border-gray-100 dark:border-white/5 rounded p-0.5">
                                 <button type="button" 
                                         data-action="live#action" 
                                         data-live-action-param="updateBlockDataCollection" 

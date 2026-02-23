@@ -97,7 +97,7 @@
         {# HTML Toggle #}
         <button type="button" data-action="live#action focus->content-block#onFocus"
             data-live-action-param="toggleEditMode" data-live-id-param="{{ block.id }}"
-            class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg {{ (block.data.editMode|default('visual')) == 'html' ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/20' : 'hover:bg-gray-100 dark:hover:bg-white/5 text-gray-500' }} transition-all"
+            class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg {{ (block.data.editMode|default('visual')) == 'html' ? 'bg-indigo-600 text-white shadow-xs shadow-indigo-500/20' : 'hover:bg-gray-100 dark:hover:bg-white/5 text-gray-500' }} transition-all"
             title="Toggle HTML Mode">
             {{ ux_icon((block.data.editMode|default('visual')) == 'html' ? 'heroicons:eye-20-solid' :
             'heroicons:code-bracket-20-solid', {class: 'w-4 h-4'}) }}
@@ -111,7 +111,7 @@
         class="hidden absolute top-full left-0 mt-2 p-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-white/10 shadow-2xl z-40 min-w-[240px]">
         <div class="flex flex-col gap-2">
             <input type="text" data-content-block-target="linkUrl" data-action="input->content-block#updateLink"
-                class="px-3 py-1.5 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-lg text-xs outline-none focus:ring-1 focus:ring-indigo-500"
+                class="px-3 py-1.5 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-lg text-xs outline-hidden focus:ring-1 focus:ring-indigo-500"
                 placeholder="https://...">
             <div class="flex items-center justify-between px-1">
                 <label class="flex items-center gap-2 cursor-pointer group">

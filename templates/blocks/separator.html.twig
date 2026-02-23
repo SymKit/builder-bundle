@@ -11,7 +11,7 @@
                     data-live-id-param="{{ block.id }}" 
                     data-live-property-param="style" 
                     data-live-value-param="{{ style }}"
-                    class="p-1 px-3 rounded text-[10px] font-black uppercase transition-all {{ block.data.style|default('solid') == style ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/20' : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5' }}"
+                    class="p-1 px-3 rounded text-[10px] font-black uppercase transition-all {{ block.data.style|default('solid') == style ? 'bg-indigo-600 text-white shadow-xs shadow-indigo-500/20' : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5' }}"
             >{{ style }}</button>
         {% endfor %}
     </div>

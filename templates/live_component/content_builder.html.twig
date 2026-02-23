@@ -29,14 +29,14 @@
             </div>
             <button type="button" data-action="live#action" data-live-action-param="openPicker"
                 data-live-index-param="{{ index }}"
-                class="relative z-10 opacity-0 group-hover/insert:opacity-100 transition-opacity bg-white dark:bg-gray-800 rounded-full p-1 shadow-sm border border-gray-200 dark:border-white/10 text-gray-400 hover:text-indigo-600 hover:scale-110 transition-all">
+                class="relative z-10 opacity-0 group-hover/insert:opacity-100 transition-opacity bg-white dark:bg-gray-800 rounded-full p-1 shadow-xs border border-gray-200 dark:border-white/10 text-gray-400 hover:text-indigo-600 hover:scale-110 transition-all">
                 {{ ux_icon('heroicons:plus-circle-20-solid', {class: 'w-5 h-5'}) }}
             </button>
         </div>
 
         <div data-controller="content-block" data-content-block-id-value="{{ block.id }}"
             data-action="focusin->content-block#onFocus focusout->content-block#onBlur media-selected@window->content-block#onMediaSelected"
-            class="group relative border-2 border-transparent hover:border-indigo-100 dark:hover:border-indigo-900/30 rounded-xl transition-all p-4 mb-4 bg-white dark:bg-gray-800/50 shadow-sm focus-within:z-20 focus-within:pt-16 hover:pt-16 {{ (block.data.editMode|default('visual')) == 'html' ? 'is-editing pt-16' : '' }}"
+            class="group relative border-2 border-transparent hover:border-indigo-100 dark:hover:border-indigo-900/30 rounded-xl transition-all p-4 mb-4 bg-white dark:bg-gray-800/50 shadow-xs focus-within:z-20 focus-within:pt-16 hover:pt-16 {{ (block.data.editMode|default('visual')) == 'html' ? 'is-editing pt-16' : '' }}"
             data-block-id="{{ block.id }}">
             {# Actions Sidebar (Hover) #}
             <div
@@ -99,12 +99,12 @@
                     <button type="button" data-action="live#action text-block#onFocus"
                         data-live-action-param="transformBlock" data-live-id-param="{{ block.id }}"
                         data-live-type-param="paragraph"
-                        class="px-4 py-2 bg-white border border-red-200 rounded-lg text-xs font-bold text-red-600 hover:bg-red-50 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                        class="px-4 py-2 bg-white border border-red-200 rounded-lg text-xs font-bold text-red-600 hover:bg-red-50 transition-colors shadow-xs focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                         Transform to Text
                     </button>
                     <button type="button" data-action="live#action" data-live-action-param="removeBlock"
                         data-live-id-param="{{ block.id }}"
-                        class="px-4 py-2 bg-red-500 rounded-lg text-xs font-bold text-white hover:bg-red-600 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                        class="px-4 py-2 bg-red-500 rounded-lg text-xs font-bold text-white hover:bg-red-600 transition-colors shadow-xs focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                         Remove Block
                     </button>
                 </div>
@@ -120,7 +120,7 @@
             </div>
             <button type="button" data-action="live#action" data-live-action-param="openPicker"
                 data-live-index-param="{{ index + 1 }}"
-                class="relative z-10 opacity-0 group-hover/insert:opacity-100 transition-opacity bg-white dark:bg-gray-800 rounded-full p-1 shadow-sm border border-gray-200 dark:border-white/10 text-gray-400 hover:text-indigo-600 hover:scale-110 transition-all">
+                class="relative z-10 opacity-0 group-hover/insert:opacity-100 transition-opacity bg-white dark:bg-gray-800 rounded-full p-1 shadow-xs border border-gray-200 dark:border-white/10 text-gray-400 hover:text-indigo-600 hover:scale-110 transition-all">
                 {{ ux_icon('heroicons:plus-circle-20-solid', {class: 'w-5 h-5'}) }}
             </button>
         </div>
@@ -137,7 +137,7 @@
                 </button>
 
                 <button type="button" data-action="live#action" data-live-action-param="openMarkdownImport"
-                    class="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 hover:border-indigo-300 dark:hover:border-indigo-500/50 text-gray-600 dark:text-gray-300 rounded-xl font-bold shadow-sm transition-all hover:scale-105 active:scale-95">
+                    class="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 hover:border-indigo-300 dark:hover:border-indigo-500/50 text-gray-600 dark:text-gray-300 rounded-xl font-bold shadow-xs transition-all hover:scale-105 active:scale-95">
                     {{ ux_icon('heroicons:document-text-20-solid', {class: 'w-5 h-5 text-indigo-500'}) }}
                     <span>Import Markdown</span>
                 </button>
@@ -155,7 +155,7 @@
             </button>
 
             <button type="button" data-action="live#action" data-live-action-param="openMarkdownImport"
-                class="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 hover:border-indigo-300 dark:hover:border-indigo-500/50 text-gray-600 dark:text-gray-300 rounded-xl font-bold shadow-sm transition-all hover:scale-105 active:scale-95">
+                class="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 hover:border-indigo-300 dark:hover:border-indigo-500/50 text-gray-600 dark:text-gray-300 rounded-xl font-bold shadow-xs transition-all hover:scale-105 active:scale-95">
                 {{ ux_icon('heroicons:document-text-20-solid', {class: 'w-5 h-5 text-indigo-500'}) }}
                 <span>Import Markdown</span>
             </button>
@@ -210,7 +210,7 @@
                     {{ ux_icon('heroicons:magnifying-glass-20-solid', {class: 'w-4 h-4 text-gray-400'}) }}
                 </div>
                 <input type="text" data-model="debounce(300)|blockSearch" placeholder="Search blocks..."
-                    class="block w-full pl-10 pr-3 py-3 border border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.02] rounded-2xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                    class="block w-full pl-10 pr-3 py-3 border border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.02] rounded-2xl text-sm placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 transition-all"
                     autofocus>
             </div>
 
@@ -240,7 +240,7 @@
                             data-live-type-param="{{ type }}"
                             class="flex flex-col items-center gap-3 p-4 rounded-2xl border border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.02] hover:bg-white dark:hover:bg-indigo-500/10 hover:border-indigo-100 dark:hover:border-indigo-500/20 hover:shadow-xl hover:shadow-indigo-500/10 transition-all text-center group">
                             <div
-                                class="size-12 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-white/10 flex items-center justify-center text-gray-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 group-hover:scale-110 transition-all">
+                                class="size-12 rounded-xl bg-white dark:bg-gray-800 shadow-xs border border-gray-100 dark:border-white/10 flex items-center justify-center text-gray-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 group-hover:scale-110 transition-all">
                                 {{ ux_icon(info.icon, {class: 'w-6 h-6'}) }}
                             </div>
                             <span
@@ -256,7 +256,7 @@
                             data-live-data-param='{{ {"content": "<h" ~ level ~ ">Heading " ~ level ~ "</h" ~ level ~ ">"}|json_encode|raw }}'
                             class="flex flex-col items-center gap-3 p-4 rounded-2xl border border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.02] hover:bg-white dark:hover:bg-indigo-500/10 hover:border-indigo-100 dark:hover:border-indigo-500/20 hover:shadow-xl hover:shadow-indigo-500/10 transition-all text-center group">
                             <div
-                                class="size-12 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-white/10 flex items-center justify-center text-gray-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 group-hover:scale-110 transition-all">
+                                class="size-12 rounded-xl bg-white dark:bg-gray-800 shadow-xs border border-gray-100 dark:border-white/10 flex items-center justify-center text-gray-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 group-hover:scale-110 transition-all">
                                 {{ ux_icon('heroicons:h' ~ level ~ '-20-solid', {class: 'w-6 h-6'}) }}
                             </div>
                             <span
@@ -297,7 +297,7 @@
 
             <div class="mb-6">
                 <textarea data-model="markdownInput"
-                    class="w-full h-80 p-6 bg-gray-50 dark:bg-black/20 text-gray-700 dark:text-gray-300 font-mono text-sm rounded-xl border border-gray-200 dark:border-white/10 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none resize-none"
+                    class="w-full h-80 p-6 bg-gray-50 dark:bg-black/20 text-gray-700 dark:text-gray-300 font-mono text-sm rounded-xl border border-gray-200 dark:border-white/10 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-hidden resize-none"
                     placeholder="# Your Markdown here..."></textarea>
             </div>
 

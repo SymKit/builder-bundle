@@ -6,14 +6,14 @@
                 data-content-block-target="htmlEditor"
                 data-action="input->content-block#syncHtml"
                 data-property="content"
-                class="w-full min-h-[100px] p-4 bg-gray-950 text-gray-300 font-mono text-xs rounded-lg border border-gray-800 outline-none focus:ring-0 resize-y"
+                class="w-full min-h-[100px] p-4 bg-gray-950 text-gray-300 font-mono text-xs rounded-lg border border-gray-800 outline-hidden focus:ring-0 resize-y"
                 spellcheck="false"
             >{{ block.data.content }}</textarea>
             <input type="text" 
                    data-action="input->content-block#syncProperty" 
                    data-property="author"
                    value="{{ block.data.author }}"
-                   class="w-full p-2 bg-gray-950 text-gray-400 font-mono text-[10px] rounded border border-gray-800 outline-none"
+                   class="w-full p-2 bg-gray-950 text-gray-400 font-mono text-[10px] rounded border border-gray-800 outline-hidden"
                    placeholder="Author..."
             >
         </div>
@@ -23,7 +23,7 @@
              data-content-block-target="editor"
              data-action="input->content-block#sync keydown->content-block#keydown mouseup->content-block#onSelectionChange"
              data-property="content"
-             class="outline-none focus:ring-0 italic text-xl text-gray-700 dark:text-gray-300"
+             class="outline-hidden focus:ring-0 italic text-xl text-gray-700 dark:text-gray-300"
              placeholder="Enter quote..."
         >{{ block.data.content|raw }}</div>
         
@@ -32,7 +32,7 @@
             <div contenteditable="true"
                  data-action="input->content-block#syncProperty"
                  data-property="author"
-                 class="outline-none"
+                 class="outline-hidden"
                  placeholder="Author name..."
             >{{ block.data.author|raw }}</div>
         </div>
