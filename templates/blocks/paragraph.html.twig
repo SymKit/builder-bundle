@@ -7,7 +7,7 @@
                 data-action="input->content-block#syncHtml"
                 data-property="content"
                 autofocus
-                class="w-full min-h-[200px] p-4 bg-gray-950 text-gray-300 font-mono text-xs rounded-lg border border-gray-800 outline-none focus:ring-0 resize-y"
+                class="w-full min-h-[200px] p-4 bg-gray-950 text-gray-300 font-mono text-xs rounded-lg border border-gray-800 outline-hidden focus:ring-0 resize-y"
                 spellcheck="false"
             >{{ block.data.content }}</textarea>
         {% else %}
@@ -17,7 +17,7 @@
                  data-action="input->content-block#sync keydown->content-block#keydown mouseup->content-block#onSelectionChange"
                  data-property="content"
                  data-live-ignore
-                 class="outline-none focus:ring-0 
+                 class="outline-hidden focus:ring-0 
                         [&_h2]:text-3xl [&_h2]:font-black [&_h2]:mb-6 [&_h2]:mt-8 [&_h2]:text-gray-900 dark:[&_h2]:text-white
                         [&_h3]:text-2xl [&_h3]:font-black [&_h3]:mb-4 [&_h3]:mt-6 [&_h3]:text-gray-900 dark:[&_h3]:text-white
                         [&_h4]:text-xl [&_h4]:font-black [&_h4]:mb-3 [&_h4]:mt-4 [&_h4]:text-gray-800 dark:[&_h4]:text-gray-100

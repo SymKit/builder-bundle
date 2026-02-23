@@ -11,7 +11,7 @@
                 id="{{ block.id }}-html"
                 data-content-block-target="htmlEditor"
                 data-action="input->content-block#syncHtml"
-                class="w-full min-h-[300px] p-6 bg-transparent text-gray-300 font-mono text-sm outline-none focus:ring-0 resize-y selection:bg-indigo-500/30"
+                class="w-full min-h-[300px] p-6 bg-transparent text-gray-300 font-mono text-sm outline-hidden focus:ring-0 resize-y selection:bg-indigo-500/30"
                 spellcheck="false"
             >{{ block.data.html }}</textarea>
         </div>
@@ -22,7 +22,7 @@
              data-action="input->content-block#sync keydown->content-block#keydown mouseup->content-block#onSelectionChange"
              data-property="html"
              data-live-ignore
-             class="outline-none focus:ring-0 transition-opacity snippet-preview not-prose"
+             class="outline-hidden focus:ring-0 transition-opacity snippet-preview not-prose"
              placeholder="Paste your HTML here or use the HTML mode..."
         >{{ block.data.html|raw }}</div>
     {% endif %}

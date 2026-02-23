@@ -19,7 +19,7 @@
                     data-live-id-param="{{ block.id }}" 
                     data-live-property-param="type" 
                     data-live-value-param="{{ type }}"
-                    class="p-1 px-2 rounded text-[10px] font-black uppercase transition-all {{ block.data.type == type ? style.text ~ ' ' ~ style.bg ~ ' shadow-sm' : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5' }}"
+                    class="p-1 px-2 rounded text-[10px] font-black uppercase transition-all {{ block.data.type == type ? style.text ~ ' ' ~ style.bg ~ ' shadow-xs' : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5' }}"
             >
                 {{ type }}
             </button>
@@ -36,7 +36,7 @@
              data-content-block-target="editor"
              data-action="input->content-block#sync"
              data-property="content"
-             class="outline-none text-sm leading-relaxed {{ current.text }}"
+             class="outline-hidden text-sm leading-relaxed {{ current.text }}"
              placeholder="Important information here..."
         >{{ block.data.content|raw }}</div>
     </div>

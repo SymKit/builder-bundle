@@ -95,7 +95,7 @@ final readonly class BlockSynchronizer implements BlockSynchronizerInterface
                 'htmlCode' => <<<'HTML'
                     <div class="w-full my-8">
                         {% if data.url is defined and data.url %}
-                            <img src="{{ data.url }}" alt="{{ data.alt|default('') }}" class="w-full h-auto rounded-lg shadow-sm" />
+                            <img src="{{ data.url }}" alt="{{ data.alt|default('') }}" class="w-full h-auto rounded-lg shadow-xs" />
                         {% endif %}
                     </div>
                     HTML,
@@ -133,7 +133,7 @@ final readonly class BlockSynchronizer implements BlockSynchronizerInterface
                 ],
                 'template' => '@SymkitBuilder/blocks/table.html.twig',
                 'htmlCode' => <<<'HTML'
-                    <div class="not-prose overflow-hidden bg-white dark:bg-gray-900 shadow-sm ring-1 ring-gray-200 dark:ring-white/10 rounded-xl my-8">
+                    <div class="not-prose overflow-hidden bg-white dark:bg-gray-900 shadow-xs ring-1 ring-gray-200 dark:ring-white/10 rounded-xl my-8">
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-white/10">
                                 <tbody class="divide-y divide-gray-200 dark:divide-white/10">
@@ -227,7 +227,7 @@ final readonly class BlockSynchronizer implements BlockSynchronizerInterface
                             <div class="text-2xl font-black text-gray-900 dark:text-white mb-6">{{ data.text|raw }}</div>
                         {% endif %}
                         <a href="{{ data.url }}" 
-                           class="inline-flex items-center justify-center px-8 py-3 rounded-full text-sm font-bold shadow-sm transition-all {{ data.style|default('primary') == 'primary' ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50' }}">
+                           class="inline-flex items-center justify-center px-8 py-3 rounded-full text-sm font-bold shadow-xs transition-all {{ data.style|default('primary') == 'primary' ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50' }}">
                             {{ data.buttonText|raw }}
                         </a>
                     </div>
@@ -242,7 +242,7 @@ final readonly class BlockSynchronizer implements BlockSynchronizerInterface
                 ],
                 'template' => '@SymkitBuilder/blocks/howto.html.twig',
                 'htmlCode' => <<<'HTML'
-                    <div class="p-8 bg-white dark:bg-gray-900 rounded-3xl ring-1 ring-gray-200 dark:ring-white/10 shadow-sm my-8">
+                    <div class="p-8 bg-white dark:bg-gray-900 rounded-3xl ring-1 ring-gray-200 dark:ring-white/10 shadow-xs my-8">
                         <h3 class="text-xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-3">
                             <span class="flex-none w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center">
                                 {{ ux_icon('heroicons:academic-cap-20-solid', {class: 'w-5 h-5'}) }}
@@ -253,7 +253,7 @@ final readonly class BlockSynchronizer implements BlockSynchronizerInterface
                             {% for i, step in data.steps %}
                                 <div class="group/step relative flex gap-6">
                                     <div class="flex-none flex flex-col items-center">
-                                        <div class="w-10 h-10 rounded-full bg-indigo-50 dark:bg-indigo-500/10 border-2 border-indigo-100 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-black flex items-center justify-center text-sm shadow-sm ring-4 ring-white dark:ring-gray-900 z-10">{{ loop.index }}</div>
+                                        <div class="w-10 h-10 rounded-full bg-indigo-50 dark:bg-indigo-500/10 border-2 border-indigo-100 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-black flex items-center justify-center text-sm shadow-xs ring-4 ring-white dark:ring-gray-900 z-10">{{ loop.index }}</div>
                                         {% if not loop.last %}
                                             <div class="w-px flex-auto bg-gray-100 dark:bg-white/5 my-2"></div>
                                         {% endif %}

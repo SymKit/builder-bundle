@@ -2,7 +2,7 @@
      data-content-block-id-value="{{ block.id }}"
      class="group/howto relative my-8"
 >
-    <div class="p-8 bg-white dark:bg-gray-900 rounded-3xl ring-1 ring-gray-200 dark:ring-white/10 shadow-sm">
+    <div class="p-8 bg-white dark:bg-gray-900 rounded-3xl ring-1 ring-gray-200 dark:ring-white/10 shadow-xs">
         <h3 class="text-xl font-black text-gray-900 dark:text-white mb-8 flex items-center gap-3">
              <span class="flex-none w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center">
                  {{ ux_icon('heroicons:academic-cap-20-solid', {class: 'w-5 h-5'}) }}
@@ -14,7 +14,7 @@
             {% for i, step in block.data.steps %}
                 <div class="group/step relative flex gap-6">
                     <div class="flex-none flex flex-col items-center">
-                        <div class="w-10 h-10 rounded-full bg-indigo-50 dark:bg-indigo-500/10 border-2 border-indigo-100 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-black flex items-center justify-center text-sm shadow-sm ring-4 ring-white dark:ring-gray-900 z-10">
+                        <div class="w-10 h-10 rounded-full bg-indigo-50 dark:bg-indigo-500/10 border-2 border-indigo-100 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-black flex items-center justify-center text-sm shadow-xs ring-4 ring-white dark:ring-gray-900 z-10">
                             {{ loop.index }}
                         </div>
                         {% if not loop.last %}
@@ -27,7 +27,7 @@
                              data-action="input->content-block#syncCollection"
                              data-property="steps"
                              data-step-title="true"
-                             class="text-base font-bold text-gray-900 dark:text-white outline-none mb-2"
+                             class="text-base font-bold text-gray-900 dark:text-white outline-hidden mb-2"
                              placeholder="Step Title..."
                         >{{ step.title|raw }}</div>
                         
@@ -35,7 +35,7 @@
                              data-action="input->content-block#syncCollection"
                              data-property="steps"
                              data-step-content="true"
-                             class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed outline-none"
+                             class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed outline-hidden"
                              placeholder="Instructions for this step..."
                         >{{ step.content|raw }}</div>
 
