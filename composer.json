@@ -5,8 +5,8 @@
     "license": "MIT",
     "require": {
         "php": ">=8.2",
-        "symfony/framework-bundle": "7.*|8.*",
-        "symfony/ux-live-component": "2.*",
+        "symfony/framework-bundle": "^7.0 || ^8.0",
+        "symfony/ux-live-component": "^2.0",
         "league/commonmark": "^2.8",
         "symkit/form-bundle": "~0.0.1",
         "symkit/crud-bundle": "~0.0.1",
@@ -17,30 +17,38 @@
             "Symkit\\BuilderBundle\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Symkit\\BuilderBundle\\Tests\\": "tests/",
+            "Symkit\\MediaBundle\\": "phpstan-stubs/Symkit/MediaBundle/"
+        }
+    },
     "suggest": {
         "symkit/media-bundle": "For Image block support",
         "symkit/faq-bundle": "For FAQ block and content builder FAQ list"
     },
     "require-dev": {
-        "symkit/bundle-ai-kit": "~0.0.1"
+        "symkit/bundle-ai-kit": "~0.0.1",
+        "symkit/faq-bundle": "~0.0.1",
+        "phpunit/phpunit": "^11.0",
+        "phpstan/phpstan": "^2.0",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "infection/infection": "^0.28",
+        "deptrac/deptrac": "^2.0",
+        "phpro/grumphp": "^2.0",
+        "nyholm/symfony-bundle-test": "^3.0"
     },
     "config": {
         "allow-plugins": {
-            "symkit/bundle-ai-kit": true
+            "symkit/bundle-ai-kit": true,
+            "infection/extension-installer": true,
+            "phpro/grumphp": true
         }
     },
     "extra": {
         "bundle-ai-kit": {
-            "editors": [
-                "cursor"
-            ],
-            "skills": [
-                "symfony-bundle-core",
-                "symfony-bundle-ux",
-                "symfony-bundle-doctrine",
-                "symfony-bundle-flex",
-                "symfony-bundle-quality"
-            ]
+            "editors": ["cursor"],
+            "skills": ["symfony-bundle-core", "symfony-bundle-ux", "symfony-bundle-doctrine", "symfony-bundle-flex", "symfony-bundle-quality"]
         }
     }
 }

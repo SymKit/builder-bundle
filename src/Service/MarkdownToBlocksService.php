@@ -8,8 +8,8 @@ use DOMDocument;
 use DOMNode;
 use DOMText;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
-use Symkit\BuilderBundle\Render\BlockStrategyInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
+use Symkit\BuilderBundle\Contract\BlockStrategyInterface;
 
 class MarkdownToBlocksService
 {
@@ -28,6 +28,9 @@ class MarkdownToBlocksService
         ]);
     }
 
+    /**
+     * @return list<array<string, mixed>>
+     */
     public function convertToBlocks(string $markdown): array
     {
         if (empty(mb_trim($markdown))) {
@@ -40,7 +43,7 @@ class MarkdownToBlocksService
         $dom = new DOMDocument();
         // Load HTML with UTF-8 support
         libxml_use_internal_errors(true);
-        $dom->loadHTML('<?xml encoding="UTF-8"><div>' . $html . '</div>', \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD);
+        $dom->loadHTML('<?xml encoding="UTF-8"><div>'.$html.'</div>', \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD);
         libxml_clear_errors();
 
         $blocks = [];
@@ -64,6 +67,9 @@ class MarkdownToBlocksService
         return $blocks;
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     private function mapNodeToBlock(DOMNode $node): ?array
     {
         foreach ($this->strategies as $strategy) {
@@ -94,9 +100,13 @@ class MarkdownToBlocksService
 
     private function getInnerHtml(DOMNode $node): string
     {
+        $ownerDocument = $node->ownerDocument;
+        if (null === $ownerDocument) {
+            return '';
+        }
         $innerHTML = '';
         foreach ($node->childNodes as $child) {
-            $innerHTML .= $node->ownerDocument->saveHTML($child);
+            $innerHTML .= $ownerDocument->saveHTML($child);
         }
 
         return $innerHTML;

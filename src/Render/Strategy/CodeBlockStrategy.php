@@ -19,7 +19,7 @@ final readonly class CodeBlockStrategy extends AbstractBlockStrategy
         return 'pre' === mb_strtolower($node->nodeName);
     }
 
-    public function createFromNode(DOMNode $node): ?array
+    public function createFromNode(DOMNode $node): array
     {
         $codeNode = null;
         if ($node instanceof DOMElement) {

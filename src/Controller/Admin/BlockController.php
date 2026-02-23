@@ -4,53 +4,57 @@ declare(strict_types=1);
 
 namespace Symkit\BuilderBundle\Controller\Admin;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symkit\BuilderBundle\Entity\Block;
 use Symkit\BuilderBundle\Form\BlockType;
 use Symkit\CrudBundle\Controller\AbstractCrudController;
 use Symkit\MenuBundle\Attribute\ActiveMenu;
 use Symkit\MetadataBundle\Attribute\Breadcrumb;
 use Symkit\MetadataBundle\Attribute\Seo;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/admin/blocks')]
 final class BlockController extends AbstractCrudController
 {
-    #[Route('', name: 'admin_block_list')]
-    #[Seo(title: 'Block Management', description: 'Manage available content blocks.')]
+    /**
+     * @param class-string $blockClass
+     */
+    public function __construct(
+        private readonly string $blockClass,
+    ) {
+    }
+
+    #[Seo(title: 'page.block_management', description: 'page.block_management_description')]
     #[Breadcrumb(context: 'admin')]
     #[ActiveMenu('admin', 'blocks')]
     public function list(Request $request): Response
     {
         return $this->renderIndex($request, [
-            'page_title' => 'Block Management',
+            'page_title' => 'page.block_management',
         ]);
     }
 
-    #[Route('/create', name: 'admin_block_create')]
-    #[Seo(title: 'Create Block')]
-    #[Breadcrumb(context: 'admin', items: [['label' => 'Blocks', 'route' => 'admin_block_list']])]
+    #[Seo(title: 'page.create_block')]
+    #[Breadcrumb(context: 'admin', items: [['label' => 'page.blocks', 'route' => 'admin_block_list']])]
     #[ActiveMenu('admin', 'blocks')]
     public function create(Request $request): Response
     {
-        return $this->renderNew(new Block(), $request, [
-            'page_title' => 'Create Block',
+        $entity = new ($this->blockClass)();
+
+        return $this->renderNew($entity, $request, [
+            'page_title' => 'page.create_block',
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'admin_block_edit')]
-    #[Seo(title: 'Edit Block')]
-    #[Breadcrumb(context: 'admin', items: [['label' => 'Blocks', 'route' => 'admin_block_list']])]
+    #[Seo(title: 'page.edit_block')]
+    #[Breadcrumb(context: 'admin', items: [['label' => 'page.blocks', 'route' => 'admin_block_list']])]
     #[ActiveMenu('admin', 'blocks')]
     public function edit(Block $block, Request $request): Response
     {
         return $this->renderEdit($block, $request, [
-            'page_title' => 'Edit Block',
+            'page_title' => 'page.edit_block',
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'admin_block_delete', methods: ['POST'])]
     public function delete(Block $block, Request $request): Response
     {
         return $this->performDelete($block, $request);
@@ -58,7 +62,7 @@ final class BlockController extends AbstractCrudController
 
     protected function getEntityClass(): string
     {
-        return Block::class;
+        return $this->blockClass;
     }
 
     protected function getFormClass(): string
@@ -85,20 +89,20 @@ final class BlockController extends AbstractCrudController
     {
         return [
             'code' => [
-                'label' => 'Code',
+                'label' => 'list.code',
                 'sortable' => true,
                 'cell_class' => 'font-mono text-xs',
             ],
             'label' => [
-                'label' => 'Label',
+                'label' => 'list.label',
                 'sortable' => true,
             ],
             'category' => [
-                'label' => 'Category',
+                'label' => 'list.category',
                 'sortable' => true,
             ],
             'isActive' => [
-                'label' => 'Status',
+                'label' => 'list.status',
                 'template' => '@SymkitCrud/crud/field/boolean.html.twig',
             ],
             'actions' => [

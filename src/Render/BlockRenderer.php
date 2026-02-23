@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Symkit\BuilderBundle\Render;
 
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
+use Symkit\BuilderBundle\Contract\BlockRendererInterface;
+use Symkit\BuilderBundle\Contract\BlockStrategyInterface;
 
 final readonly class BlockRenderer implements BlockRendererInterface
 {
@@ -21,7 +23,9 @@ final readonly class BlockRenderer implements BlockRendererInterface
     {
         foreach ($this->strategies as $strategy) {
             if ($strategy->supports($block)) {
-                $block['data'] = $strategy->prepareData($block['data'] ?? []);
+                /** @var array<string, mixed> $data */
+                $data = $block['data'] ?? [];
+                $block['data'] = $strategy->prepareData($data);
 
                 return $strategy->render($block);
             }

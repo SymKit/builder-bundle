@@ -18,7 +18,7 @@ final readonly class ListBlockStrategy extends AbstractBlockStrategy
         return \in_array(mb_strtolower($node->nodeName), ['ul', 'ol'], true);
     }
 
-    public function createFromNode(DOMNode $node): ?array
+    public function createFromNode(DOMNode $node): array
     {
         $items = [];
         foreach ($node->childNodes as $li) {

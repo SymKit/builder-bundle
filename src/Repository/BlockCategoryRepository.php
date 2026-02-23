@@ -6,15 +6,18 @@ namespace Symkit\BuilderBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symkit\BuilderBundle\Entity\BlockCategory;
+use Symkit\BuilderBundle\Contract\BlockCategoryEntityInterface;
 
 /**
- * @extends ServiceEntityRepository<BlockCategory>
+ * @extends ServiceEntityRepository<BlockCategoryEntityInterface>
  */
-class BlockCategoryRepository extends ServiceEntityRepository
+final class BlockCategoryRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @param class-string<BlockCategoryEntityInterface> $entityClass
+     */
+    public function __construct(ManagerRegistry $registry, string $entityClass)
     {
-        parent::__construct($registry, BlockCategory::class);
+        parent::__construct($registry, $entityClass);
     }
 }

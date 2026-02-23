@@ -402,5 +402,145 @@
                 <target>Bloc FAQ</target>
             </segment>
         </unit>
+
+        <unit id="validation.json_invalid">
+            <segment>
+                <source>Invalid JSON format.</source>
+                <target>Format JSON invalide.</target>
+            </segment>
+        </unit>
+        <unit id="validation.block_content_source.both">
+            <segment>
+                <source>You must provide either a Twig template path OR HTML code, but not both.</source>
+                <target>Indiquez soit un template Twig, soit du code HTML, pas les deux.</target>
+            </segment>
+        </unit>
+        <unit id="validation.block_content_source.neither">
+            <segment>
+                <source>You must provide either a Twig template path or HTML code.</source>
+                <target>Indiquez un template Twig ou du code HTML.</target>
+            </segment>
+        </unit>
+
+        <unit id="editor.move_up">
+            <segment><source>Move Up</source><target>Monter</target></segment>
+        </unit>
+        <unit id="editor.move_down">
+            <segment><source>Move Down</source><target>Descendre</target></segment>
+        </unit>
+        <unit id="editor.delete_block">
+            <segment><source>Delete Block</source><target>Supprimer le bloc</target></segment>
+        </unit>
+        <unit id="editor.unknown_block">
+            <segment><source>Unknown Block (%type%)</source><target>Bloc inconnu (%type%)</target></segment>
+        </unit>
+        <unit id="editor.orphaned_block">
+            <segment><source>Orphaned Block:</source><target>Bloc orphelin :</target></segment>
+        </unit>
+        <unit id="editor.orphaned_help">
+            <segment><source>This block type was removed or renamed. You can transform it into a Text block to keep your content.</source><target>Ce type de bloc a été supprimé ou renommé. Vous pouvez le transformer en bloc Texte pour conserver le contenu.</target></segment>
+        </unit>
+        <unit id="editor.transform_to_text">
+            <segment><source>Transform to Text</source><target>Transformer en texte</target></segment>
+        </unit>
+        <unit id="editor.remove_block">
+            <segment><source>Remove Block</source><target>Supprimer le bloc</target></segment>
+        </unit>
+        <unit id="editor.add_block">
+            <segment><source>Add a Block</source><target>Ajouter un bloc</target></segment>
+        </unit>
+        <unit id="editor.import_markdown">
+            <segment><source>Import Markdown</source><target>Importer du Markdown</target></segment>
+        </unit>
+        <unit id="editor.select_image">
+            <segment><source>Select Image</source><target>Choisir une image</target></segment>
+        </unit>
+        <unit id="editor.choose_block">
+            <segment><source>Choose a block to insert</source><target>Choisissez un bloc à insérer</target></segment>
+        </unit>
+        <unit id="editor.search_blocks">
+            <segment><source>Search blocks...</source><target>Rechercher des blocs...</target></segment>
+        </unit>
+        <unit id="editor.no_blocks_found">
+            <segment><source>No blocks found for "%query%"</source><target>Aucun bloc pour « %query% »</target></segment>
+        </unit>
+        <unit id="editor.heading_n">
+            <segment><source>Heading %level%</source><target>Titre %level%</target></segment>
+        </unit>
+        <unit id="editor.import_markdown_paste">
+            <segment><source>Paste your markdown content below</source><target>Collez votre contenu Markdown ci-dessous</target></segment>
+        </unit>
+        <unit id="editor.cancel">
+            <segment><source>Cancel</source><target>Annuler</target></segment>
+        </unit>
+        <unit id="editor.import_transform">
+            <segment><source>Import &amp; Transform</source><target>Importer et transformer</target></segment>
+        </unit>
+        <unit id="editor.markdown_placeholder">
+            <segment><source># Your Markdown here...</source><target># Votre Markdown ici...</target></segment>
+        </unit>
+        <unit id="toolbar.bold">
+            <segment><source>Bold</source><target>Gras</target></segment>
+        </unit>
+        <unit id="toolbar.italic">
+            <segment><source>Italic</source><target>Italique</target></segment>
+        </unit>
+        <unit id="toolbar.link">
+            <segment><source>Link</source><target>Lien</target></segment>
+        </unit>
+        <unit id="toolbar.inline_code">
+            <segment><source>Inline Code</source><target>Code inline</target></segment>
+        </unit>
+        <unit id="toolbar.bulleted_list">
+            <segment><source>Bulleted List</source><target>Liste à puces</target></segment>
+        </unit>
+        <unit id="toolbar.align_left">
+            <segment><source>Align Left</source><target>Aligner à gauche</target></segment>
+        </unit>
+        <unit id="toolbar.align_center">
+            <segment><source>Align Center</source><target>Centrer</target></segment>
+        </unit>
+        <unit id="toolbar.align_right">
+            <segment><source>Align Right</source><target>Aligner à droite</target></segment>
+        </unit>
+        <unit id="toolbar.to_paragraph">
+            <segment><source>To Paragraph</source><target>Paragraphe</target></segment>
+        </unit>
+        <unit id="toolbar.to_h2">
+            <segment><source>To H2</source><target>En H2</target></segment>
+        </unit>
+        <unit id="toolbar.to_h3">
+            <segment><source>To H3</source><target>En H3</target></segment>
+        </unit>
+        <unit id="toolbar.to_h4">
+            <segment><source>To H4</source><target>En H4</target></segment>
+        </unit>
+        <unit id="toolbar.to_h5">
+            <segment><source>To H5</source><target>En H5</target></segment>
+        </unit>
+        <unit id="toolbar.insert_image">
+            <segment><source>Insert Image</source><target>Insérer une image</target></segment>
+        </unit>
+        <unit id="toolbar.source_code_editor">
+            <segment><source>Source Code Editor</source><target>Éditeur de code source</target></segment>
+        </unit>
+        <unit id="toolbar.visual">
+            <segment><source>Visual</source><target>Visuel</target></segment>
+        </unit>
+        <unit id="toolbar.html">
+            <segment><source>HTML</source><target>HTML</target></segment>
+        </unit>
+        <unit id="toolbar.toggle_html_mode">
+            <segment><source>Toggle HTML Mode</source><target>Basculer en mode HTML</target></segment>
+        </unit>
+        <unit id="toolbar.open_new_tab">
+            <segment><source>Open in new tab</source><target>Ouvrir dans un nouvel onglet</target></segment>
+        </unit>
+        <unit id="toolbar.nofollow">
+            <segment><source>Nofollow</source><target>Nofollow</target></segment>
+        </unit>
+        <unit id="toolbar.remove_link">
+            <segment><source>Remove Link</source><target>Supprimer le lien</target></segment>
+        </unit>
     </file>
 </xliff>

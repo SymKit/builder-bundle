@@ -4,27 +4,29 @@ declare(strict_types=1);
 
 namespace Symkit\BuilderBundle\Service;
 
-use Symkit\BuilderBundle\Repository\BlockRepository;
+use Symkit\BuilderBundle\Contract\BlockRepositoryInterface;
 
 final class BlockRegistry
 {
     /**
-     * @var array<string, mixed>|null
+     * @var array<string, array{label: string|null, icon: string|null, defaultData: array<string, mixed>, template: string|null, category: string, categoryLabel: string|null, htmlCode?: string|null}>|null
      */
     private ?array $availableBlocks = null;
 
     public function __construct(
-        private readonly BlockRepository $blockRepository,
+        private readonly BlockRepositoryInterface $blockRepository,
     ) {
     }
 
     /**
      * @return array<string, array{
-     *     label: string,
-     *     icon: string,
+     *     label: string|null,
+     *     icon: string|null,
      *     defaultData: array<string, mixed>,
-     *     template: string,
-     *     category: string
+     *     template: string|null,
+     *     category: string,
+     *     categoryLabel: string|null,
+     *     htmlCode?: string|null
      * }>
      */
     public function getAvailableBlocks(): array
@@ -35,10 +37,14 @@ final class BlockRegistry
 
             foreach ($blocks as $block) {
                 $category = $block->getCategory();
-                $this->availableBlocks[$block->getCode()] = [
+                $code = $block->getCode();
+                if (null === $code) {
+                    continue;
+                }
+                $this->availableBlocks[$code] = [
                     'label' => $block->getLabel(),
-                    'category' => $category->getCode(),
-                    'categoryLabel' => $category->getLabel(),
+                    'category' => $category?->getCode() ?? '',
+                    'categoryLabel' => $category?->getLabel(),
                     'icon' => $block->getIcon(),
                     'defaultData' => $block->getDefaultData(),
                     'template' => $block->getTemplate(),

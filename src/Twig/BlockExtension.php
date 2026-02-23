@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symkit\BuilderBundle\Twig;
 
-use Symkit\BuilderBundle\Render\BlockRendererInterface;
+use Symkit\BuilderBundle\Contract\BlockRendererInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -23,18 +23,26 @@ final class BlockExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @param array<string, mixed> $block
+     */
     public function renderBlock(array $block): string
     {
         return $this->blockRenderer->renderBlock($block);
     }
 
+    /**
+     * @param string|list<array<string, mixed>> $blocks
+     */
     public function renderBlocks(string|array $blocks): string
     {
         if (\is_string($blocks)) {
-            $blocks = json_decode($blocks, true);
-            if (!\is_array($blocks)) {
+            $decoded = json_decode($blocks, true);
+            if (!\is_array($decoded)) {
                 return '';
             }
+            /** @var array<int, array<string, mixed>> $decoded */
+            $blocks = $decoded;
         }
 
         return $this->blockRenderer->renderBlocks($blocks);

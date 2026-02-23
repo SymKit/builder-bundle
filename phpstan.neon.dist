@@ -1,0 +1,13 @@
+parameters:
+    level: 9
+    paths:
+        - src/
+        - tests/
+    tmpDir: .phpstan-cache
+    bootstrapFiles:
+        - vendor/autoload.php
+    treatPhpDocTypesAsCertain: false
+    stubFiles:
+        - phpstan-stubs/Symkit/MediaBundle/Entity/Media.php
+        - phpstan-stubs/Symkit/MediaBundle/Repository/MediaRepository.php
+        - phpstan-stubs/Symkit/MediaBundle/Service/MediaUrlGenerator.php

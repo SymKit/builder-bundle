@@ -7,27 +7,29 @@ namespace Symkit\BuilderBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symkit\BuilderBundle\Repository\BlockCategoryRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symkit\BuilderBundle\Contract\BlockCategoryEntityInterface;
+use Symkit\BuilderBundle\Repository\BlockCategoryRepository;
 
 #[ORM\Entity(repositoryClass: BlockCategoryRepository::class)]
 #[ORM\Table(name: 'builder_block_category')]
-#[UniqueEntity(fields: ['code'], message: 'This category code already exists.', groups: ['create', 'edit'])]
-class BlockCategory
+#[UniqueEntity(fields: ['code'], message: 'validation.category_code_unique', groups: ['create', 'edit'])]
+class BlockCategory implements BlockCategoryEntityInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    /** @phpstan-ignore property.unusedType (Doctrine sets id on persist) */
     private ?int $id = null;
 
     #[ORM\Column(length: 50, unique: true)]
-    #[Assert\NotBlank(groups: ['create', 'edit'])]
-    #[Assert\Regex(pattern: '/^[a-z0-9_]+$/', message: 'Code must be snake_case.', groups: ['create', 'edit'])]
+    #[Assert\NotBlank(message: 'validation.category_code_required', groups: ['create', 'edit'])]
+    #[Assert\Regex(pattern: '/^[a-z0-9_]+$/', message: 'validation.category_code_snake_case', groups: ['create', 'edit'])]
     private ?string $code = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(groups: ['create', 'edit'])]
+    #[Assert\NotBlank(message: 'validation.category_label_required', groups: ['create', 'edit'])]
     private ?string $label = null;
 
     #[ORM\Column]

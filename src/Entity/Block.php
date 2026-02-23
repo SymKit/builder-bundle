@@ -5,43 +5,46 @@ declare(strict_types=1);
 namespace Symkit\BuilderBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symkit\BuilderBundle\Validator\Constraints\BlockContentSource;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symkit\BuilderBundle\Contract\BlockCategoryEntityInterface;
+use Symkit\BuilderBundle\Contract\BlockEntityInterface;
+use Symkit\BuilderBundle\Validator\Constraints\BlockContentSource;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'builder_block')]
-#[UniqueEntity(fields: ['code'], message: 'This block code already exists.', groups: ['create', 'edit'])]
+#[UniqueEntity(fields: ['code'], message: 'validation.block_code_unique', groups: ['create', 'edit'])]
 #[BlockContentSource(groups: ['create', 'edit'])]
-class Block
+class Block implements BlockEntityInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    /** @phpstan-ignore property.unusedType (Doctrine sets id on persist) */
     private ?int $id = null;
 
     #[ORM\Column(length: 100, unique: true)]
-    #[Assert\NotBlank(message: 'The block code is required.', groups: ['create', 'edit'])]
+    #[Assert\NotBlank(message: 'validation.block_code_required', groups: ['create', 'edit'])]
     #[Assert\Length(max: 100, groups: ['create', 'edit'])]
     #[Assert\Regex(
         pattern: '/^[a-z0-9_]+$/',
-        message: 'The code must be in snake_case (lowercase letters, numbers, and underscores only).',
+        message: 'validation.block_code_snake_case',
         groups: ['create', 'edit'],
     )]
     private ?string $code = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: 'The display label is required.', groups: ['create', 'edit'])]
+    #[Assert\NotBlank(message: 'validation.label_required', groups: ['create', 'edit'])]
     #[Assert\Length(max: 100, groups: ['create', 'edit'])]
     private ?string $label = null;
 
     #[ORM\ManyToOne(targetEntity: BlockCategory::class, inversedBy: 'blocks')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull(message: 'A category must be selected.', groups: ['create', 'edit'])]
-    private ?BlockCategory $category = null;
+    #[Assert\NotNull(message: 'validation.category_required', groups: ['create', 'edit'])]
+    private ?BlockCategoryEntityInterface $category = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: 'An icon identifier is required.', groups: ['create', 'edit'])]
+    #[Assert\NotBlank(message: 'validation.icon_required', groups: ['create', 'edit'])]
     #[Assert\Length(max: 100, groups: ['create', 'edit'])]
     private ?string $icon = null;
 
@@ -52,6 +55,7 @@ class Block
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $htmlCode = null;
 
+    /** @var array<string, mixed> */
     #[ORM\Column(type: 'json')]
     private array $defaultData = [];
 
@@ -87,12 +91,12 @@ class Block
         return $this;
     }
 
-    public function getCategory(): ?BlockCategory
+    public function getCategory(): ?BlockCategoryEntityInterface
     {
         return $this->category;
     }
 
-    public function setCategory(BlockCategory $category): self
+    public function setCategory(BlockCategoryEntityInterface $category): self
     {
         $this->category = $category;
 
@@ -135,11 +139,13 @@ class Block
         return $this;
     }
 
+    /** @return array<string, mixed> */
     public function getDefaultData(): array
     {
         return $this->defaultData;
     }
 
+    /** @param array<string, mixed> $defaultData */
     public function setDefaultData(array $defaultData): self
     {
         $this->defaultData = $defaultData;

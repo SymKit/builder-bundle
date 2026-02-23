@@ -6,15 +6,22 @@ namespace Symkit\BuilderBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Generator;
-use Symkit\BuilderBundle\Entity\Block;
-use Symkit\BuilderBundle\Entity\BlockCategory;
 use Symfony\Component\Finder\Finder;
+use Symkit\BuilderBundle\Contract\BlockCategoryEntityInterface;
+use Symkit\BuilderBundle\Contract\BlockEntityInterface;
+use Symkit\BuilderBundle\Contract\BlockSynchronizerInterface;
 
-class BlockSynchronizer
+final readonly class BlockSynchronizer implements BlockSynchronizerInterface
 {
+    /**
+     * @param class-string<BlockEntityInterface>         $blockClass
+     * @param class-string<BlockCategoryEntityInterface> $blockCategoryClass
+     */
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly string $projectDir,
+        private readonly string $blockClass,
+        private readonly string $blockCategoryClass,
     ) {
     }
 
@@ -31,7 +38,7 @@ class BlockSynchronizer
     }
 
     /**
-     * @return array<string, BlockCategory>
+     * @return array<string, BlockCategoryEntityInterface>
      */
     private function syncCategories(): array
     {
@@ -46,9 +53,9 @@ class BlockSynchronizer
 
         $categoryObjects = [];
         foreach ($categories as $code => $catData) {
-            $category = $this->entityManager->getRepository(BlockCategory::class)->findOneBy(['code' => $code]);
-            if (!$category) {
-                $category = new BlockCategory();
+            $category = $this->entityManager->getRepository($this->blockCategoryClass)->findOneBy(['code' => $code]);
+            if (!$category instanceof BlockCategoryEntityInterface) {
+                $category = new ($this->blockCategoryClass)();
                 $category->setCode($code);
                 $this->entityManager->persist($category);
             }
@@ -62,7 +69,7 @@ class BlockSynchronizer
     }
 
     /**
-     * @param array<string, BlockCategory> $categoryObjects
+     * @param array<string, BlockCategoryEntityInterface> $categoryObjects
      */
     private function syncCoreBlocks(array $categoryObjects): void
     {
@@ -304,16 +311,16 @@ class BlockSynchronizer
     }
 
     /**
-     * @param array<string, BlockCategory> $categoryObjects
+     * @param array<string, BlockCategoryEntityInterface> $categoryObjects
      */
     private function syncSnippets(array &$categoryObjects): void
     {
         foreach ($this->discoverSnippets() as $snippet) {
-            $catCode = $snippet['category'];
+            $catCode = (string) $snippet['category'];
             if (!isset($categoryObjects[$catCode])) {
-                $category = $this->entityManager->getRepository(BlockCategory::class)->findOneBy(['code' => $catCode]);
-                if (!$category) {
-                    $category = new BlockCategory();
+                $category = $this->entityManager->getRepository($this->blockCategoryClass)->findOneBy(['code' => $catCode]);
+                if (!$category instanceof BlockCategoryEntityInterface) {
+                    $category = new ($this->blockCategoryClass)();
                     $category->setCode($catCode);
                     $this->entityManager->persist($category);
                 }
@@ -322,13 +329,16 @@ class BlockSynchronizer
                 $categoryObjects[$catCode] = $category;
             }
 
-            $this->upsertBlock($snippet['code'], $snippet['data'], $categoryObjects);
+            $this->upsertBlock((string) $snippet['code'], $snippet['data'], $categoryObjects);
         }
     }
 
+    /**
+     * @return Generator<array{code: string, category: string, data: array{label: string, category: string, icon: string, defaultData: array<string, mixed>, template: string}}>
+     */
     private function discoverSnippets(): Generator
     {
-        $snippetDir = $this->projectDir . '/packages/builder-bundle/resources/data/snippets/tailwind';
+        $snippetDir = $this->projectDir.'/packages/builder-bundle/resources/data/snippets/tailwind';
         if (!is_dir($snippetDir)) {
             return;
         }
@@ -337,21 +347,23 @@ class BlockSynchronizer
         $finder->files()->in($snippetDir)->name('*.json');
 
         foreach ($finder as $file) {
-            $data = json_decode($file->getContents(), true, 512, \JSON_THROW_ON_ERROR);
-            $code = 'tw_' . str_replace(['/', '\\'], '_', $file->getRelativePathname());
+            $decoded = json_decode($file->getContents(), true, 512, \JSON_THROW_ON_ERROR);
+            $data = \is_array($decoded) ? $decoded : [];
+            $code = 'tw_'.str_replace(['/', '\\'], '_', $file->getRelativePathname());
             $code = str_replace('.json', '', $code);
 
             $catCode = $file->getRelativePath() ?: 'tailwind';
+            $html = isset($data['html']) && \is_string($data['html']) ? $data['html'] : '';
 
             yield [
                 'code' => $code,
                 'category' => $catCode,
                 'data' => [
-                    'label' => $data['label'],
+                    'label' => isset($data['label']) && \is_string($data['label']) ? $data['label'] : '',
                     'category' => $catCode,
-                    'icon' => $data['icon'] ?? 'heroicons:sparkles-20-solid',
+                    'icon' => isset($data['icon']) && \is_string($data['icon']) ? $data['icon'] : 'heroicons:sparkles-20-solid',
                     'defaultData' => [
-                        'html' => '<div class="not-prose">' . $data['html'] . '</div>',
+                        'html' => '<div class="not-prose">'.$html.'</div>',
                         'editMode' => 'visual',
                     ],
                     'template' => '@SymkitBuilder/blocks/snippet.html.twig',
@@ -360,17 +372,22 @@ class BlockSynchronizer
         }
     }
 
+    /**
+     * @param array{label: string, category: string, icon: string, defaultData: array<string, mixed>, template?: string|null, htmlCode?: string|null} $data
+     * @param array<string, BlockCategoryEntityInterface>                                                                                             $categoryObjects
+     */
     private function upsertBlock(string $code, array $data, array $categoryObjects): void
     {
-        $block = $this->entityManager->getRepository(Block::class)->findOneBy(['code' => $code]);
-        if (!$block) {
-            $block = new Block();
+        $block = $this->entityManager->getRepository($this->blockClass)->findOneBy(['code' => $code]);
+        if (!$block instanceof BlockEntityInterface) {
+            $block = new ($this->blockClass)();
             $block->setCode($code);
             $this->entityManager->persist($block);
         }
 
-        $block->setLabel((string) $data['label']);
-        $block->setCategory($categoryObjects[$data['category']] ?? $categoryObjects['text']);
+        $block->setLabel($data['label']);
+        $catCode = $data['category'];
+        $block->setCategory($categoryObjects[$catCode] ?? $categoryObjects['text']);
         $block->setIcon($data['icon']);
         $block->setTemplate($data['template'] ?? null);
         $block->setHtmlCode($data['htmlCode'] ?? null);

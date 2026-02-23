@@ -52,7 +52,7 @@ final readonly class ImageBlockStrategy extends AbstractBlockStrategy
     public function prepareData(array $data): array
     {
         $mediaId = $data['mediaId'] ?? null;
-        if (!$mediaId) {
+        if (null === $mediaId || (!\is_int($mediaId) && !\is_string($mediaId))) {
             return $data;
         }
 

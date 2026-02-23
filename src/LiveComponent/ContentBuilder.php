@@ -5,21 +5,20 @@ declare(strict_types=1);
 namespace Symkit\BuilderBundle\LiveComponent;
 
 use JsonException;
-use Symkit\BuilderBundle\Service\BlockRegistry;
-use Symkit\BuilderBundle\Service\MarkdownToBlocksService;
-use Symkit\FaqBundle\Repository\FaqRepository;
-use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Symkit\BuilderBundle\Service\BlockRegistry;
+use Symkit\BuilderBundle\Service\MarkdownToBlocksService;
+use Symkit\FaqBundle\Repository\FaqRepository;
 
-#[AsLiveComponent('content_builder', template: '@SymkitBuilder/live_component/content_builder.html.twig')]
 final class ContentBuilder
 {
     use DefaultActionTrait;
 
+    /** @var array<int, array<string, mixed>> */
     #[LiveProp(writable: true)]
     public array $contentBlocks = [];
 
@@ -52,6 +51,7 @@ final class ContentBuilder
         if (\is_string($initialContent)) {
             try {
                 $decoded = json_decode($initialContent, true, 512, \JSON_THROW_ON_ERROR);
+                /** @var array<int, array<string, mixed>> $decoded */
                 $this->contentBlocks = \is_array($decoded) ? $decoded : [];
             } catch (JsonException) {
                 // Legacy HTML support
@@ -69,6 +69,7 @@ final class ContentBuilder
                 }
             }
         } elseif (\is_array($initialContent)) {
+            /** @var array<int, array<string, mixed>> $initialContent */
             $this->contentBlocks = $initialContent;
         }
     }
@@ -98,6 +99,9 @@ final class ContentBuilder
         $this->mediaPickerContext = null;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     #[LiveAction]
     public function addBlock(#[LiveArg] string $type, #[LiveArg] ?int $index = null, #[LiveArg] array $data = []): void
     {
@@ -136,7 +140,11 @@ final class ContentBuilder
     {
         $this->contentBlocks = array_values(array_filter(
             $this->contentBlocks,
-            static fn (array $block) => $block['id'] !== $id
+            static function (array $block) use ($id): bool {
+                $blockId = $block['id'] ?? null;
+
+                return !\is_string($blockId) || $blockId !== $id;
+            },
         ));
     }
 
@@ -158,6 +166,7 @@ final class ContentBuilder
     {
         $newBlocks = $service->convertToBlocks($this->markdownInput);
         if (!empty($newBlocks)) {
+            /** @var array<int, array<string, mixed>> $newBlocks */
             $this->contentBlocks = array_merge($this->contentBlocks, $newBlocks);
         }
         $this->closeMarkdownImport();
@@ -169,7 +178,7 @@ final class ContentBuilder
         $count = \count($this->contentBlocks);
         $index = -1;
         foreach ($this->contentBlocks as $i => $block) {
-            if ($block['id'] === $id) {
+            if (isset($block['id']) && $block['id'] === $id) {
                 $index = $i;
                 break;
             }
@@ -192,7 +201,7 @@ final class ContentBuilder
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, array{label: string|null, icon: string|null, defaultData: array<string, mixed>, template: string|null, category: string, categoryLabel: string|null, htmlCode?: string|null}>
      */
     public function getAvailableBlocks(): array
     {
@@ -206,32 +215,46 @@ final class ContentBuilder
     public function updateBlockDataRows(#[LiveArg] string $id, #[LiveArg] string $action): void
     {
         foreach ($this->contentBlocks as $i => $block) {
-            if ($block['id'] === $id) {
-                $rows = $block['data']['rows'] ?? [];
-
-                if (empty($rows)) {
-                    return;
-                }
-
-                switch ($action) {
-                    case 'add-row':
-                        $colCount = \count($rows[0]['cells']);
-                        $newCells = array_fill(0, $colCount, ['content' => '']);
-                        $rows[] = ['cells' => $newCells];
-                        break;
-                    case 'add-col':
-                        foreach ($rows as $j => $row) {
-                            $rows[$j]['cells'][] = ['content' => ''];
-                        }
-                        break;
-                    case 'toggle-header':
-                        $this->contentBlocks[$i]['data']['hasHeader'] = !($block['data']['hasHeader'] ?? false);
-                        break;
-                }
-
-                $this->contentBlocks[$i]['data']['rows'] = $rows;
-                break;
+            if (!isset($block['id']) || $block['id'] !== $id) {
+                continue;
             }
+            $data = $block['data'] ?? [];
+            $data = \is_array($data) ? $data : [];
+            $rows = $data['rows'] ?? [];
+            $rows = \is_array($rows) ? $rows : [];
+
+            if (empty($rows)) {
+                return;
+            }
+
+            switch ($action) {
+                case 'add-row':
+                    $firstRow = $rows[0] ?? null;
+                    $cells = \is_array($firstRow) && isset($firstRow['cells']) ? $firstRow['cells'] : [];
+                    $cells = \is_array($cells) ? $cells : [];
+                    $colCount = \count($cells);
+                    $newCells = array_fill(0, $colCount, ['content' => '']);
+                    $rows[] = ['cells' => $newCells];
+                    break;
+                case 'add-col':
+                    foreach ($rows as $j => $row) {
+                        if (\is_array($row) && isset($row['cells']) && \is_array($row['cells'])) {
+                            $row['cells'][] = ['content' => ''];
+                            $rows[$j] = $row;
+                        }
+                    }
+                    break;
+                case 'toggle-header':
+                    $currentData = $this->contentBlocks[$i]['data'] ?? [];
+                    $currentData = \is_array($currentData) ? $currentData : [];
+                    $this->contentBlocks[$i]['data'] = array_merge($currentData, ['hasHeader' => !($data['hasHeader'] ?? false)]);
+                    break;
+            }
+
+            $currentData = $this->contentBlocks[$i]['data'] ?? [];
+            $currentData = \is_array($currentData) ? $currentData : [];
+            $this->contentBlocks[$i]['data'] = array_merge($currentData, ['rows' => $rows]);
+            break;
         }
     }
 
@@ -242,23 +265,30 @@ final class ContentBuilder
     public function updateBlockDataCollection(#[LiveArg] string $id, #[LiveArg] string $property, #[LiveArg] string $action, #[LiveArg] ?int $index = null): void
     {
         foreach ($this->contentBlocks as $i => $block) {
-            if ($block['id'] === $id) {
-                $collection = $block['data'][$property] ?? [];
-
-                if ('add' === $action) {
-                    $newItem = 'items' === $property ? ['content' => ''] : ['title' => '', 'content' => ''];
-                    if (null === $index) {
-                        $collection[] = $newItem;
-                    } else {
-                        array_splice($collection, $index + 1, 0, [$newItem]);
-                    }
-                } elseif ('remove' === $action && null !== $index) {
-                    array_splice($collection, $index, 1);
-                }
-
-                $this->contentBlocks[$i]['data'][$property] = $collection;
-                break;
+            if (!isset($block['id']) || $block['id'] !== $id) {
+                continue;
             }
+            $data = $block['data'] ?? [];
+            $data = \is_array($data) ? $data : [];
+            $collection = $data[$property] ?? [];
+            $collection = \is_array($collection) ? $collection : [];
+
+            if ('add' === $action) {
+                $newItem = 'items' === $property ? ['content' => ''] : ['title' => '', 'content' => ''];
+                if (null === $index) {
+                    $collection[] = $newItem;
+                } else {
+                    array_splice($collection, $index + 1, 0, [$newItem]);
+                }
+            } elseif ('remove' === $action && null !== $index) {
+                array_splice($collection, $index, 1);
+            }
+
+            $currentData = $this->contentBlocks[$i]['data'] ?? [];
+            $currentData = \is_array($currentData) ? $currentData : [];
+            $currentData[$property] = $collection;
+            $this->contentBlocks[$i]['data'] = $currentData;
+            break;
         }
     }
 
@@ -269,8 +299,11 @@ final class ContentBuilder
     public function updateBlockDataProperty(#[LiveArg] string $id, #[LiveArg] string $property, #[LiveArg] mixed $value): void
     {
         foreach ($this->contentBlocks as $i => $block) {
-            if ($block['id'] === $id) {
-                $this->contentBlocks[$i]['data'][$property] = $value;
+            if (isset($block['id']) && $block['id'] === $id) {
+                $currentData = $this->contentBlocks[$i]['data'] ?? [];
+                $currentData = \is_array($currentData) ? $currentData : [];
+                $currentData[$property] = $value;
+                $this->contentBlocks[$i]['data'] = $currentData;
                 break;
             }
         }
@@ -288,38 +321,43 @@ final class ContentBuilder
         }
 
         foreach ($this->contentBlocks as $i => $block) {
-            if ($block['id'] === $id) {
-                $oldData = $block['data'];
-                $newData = array_merge($availableBlocks[$type]['defaultData'] ?? [], [
-                    'editMode' => $oldData['editMode'] ?? 'visual',
-                ]);
-
-                // Map compatible fields (e.g. 'content')
-                if (isset($oldData['content'])) {
-                    $newData['content'] = $oldData['content'];
-                }
-
-                // If transforming to heading, default level is 2
-                if ('heading' === $type && !isset($newData['level'])) {
-                    $newData['level'] = 2;
-                }
-
-                $this->contentBlocks[$i]['type'] = $type;
-                $this->contentBlocks[$i]['data'] = $newData;
-                break;
+            if (!isset($block['id']) || $block['id'] !== $id) {
+                continue;
             }
+            $rawOldData = $block['data'] ?? [];
+            $oldData = \is_array($rawOldData) ? $rawOldData : [];
+            $newData = array_merge($availableBlocks[$type]['defaultData'] ?? [], [
+                'editMode' => $oldData['editMode'] ?? 'visual',
+            ]);
+
+            // Map compatible fields (e.g. 'content')
+            if (isset($oldData['content'])) {
+                $newData['content'] = $oldData['content'];
+            }
+
+            // If transforming to heading, default level is 2
+            if ('heading' === $type && !isset($newData['level'])) {
+                $newData['level'] = 2;
+            }
+
+            $this->contentBlocks[$i]['type'] = $type;
+            $this->contentBlocks[$i]['data'] = $newData;
+            break;
         }
     }
 
     /**
      * Synchronize block data from a specific block ID.
+     *
+     * @param array<string, mixed> $data
      */
     #[LiveAction]
     public function updateBlockData(#[LiveArg] string $id, #[LiveArg] array $data): void
     {
         foreach ($this->contentBlocks as $i => $block) {
-            if ($block['id'] === $id) {
-                $this->contentBlocks[$i]['data'] = array_merge($this->contentBlocks[$i]['data'], $data);
+            if (isset($block['id']) && $block['id'] === $id) {
+                $current = $this->contentBlocks[$i]['data'] ?? [];
+                $this->contentBlocks[$i]['data'] = array_merge(\is_array($current) ? $current : [], $data);
                 break;
             }
         }
@@ -329,9 +367,11 @@ final class ContentBuilder
     public function toggleEditMode(#[LiveArg] string $id): void
     {
         foreach ($this->contentBlocks as $i => $block) {
-            if ($block['id'] === $id) {
-                $currentMode = $block['data']['editMode'] ?? 'visual';
-                $this->contentBlocks[$i]['data']['editMode'] = 'visual' === $currentMode ? 'html' : 'visual';
+            if (isset($block['id']) && $block['id'] === $id) {
+                $blockData = $block['data'] ?? [];
+                $blockData = \is_array($blockData) ? $blockData : [];
+                $currentMode = $blockData['editMode'] ?? 'visual';
+                $this->contentBlocks[$i]['data'] = array_merge($blockData, ['editMode' => 'visual' === $currentMode ? 'html' : 'visual']);
                 break;
             }
         }
@@ -357,9 +397,10 @@ final class ContentBuilder
         $searchTerm = mb_strtolower($this->blockSearch);
 
         foreach ($this->getAvailableBlocks() as $type => $info) {
-            // Filter by search term
+            $label = $info['label'] ?? '';
+            $labelStr = \is_string($label) ? $label : '';
             if ('' !== $searchTerm) {
-                $matchesLabel = false !== mb_strpos(mb_strtolower($info['label'] ?? ''), $searchTerm);
+                $matchesLabel = false !== mb_strpos(mb_strtolower($labelStr), $searchTerm);
                 $matchesType = false !== mb_strpos(mb_strtolower($type), $searchTerm);
 
                 if (!$matchesLabel && !$matchesType) {
@@ -367,7 +408,7 @@ final class ContentBuilder
                 }
             }
 
-            $catLabel = $info['categoryLabel'] ?? 'Other';
+            $catLabel = isset($info['categoryLabel']) && \is_string($info['categoryLabel']) ? $info['categoryLabel'] : 'Other';
 
             if (!isset($grouped[$catLabel])) {
                 $grouped[$catLabel] = [];
@@ -386,9 +427,12 @@ final class ContentBuilder
         $faqs = $this->faqRepository->findAll();
         $options = [];
         foreach ($faqs as $faq) {
+            if (!\is_object($faq) || !method_exists($faq, 'getCode') || !method_exists($faq, 'getTitle')) {
+                continue;
+            }
             $options[] = [
-                'code' => $faq->getCode(),
-                'title' => $faq->getTitle(),
+                'code' => (string) $faq->getCode(),
+                'title' => (string) $faq->getTitle(),
             ];
         }
 

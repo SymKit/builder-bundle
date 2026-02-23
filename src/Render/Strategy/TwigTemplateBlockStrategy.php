@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symkit\BuilderBundle\Render\Strategy;
 
 use DOMNode;
-use Symkit\BuilderBundle\Render\BlockStrategyInterface;
+use Symkit\BuilderBundle\Contract\BlockStrategyInterface;
 use Symkit\BuilderBundle\Service\BlockRegistry;
 use Twig\Environment;
 
@@ -21,7 +21,7 @@ final readonly class TwigTemplateBlockStrategy implements BlockStrategyInterface
     {
         // This is the default strategy, it supports everything that has a template in registry
         $type = $block['type'] ?? null;
-        if (!$type) {
+        if (!\is_string($type) || '' === $type) {
             return false;
         }
 
@@ -33,11 +33,20 @@ final readonly class TwigTemplateBlockStrategy implements BlockStrategyInterface
     public function render(array $block): string
     {
         $type = $block['type'] ?? null;
-        $mediaBlock = $this->blockRegistry->getAvailableBlocks()[$type];
+        if (!\is_string($type) || '' === $type) {
+            return '';
+        }
+        $availableBlocks = $this->blockRegistry->getAvailableBlocks();
+        if (!isset($availableBlocks[$type])) {
+            return '';
+        }
+        $mediaBlock = $availableBlocks[$type];
 
-        $template = $mediaBlock['template'];
+        $template = $mediaBlock['template'] ?? '';
+        $blockData = $block['data'] ?? [];
+        $blockData = \is_array($blockData) ? $blockData : [];
         // Merge block data with default data to ensure all keys exist
-        $data = array_replace_recursive($mediaBlock['defaultData'], $block['data'] ?? []);
+        $data = array_replace_recursive($mediaBlock['defaultData'] ?? [], $blockData);
 
         // Update the block array to include the merged data
         $block['data'] = $data;

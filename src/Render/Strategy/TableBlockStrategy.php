@@ -19,15 +19,16 @@ final readonly class TableBlockStrategy extends AbstractBlockStrategy
         return 'table' === mb_strtolower($node->nodeName);
     }
 
-    public function createFromNode(DOMNode $node): ?array
+    public function createFromNode(DOMNode $node): array
     {
         $rows = [];
         $hasHeader = false;
 
         $theads = $node instanceof DOMElement ? $node->getElementsByTagName('thead') : null;
-        if ($theads && $theads->length > 0) {
+        $firstThead = $theads?->item(0);
+        if ($firstThead instanceof DOMElement && $theads && $theads->length > 0) {
             $hasHeader = true;
-            foreach ($theads->item(0)->getElementsByTagName('tr') as $tr) {
+            foreach ($firstThead->getElementsByTagName('tr') as $tr) {
                 $cells = [];
                 foreach ($tr->childNodes as $td) {
                     if (\in_array(mb_strtolower($td->nodeName), ['th', 'td'], true)) {
@@ -41,8 +42,9 @@ final readonly class TableBlockStrategy extends AbstractBlockStrategy
         }
 
         $tbodies = $node instanceof DOMElement ? $node->getElementsByTagName('tbody') : null;
-        if ($tbodies && $tbodies->length > 0) {
-            foreach ($tbodies->item(0)->getElementsByTagName('tr') as $tr) {
+        $firstTbody = $tbodies?->item(0);
+        if ($firstTbody instanceof DOMElement && $tbodies && $tbodies->length > 0) {
+            foreach ($firstTbody->getElementsByTagName('tr') as $tr) {
                 $cells = [];
                 foreach ($tr->childNodes as $td) {
                     if (\in_array(mb_strtolower($td->nodeName), ['th', 'td'], true)) {
