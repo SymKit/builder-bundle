@@ -1,67 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en" trgLang="fr">
     <file id="validators.fr.xlf">
-        <unit id="This block code already exists.">
+        <unit id="validation.block_code_unique">
             <segment>
                 <source>This block code already exists.</source>
                 <target>Ce code de bloc existe déjà.</target>
             </segment>
         </unit>
-        <unit id="The block code is required.">
+        <unit id="validation.block_code_required">
             <segment>
                 <source>The block code is required.</source>
                 <target>Le code du bloc est obligatoire.</target>
             </segment>
         </unit>
-        <unit id="The code must be in snake_case (lowercase letters, numbers, and underscores only).">
+        <unit id="validation.block_code_snake_case">
             <segment>
                 <source>The code must be in snake_case (lowercase letters, numbers, and underscores only).</source>
                 <target>Le code doit être en snake_case (lettres minuscules, chiffres et underscores uniquement).</target>
             </segment>
         </unit>
-        <unit id="The display label is required.">
+        <unit id="validation.label_required">
             <segment>
                 <source>The display label is required.</source>
                 <target>Le libellé affiché est obligatoire.</target>
             </segment>
         </unit>
-        <unit id="A category must be selected.">
+        <unit id="validation.category_required">
             <segment>
                 <source>A category must be selected.</source>
                 <target>Une catégorie doit être sélectionnée.</target>
             </segment>
         </unit>
-        <unit id="An icon identifier is required.">
+        <unit id="validation.icon_required">
             <segment>
                 <source>An icon identifier is required.</source>
-                <target>Un identifiant d’icône est obligatoire.</target>
+                <target>Un identifiant d'icône est obligatoire.</target>
             </segment>
         </unit>
-        <unit id="This category code already exists.">
+        <unit id="validation.category_code_unique">
             <segment>
                 <source>This category code already exists.</source>
                 <target>Ce code de catégorie existe déjà.</target>
             </segment>
         </unit>
-        <unit id="Code must be snake_case.">
+        <unit id="validation.category_code_required">
+            <segment>
+                <source>The category code is required.</source>
+                <target>Le code de catégorie est obligatoire.</target>
+            </segment>
+        </unit>
+        <unit id="validation.category_code_snake_case">
             <segment>
                 <source>Code must be snake_case.</source>
                 <target>Le code doit être en snake_case.</target>
             </segment>
         </unit>
-        <unit id="You must provide either a Twig template path OR HTML code, but not both.">
+        <unit id="validation.category_label_required">
+            <segment>
+                <source>The category label is required.</source>
+                <target>Le libellé de catégorie est obligatoire.</target>
+            </segment>
+        </unit>
+        <unit id="validation.block_content_source.both">
             <segment>
                 <source>You must provide either a Twig template path OR HTML code, but not both.</source>
                 <target>Vous devez renseigner soit un chemin de modèle Twig, soit du code HTML, mais pas les deux.</target>
             </segment>
         </unit>
-        <unit id="You must provide either a Twig template path or HTML code.">
+        <unit id="validation.block_content_source.neither">
             <segment>
                 <source>You must provide either a Twig template path or HTML code.</source>
                 <target>Vous devez renseigner un chemin de modèle Twig ou du code HTML.</target>
             </segment>
         </unit>
-        <unit id="Invalid JSON format.">
+        <unit id="validation.json_invalid">
             <segment>
                 <source>Invalid JSON format.</source>
                 <target>Format JSON invalide.</target>

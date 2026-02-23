@@ -9,8 +9,9 @@ use Generator;
 use Symfony\Component\Finder\Finder;
 use Symkit\BuilderBundle\Contract\BlockCategoryEntityInterface;
 use Symkit\BuilderBundle\Contract\BlockEntityInterface;
+use Symkit\BuilderBundle\Contract\BlockSynchronizerInterface;
 
-final class BlockSynchronizer
+final readonly class BlockSynchronizer implements BlockSynchronizerInterface
 {
     /**
      * @param class-string<BlockEntityInterface>         $blockClass

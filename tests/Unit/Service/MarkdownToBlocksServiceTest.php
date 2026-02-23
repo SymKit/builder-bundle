@@ -49,4 +49,18 @@ final class MarkdownToBlocksServiceTest extends TestCase
         self::assertSame('from strategy', $blocks[0]['data']['content'] ?? null);
         self::assertArrayHasKey('id', $blocks[0]);
     }
+
+    public function testConvertToBlocksFallbackUsesTextContentWhenNoInnerHtml(): void
+    {
+        $service = new MarkdownToBlocksService(new ArrayIterator([]));
+        $blocks = $service->convertToBlocks('<span>plain text only</span>');
+        self::assertNotEmpty($blocks);
+        self::assertIsArray($blocks[0]);
+        self::assertSame('paragraph', $blocks[0]['type']);
+        self::assertIsArray($blocks[0]['data']);
+        self::assertArrayHasKey('content', $blocks[0]['data']);
+        $content = $blocks[0]['data']['content'];
+        self::assertIsString($content);
+        self::assertStringContainsString('plain text only', $content);
+    }
 }

@@ -39,6 +39,7 @@ final class BlockContentSourceValidator extends ConstraintValidator
 
         if ($hasTemplate && $hasHtmlCode) {
             $this->context->buildViolation($constraint->message)
+                ->setTranslationDomain('SymkitBuilderBundle')
                 ->atPath('template')
                 ->addViolation()
             ;
@@ -48,6 +49,7 @@ final class BlockContentSourceValidator extends ConstraintValidator
 
         if (!$hasTemplate && !$hasHtmlCode) {
             $this->context->buildViolation($constraint->neitherMessage)
+                ->setTranslationDomain('SymkitBuilderBundle')
                 ->atPath('template')
                 ->addViolation()
             ;

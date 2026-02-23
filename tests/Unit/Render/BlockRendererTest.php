@@ -28,4 +28,18 @@ final class BlockRendererTest extends TestCase
         $result = $renderer->renderBlock(['type' => 'test', 'data' => []]);
         self::assertSame('<p>ok</p>', $result);
     }
+
+    public function testRenderBlocksConcatenatesResults(): void
+    {
+        $strategy = $this->createMock(BlockStrategyInterface::class);
+        $strategy->method('supports')->willReturn(true);
+        $strategy->method('prepareData')->willReturnArgument(0);
+        $strategy->method('render')->willReturnCallback(static fn (array $block) => '<div>'.($block['data']['id'] ?? '').'</div>');
+        $renderer = new BlockRenderer(new ArrayIterator([$strategy]));
+        $blocks = [
+            ['type' => 'test', 'data' => ['id' => 'a']],
+            ['type' => 'test', 'data' => ['id' => 'b']],
+        ];
+        self::assertSame('<div>a</div><div>b</div>', $renderer->renderBlocks($blocks));
+    }
 }

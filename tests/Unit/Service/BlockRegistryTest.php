@@ -64,4 +64,32 @@ final class BlockRegistryTest extends TestCase
         $registry = new BlockRegistry($repo);
         self::assertSame([], $registry->getAvailableBlocks());
     }
+
+    public function testGetAvailableBlocksSkipsOnlyBlocksWithNullCodeKeepsOthers(): void
+    {
+        $category = $this->createMock(BlockCategoryEntityInterface::class);
+        $category->method('getCode')->willReturn('text');
+        $category->method('getLabel')->willReturn('Text');
+
+        $blockWithCode = $this->createMock(BlockEntityInterface::class);
+        $blockWithCode->method('getCode')->willReturn('paragraph');
+        $blockWithCode->method('getLabel')->willReturn('Paragraph');
+        $blockWithCode->method('getCategory')->willReturn($category);
+        $blockWithCode->method('getIcon')->willReturn('icon');
+        $blockWithCode->method('getDefaultData')->willReturn([]);
+        $blockWithCode->method('getTemplate')->willReturn(null);
+        $blockWithCode->method('getHtmlCode')->willReturn(null);
+
+        $blockNullCode = $this->createMock(BlockEntityInterface::class);
+        $blockNullCode->method('getCode')->willReturn(null);
+        $blockNullCode->method('getCategory')->willReturn($category);
+
+        $repo = $this->createMock(BlockRepositoryInterface::class);
+        $repo->method('findActive')->willReturn([$blockNullCode, $blockWithCode]);
+
+        $registry = new BlockRegistry($repo);
+        $blocks = $registry->getAvailableBlocks();
+        self::assertCount(1, $blocks);
+        self::assertArrayHasKey('paragraph', $blocks);
+    }
 }

@@ -55,6 +55,6 @@ deptrac:
         Form: [Entity, Repository]
         Controller: [Service, Form, Entity]
         Twig: [Service, Contract]
-        Command: [Service]
+        Command: [Service, Contract]
         Validator: [Entity, Contract]
         LiveComponent: [Service]

@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace Symkit\BuilderBundle\Tests\Unit\Validator;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 use Symkit\BuilderBundle\Entity\Block;
 use Symkit\BuilderBundle\Validator\Constraints\BlockContentSource;
@@ -90,5 +94,24 @@ final class BlockContentSourceValidatorTest extends TestCase
             ->willReturn($builder);
 
         $this->validator->validate($block, new BlockContentSource());
+    }
+
+    public function testThrowsUnexpectedTypeExceptionWhenConstraintIsWrongType(): void
+    {
+        $constraint = $this->createMock(Constraint::class);
+        $block = new Block();
+
+        $this->expectException(UnexpectedTypeException::class);
+        $this->expectExceptionMessage(BlockContentSource::class);
+
+        $this->validator->validate($block, $constraint);
+    }
+
+    public function testThrowsUnexpectedValueExceptionWhenValueIsNotBlock(): void
+    {
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage(Block::class);
+
+        $this->validator->validate(new stdClass(), new BlockContentSource());
     }
 }

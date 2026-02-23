@@ -49,4 +49,20 @@ final class ParagraphBlockStrategyTest extends TestCase
         self::assertStringContainsString('Hello', $data['content']);
         self::assertSame('visual', $data['editMode'] ?? null);
     }
+
+    public function testCreateFromNodeWrapsHeadingInTag(): void
+    {
+        $dom = new DOMDocument();
+        $dom->loadHTML('<?xml encoding="UTF-8"><h2>Section title</h2>', \LIBXML_HTML_NOIMPLIED | \LIBXML_HTML_NODEFDTD);
+        $h2 = $dom->getElementsByTagName('h2')->item(0);
+        self::assertNotNull($h2);
+
+        $block = $this->strategy->createFromNode($h2);
+
+        self::assertSame('paragraph', $block['type']);
+        self::assertIsArray($block['data']);
+        $content = $block['data']['content'] ?? '';
+        self::assertIsString($content);
+        self::assertStringContainsString('<h2>Section title</h2>', $content);
+    }
 }

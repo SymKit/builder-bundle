@@ -12,6 +12,7 @@ use Symkit\BuilderBundle\Command\SyncBlocksCommand;
 use Symkit\BuilderBundle\Contract\BlockRendererInterface;
 use Symkit\BuilderBundle\Contract\BlockRepositoryInterface;
 use Symkit\BuilderBundle\Contract\BlockStrategyInterface;
+use Symkit\BuilderBundle\Contract\BlockSynchronizerInterface;
 use Symkit\BuilderBundle\Controller\Admin\BlockController;
 use Symkit\BuilderBundle\Controller\Admin\Category\CategoryController;
 use Symkit\BuilderBundle\Entity\Block;
@@ -166,6 +167,7 @@ class SymkitBuilderBundle extends AbstractBundle
                 ->arg('$blockClass', '%symkit_builder.entity.block_class%')
                 ->arg('$blockCategoryClass', '%symkit_builder.entity.block_category_class%')
                 ->autowire()->autoconfigure();
+            $services->alias(BlockSynchronizerInterface::class, BlockSynchronizer::class);
 
             $services->set(BlockType::class)
                 ->arg('$blockClass', '%symkit_builder.entity.block_class%')

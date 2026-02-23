@@ -13,7 +13,7 @@ use Symkit\BuilderBundle\Validator\Constraints\BlockContentSource;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'builder_block')]
-#[UniqueEntity(fields: ['code'], message: 'This block code already exists.', groups: ['create', 'edit'])]
+#[UniqueEntity(fields: ['code'], message: 'validation.block_code_unique', groups: ['create', 'edit'])]
 #[BlockContentSource(groups: ['create', 'edit'])]
 class Block implements BlockEntityInterface
 {
@@ -24,27 +24,27 @@ class Block implements BlockEntityInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 100, unique: true)]
-    #[Assert\NotBlank(message: 'The block code is required.', groups: ['create', 'edit'])]
+    #[Assert\NotBlank(message: 'validation.block_code_required', groups: ['create', 'edit'])]
     #[Assert\Length(max: 100, groups: ['create', 'edit'])]
     #[Assert\Regex(
         pattern: '/^[a-z0-9_]+$/',
-        message: 'The code must be in snake_case (lowercase letters, numbers, and underscores only).',
+        message: 'validation.block_code_snake_case',
         groups: ['create', 'edit'],
     )]
     private ?string $code = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: 'The display label is required.', groups: ['create', 'edit'])]
+    #[Assert\NotBlank(message: 'validation.label_required', groups: ['create', 'edit'])]
     #[Assert\Length(max: 100, groups: ['create', 'edit'])]
     private ?string $label = null;
 
     #[ORM\ManyToOne(targetEntity: BlockCategory::class, inversedBy: 'blocks')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull(message: 'A category must be selected.', groups: ['create', 'edit'])]
+    #[Assert\NotNull(message: 'validation.category_required', groups: ['create', 'edit'])]
     private ?BlockCategoryEntityInterface $category = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: 'An icon identifier is required.', groups: ['create', 'edit'])]
+    #[Assert\NotBlank(message: 'validation.icon_required', groups: ['create', 'edit'])]
     #[Assert\Length(max: 100, groups: ['create', 'edit'])]
     private ?string $icon = null;
 
